@@ -27,7 +27,7 @@ The programming of this addon is most likely not the best, or most efficient, bu
 The documentation of this addon is still underway, it will be available in the wiki section of the GitHub repository.
 
 ## Requirements
-This Blender addon requires v2.80 of Blender or higher, as previous versions does not support custom node editor workplaces.
+This Blender addon requires v2.80 of Blender or higher, as previous versions do not support custom node editor workplaces.
 
 ## Contact
 I'm available on Discord by the name MrClock#8163. You can find me on the [Just Like The Simulations | Arma 3 mods](https://discord.gg/KQSBDF3) Discord server.
