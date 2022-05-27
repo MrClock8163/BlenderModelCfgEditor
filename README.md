@@ -15,6 +15,13 @@ Once the setup is completed, the structure can be validated and exported to the 
 - Eliminates the chance of making typos or forgetting something necessary properties
 - Allows for both special setups through universal nodes and frequent standardized setups through preset nodes
 
+## Disclaimer and documentation
+### Disclaimer
+While this project seeks to eliminate the need for manual (as in typing it by hand) creation of model.cfg files, basic knowledge of their structure, capabilities and limitaions is still necessary to utilize this addon. Some basic (although granted, not at all thorough) information about them can be found on the [Arma 3 Community Wiki](https://community.bistudio.com/wiki/Model_Config).
+
+### Documentation
+The documentation of this addon is still underway, it will be available in the wiki section of the GitHub repository.
+
 ## Requirements
 This Blender addon requires v2.80 of Blender or higher, as previous versions does not support custom node editor workplaces.
 
