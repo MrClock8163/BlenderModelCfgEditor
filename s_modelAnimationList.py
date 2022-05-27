@@ -3,18 +3,17 @@ from bpy.types import NodeSocket
 
 class MCFG_S_ModelAnimationList(NodeSocket):
     # Description string
-    '''Model cfg animation input'''
-    # Optional identifier string. If not explicitly defined, the python class name is used.
-    #bl_idname = 'CustomSocketType'
-    # Label for nice name display
+    '''Animation list socket'''
+    
+    # Mandatory variables
     bl_label = "Input animation list"
-
+    
+    # Custom variables
     compatibleSockets = ["MCFG_S_List"]
-                
-    # Optional function for drawing the socket input value
+    
+    # Standard functions
     def draw(self, context, layout, node, text):
         layout.label(text=text)
 
-    # Socket color
     def draw_color(self, context, node):
         return (0, 0.1, 0.9, 1.0)

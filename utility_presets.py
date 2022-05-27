@@ -1,5 +1,9 @@
 from .utility_data import Bone, Skeleton, Model, Animation
 
+##############################
+####PRESET DATA GENERATORS####
+##############################
+
 def BoneGenerator(baseName,parent,baseBone,fieldsize,interval):
     newBoneList = []
     interval.sort()

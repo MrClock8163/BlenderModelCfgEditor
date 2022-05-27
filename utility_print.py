@@ -1,68 +1,8 @@
 import os
 
-class Dummy:
-    def Print(self,tabs = 0):
-        print("print function is not defined for this class")
-        return " // print function is not defined for this class"
-        
-    def __repr__(self):
-        return "Dummy class"
-
-class InfoFormatter:
-
-    @classmethod
-    def Quote(cls,string):
-        return ("\"" + string + "\"")
-        
-    @classmethod
-    def TAB(cls,tabs = 0):
-        return ("\t" * tabs)
-    
-    @classmethod
-    def NodeInfoStart(cls,nodeName,nodeID = "Unknown"):
-        return ("<START OF INFO: " + nodeName + " (" + nodeID + " type) >")
-        
-    @classmethod
-    def NodeInfoEnd(cls):
-        return "<END>"
-        
-    @classmethod
-    def TreeInfoStart(cls):
-        return ("<START OF TREE INFO>")
-            
-    @classmethod
-    def TreeInfoEnd(cls):
-        return "<END>"
-    
-    @classmethod
-    def InfoItem(cls,infoClass):
-        indicator = "><"
-        
-        if infoClass.type == "w":
-            indicator = "<>"
-        elif infoClass.type == "i":
-            indicator = ">>"
-    
-        return (cls.TAB(1) + indicator +" " + infoClass.info)
-        
-class ValidFormatter:
-    @classmethod
-    def Quote(cls,string):
-        return ("\"" + string + "\"")
-        
-    @classmethod 
-    def Endl(cls):
-        return "\n"
-        
-    @classmethod
-    def TAB(cls,tabs = 0):
-        return ("\t" * tabs)
-    
-    @classmethod
-    def Comment(cls,text,tabs = 0):
-        if text == "":
-            return ""
-        return (("\t" * tabs) + " // " + text)
+##############################
+####DATA PRINTER FUNCTIONS####
+##############################
 
 class ConfigFormatter:
 

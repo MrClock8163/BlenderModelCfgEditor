@@ -1,30 +1,24 @@
 import bpy
 from bpy.types import Node
 from . import n_tree
-from . import utility_data as Data
 from . import utility_presets as Presets
 
 class MCFG_N_AnimationPresetMagazineHide(Node, n_tree.MCFG_N_Base):
-    @classmethod
-    def poll(cls,ntree):
-        return ntree.bl_idname == 'MCFG_N_Tree'
-    # === Basics ===
     # Description string
     '''Animation item node'''
-    # Optional identifier string. If not explicitly defined, the python class name is used.
-    #bl_idname = 'CustomNodeType'
-    # Label for nice name display
+    
+    # Mandatory variables
     bl_label = "Animation class - hide magazine"
-    # Icon identifier
     bl_icon = 'ANIM'
     
+    # Custom variables
     node_group = "animation"
     animation_type = "hide"
     animation_type_min_value = "Angle0"
     animation_type_max_value = "Angle1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationnY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
     
-    
+    # Node properties
     selectionName: bpy.props.StringProperty(
         default="magazine",
         name="Selection",
@@ -48,6 +42,10 @@ class MCFG_N_AnimationPresetMagazineHide(Node, n_tree.MCFG_N_Base):
         soft_max = 5
     )
     
+    # Standard functions
+    def draw_label(self):
+        return "Hide preset"
+        
     def update(self):
         self.unlinkInvalidSockets()
     
@@ -55,32 +53,15 @@ class MCFG_N_AnimationPresetMagazineHide(Node, n_tree.MCFG_N_Base):
         self.customColor()
         self.outputs.new('MCFG_S_ModelAnimation', "Animation")
 
-    # Copy function to initialize a copied node from an existing one.
-    def copy(self, node):
-        print("Copying from node ", node)
-
-    # Free function to clean up on removal.
-    def free(self):
-        print("Removing node ", self, ", Goodbye!")
-
-    # Additional buttons displayed on the node.
     def draw_buttons(self, context, layout):
-        # layout.label(text="Node settings")
         box = layout.box()
         box.label(text="Name: magazine hide")
         box.prop(self, "selectionName")
         box.prop(self, "animScope")
         if self.animScope == 'SPECIFIC':
             box.prop(self, "muzzleIndex")
-
-    def draw_buttons_ext(self, context, layout):
-        box = layout.box()
-        box.label(text="Name: magazine hide")
-        box.prop(self, "selectionName")
-        box.prop(self, "animScope")
-        if self.animScope == 'SPECIFIC':
-            box.prop(self, "muzzleIndex")
-    
+        
+    # Custom functions
     def getSelection(self):        
         return self.selectionName.strip()
         
@@ -95,8 +76,3 @@ class MCFG_N_AnimationPresetMagazineHide(Node, n_tree.MCFG_N_Base):
         
     def process(self):
         return Presets.MagazineHide(self.getSelection(),self.getMuzzleIndex())
-
-    # Optional: custom label
-    # Explicit user label overrides this, but here we can define a label dynamically
-    def draw_label(self):
-        return "Hide preset"

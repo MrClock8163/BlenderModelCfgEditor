@@ -1,6 +1,10 @@
 from .utility_print import ConfigFormatter
-# from .utility_print import ValidFormatter
 
+#############################
+####EXPORT DATA STRUCTURE####
+#############################
+
+# Validate name string
 def ValidName(string,allowSpace = False,allowEmpty = False,allowPeriod = False):
     isValid = True
     
@@ -18,30 +22,26 @@ def ValidName(string,allowSpace = False,allowEmpty = False,allowPeriod = False):
                 break
     return isValid
 
+# Info storing class to contain validation info
 class ValidationInfo:
-    errList = []
-    warnList = []
+    # Class variables
     infoList = []
-    
     errors = 0
     warnings = 0
     
+    # Constructor
     def __init__(self):
-        self.errList = []
-        self.warnList = []
         self.infoList = []
-        
         self.errors = 0
         self.warnings = 0
         
+    # Operator functions
     def NewErr(self,source,info):
         self.errors += 1
-        self.errList.append([source,info])
         self.infoList.append([2,source,info])
     
     def NewWarn(self,source,info):
         self.warnings += 1
-        self.warnList.append([source,info])
         self.infoList.append([1,source,info])
         
     def NewInfo(self,source,info):
@@ -64,6 +64,7 @@ class ValidationInfo:
         
         return validData
     
+    # Data printer
     def Print(self,dumpAll = False):
         printOutput = ""
         
@@ -95,61 +96,66 @@ class ValidationInfo:
             
         return printOutput
 
-class Status:
-    code = -1
-    
-    def __init__(self,code):
-        self.code = code
-
+# Base class for data strucutre
 class ClassBase:
+    # Class variables
     name = ""
     parent = ""
     iscopy = False
     
+    # Constructor
     def __init__(self,selfName,parentName = ""):
         self.name = selfName
         self.parent = parentName
         self.iscopy = False
-        
+    
+    # String representation
     def __repr__(self):
         parentOut = ""
         if self.parent != "":
             parentOut = (": " + self.parent)
         return ("class " + self.name + parentOut)
-
+    
+    # Generic setter
     def Set(self,propertyName,value):
         if not hasattr(self,propertyName):
-            return Status(0)
+            return 0
             
         setattr(self,propertyName,value)
-        return Status(-1)
-        
+        return -1
+    
+    # Generic getter
     def Get(self,propertyName):
         if not hasattr(self,propertyName):
-            return Status(0)
+            return 0
             
         return getattr(self,propertyName)
-        
+    
+    # Data printer (not implemented here)
     def Print(self,tabs = 0):
-        print("print function is not defined for this class")
         return " // print function is not defined for this class"
-        
+    
+    # Data validator (not implemented here)
     def Validate(self,validator,optional = ""):
         # DO VALIDATION ALGORITHMS
         # NOT IMPLEMENTED HERE
         return validator
 
 class Bone(ClassBase):
+    # Class variables
     name = ""
     parent = ""
     
+    # Constructor
     def __init__(self,boneName,parentName = ""):
         self.name = boneName
         self.parent = parentName
-        
+    
+    # String representation
     def __repr__(self):
         return ("\"" + self.name + "\", \"" + self.parent + "\"")
-        
+    
+    # Type comparer
     def __eq__(self,other):
         if not isinstance(other,Bone):
             return False
@@ -158,12 +164,12 @@ class Bone(ClassBase):
             return False
             
         return True
-        
+    
+    # Data validator
     def Validate(self,validator,skeletonname):
         
         entryOwner = "CfgSkeletons >> " + skeletonname + " >> skeletonBones >> "+ self.name
         
-        # validate name
         if not ValidName(self.name):
             validator.NewErr(self.name,"invalid bone name (" + self.name + ")")
         
@@ -171,18 +177,21 @@ class Bone(ClassBase):
         
 
 class Skeleton(ClassBase):
+    # Class variables
     isDiscrete = True
     skeletonInherit = ""
     skeletonBones = []
     pivotsModel = '_HIDE_'
     
+    # Constructor
     def __init__(self,selfName,parentName = ""):
         self.name = selfName
         self.parent = parentName
         self.skeletonBones = []
         self.pivotsModel = '_HIDE_'
         self.iscopy = False
-        
+    
+    # Type comparer
     def __eq__(self,other):
         if not isinstance(other,Skeleton):
             return False
@@ -192,9 +201,11 @@ class Skeleton(ClassBase):
             
         return True
     
+    # Operator functions
     def AddBone(self,boneItem):
         self.skeletonBones.append(boneItem)
     
+    # Data printer
     def Print(self,tabs = 0):
         printOutput = ""
         
@@ -225,7 +236,6 @@ class Skeleton(ClassBase):
                 bonePrintList.append(bone.Get("name"))
                 bonePrintList.append(bone.Get("parent"))
             
-            
             printOutput += ConfigFormatter.Property("skeletonBones",bonePrintList,[""],tabs + 1,False,2) + ConfigFormatter.Endl()
         else:
             omitedProps += 1
@@ -242,6 +252,7 @@ class Skeleton(ClassBase):
         
         return printOutput
         
+    # Data validator
     def Validate(self,validator):
         
         entryOwner = "CfgSkeletons >> " + self.name
@@ -275,6 +286,7 @@ class Skeleton(ClassBase):
         return validator
     
 class Animation(ClassBase):
+    # Class variables
     animType = "translation"
     source = ""
     sourceAddress = "clamp"
@@ -288,12 +300,14 @@ class Animation(ClassBase):
     typeMinValue = 0
     typeMaxValue = 1
     
+    # Constructor
     def __init__(self,selfName,selftype = "translation",parentName = ""):
         self.name = selfName
         self.parent = parentName
         self.animType = selftype
         self.iscopy = False
-        
+    
+    # Type comparer
     def __eq__(self,other):
         if not isinstance(other,Animation):
             return False
@@ -303,6 +317,7 @@ class Animation(ClassBase):
             
         return True
     
+    # Data printer
     def Print(self,tabs = 0):
         printOutput = ""
         printOutput += ConfigFormatter.ClassOpen(self.name,self.parent,tabs)
@@ -397,6 +412,7 @@ class Animation(ClassBase):
         
         return printOutput
 
+    # Data validator
     def Validate(self,validator,modelname):
         
         entryOwner = "CfgModels >> " + modelname + " >> " + self.name
@@ -427,17 +443,21 @@ class Animation(ClassBase):
         return validator
     
 class Animations(ClassBase):
+    # Class variables
     animList = []
     
+    # Constructor
     def __init__(self,inherit = False):
         self.name = "Animations"
         self.animList = []
         if inherit:
             self.parent = "Animations"
     
+    # Operator functions
     def AddAnim(self,newAnim):
         self.animList.append(newAnim)
     
+    # Data printer
     def Print(self,tabs = 0):
         printOutput = ""
         printOutput += ConfigFormatter.ClassOpen(self.name,self.parent,tabs) + ConfigFormatter.Endl()
@@ -452,6 +472,7 @@ class Animations(ClassBase):
         
         return printOutput
         
+    # Data validator
     def Validate(self,validator,modelname):
         entryOwner = "CfgModels >> " + modelname + " >> Animations"
         
@@ -477,6 +498,7 @@ class Animations(ClassBase):
         return validator
     
 class Model(ClassBase):
+    # Class variables
     skeletonName = ""
     sectionsInherit = ""
     sections = []
@@ -488,6 +510,7 @@ class Model(ClassBase):
     mFact = '_HIDE_'
     tBody = '_HIDE_'
     
+    # Constructor
     def __init__(self,selfName,parentName = "",inheritAnims = False):
         self.name = selfName
         self.parent = parentName
@@ -500,7 +523,8 @@ class Model(ClassBase):
         self.mFact = '_HIDE_'
         self.tBody = '_HIDE_'
         self.iscopy = False
-        
+    
+    # Type comparer
     def __eq__(self,other):
         if not isinstance(other,Model):
             return False
@@ -510,12 +534,14 @@ class Model(ClassBase):
             
         return True
     
+    # Operator functions
     def AddAnim(self,newAnim):
         self.animationsList.AddAnim(newAnim)
         
     def AddSection(self,newSection):
         self.sections.append(newSection)
     
+    # Data printer
     def Print(self,tabs = 0):
         printOutput = ""
         
@@ -588,6 +614,7 @@ class Model(ClassBase):
         
         return printOutput
         
+    # Data validator
     def Validate(self,validator):
     
         entryOwner = "CfgModels >> " + self.name
@@ -611,17 +638,20 @@ class Model(ClassBase):
         return validator
 
 class CfgSkeletons(ClassBase):
-    
+    # Class variables
     skeletonList = []
     
+    # Constructor
     def __init__(self):
         self.name = "CfgSkeletons"
         self.parent = ""
         self.skeletonList = []
-        
+    
+    # Operator functions
     def AddSkeleton(self,newSkeleton):
         self.skeletonList.append(newSkeleton)
-        
+    
+    # Data printer
     def Print(self,tabs = 0):
         printOutput = ""
         printOutput += ConfigFormatter.ClassOpen(self.name,self.parent,tabs) + ConfigFormatter.Endl()
@@ -635,7 +665,8 @@ class CfgSkeletons(ClassBase):
         printOutput += ConfigFormatter.ClassClose(tabs) + ConfigFormatter.Endl()
         
         return printOutput
-        
+    
+    # Data validator
     def Unique(self):
     
         for skelly in self.skeletonList:
@@ -686,17 +717,20 @@ class CfgSkeletons(ClassBase):
         return validator
 
 class CfgModels(ClassBase):
-    
+    # Class variables
     modelList = []
     
+    # Constructor
     def __init__(self):
         self.name = "CfgModels"
         self.parent = ""
         self.modelList = []
         
+    # Operator functions
     def AddModel(self,newModel):
         self.modelList.append(newModel)
         
+    # Data printer
     def Print(self,tabs = 0):
         printOutput = ""
         printOutput += ConfigFormatter.ClassOpen(self.name,self.parent,tabs) + ConfigFormatter.Endl()
@@ -710,7 +744,8 @@ class CfgModels(ClassBase):
         printOutput += ConfigFormatter.ClassClose(tabs) + ConfigFormatter.Endl()
         
         return printOutput
-        
+    
+    # Data validator
     def Unique(self):
         return True
         

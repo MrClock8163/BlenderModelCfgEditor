@@ -3,21 +3,22 @@ from bpy.types import NodeSocket
 
 class MCFG_S_SkeletonBone(NodeSocket):
     # Description string
-    '''Model cfg skeleton bones input'''
-    # Optional identifier string. If not explicitly defined, the python class name is used.
-    #bl_idname = 'CustomSocketType'
-    # Label for nice name display
+    '''Bone socket'''
+    
+    # Mandatory variables
     bl_label = "Input bone"
     
+    # Custom variables
     compatibleSockets = []
     
+    # Socket properties
     boneName: bpy.props.StringProperty(
         name = "Name",
         default = "Bone",
         description = "Name of the bone item"
     )
-                
-    # Optional function for drawing the socket input value
+    
+    # Standard functions
     def draw(self, context, layout, node, text):
         layout.label(text=text)
         return
@@ -27,6 +28,5 @@ class MCFG_S_SkeletonBone(NodeSocket):
         else:
             layout.prop(self, "boneName", text=text)
 
-    # Socket color
     def draw_color(self, context, node):
         return (1, 0.1, 0.067, 1.0)

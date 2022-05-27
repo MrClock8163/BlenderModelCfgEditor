@@ -1,30 +1,24 @@
 import bpy
 from bpy.types import Node
 from . import n_tree
-from . import utility_data as Data
 from . import utility_presets as Presets
 
 class MCFG_N_AnimationPresetTriggerRot(Node, n_tree.MCFG_N_Base):
-    @classmethod
-    def poll(cls,ntree):
-        return ntree.bl_idname == 'MCFG_N_Tree'
-    # === Basics ===
     # Description string
     '''Animation item node'''
-    # Optional identifier string. If not explicitly defined, the python class name is used.
-    #bl_idname = 'CustomNodeType'
-    # Label for nice name display
+    
+    # Mandatory variables
     bl_label = "Animation class - rotate trigger"
-    # Icon identifier
     bl_icon = 'ANIM'
     
+    # Custom variables
     node_group = "animation"
     animation_type = "rotation"
     animation_type_min_value = "Angle0"
     animation_type_max_value = "Angle1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationnY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
     
-    
+    # Node properties
     selectionName: bpy.props.StringProperty(
         default="trigger",
         name="Selection",
@@ -45,38 +39,26 @@ class MCFG_N_AnimationPresetTriggerRot(Node, n_tree.MCFG_N_Base):
         soft_max = 30
     )
     
-    
+    # Standard functions
+    def draw_label(self):
+        return "Rotation preset"
+        
     def update(self):
         self.unlinkInvalidSockets()
     
     def init(self, context):
         self.customColor()
+        
         self.outputs.new('MCFG_S_ModelAnimation', "Animation")
 
-    # Copy function to initialize a copied node from an existing one.
-    def copy(self, node):
-        print("Copying from node ", node)
-
-    # Free function to clean up on removal.
-    def free(self):
-        print("Removing node ", self, ", Goodbye!")
-
-    # Additional buttons displayed on the node.
     def draw_buttons(self, context, layout):
-        # layout.label(text="Node settings")
         box = layout.box()
         box.label(text="Name: trigger rotation")
         box.prop(self, "selectionName")
         box.prop(self, "axisName")
         box.prop(self, "rotationLimit")
-
-    def draw_buttons_ext(self, context, layout):
-        box = layout.box()
-        box.label(text="Name: trigger rotation")
-        box.prop(self, "selectionName")
-        box.prop(self, "axisName")
-        box.prop(self, "rotationLimit")
-    
+        
+    # Custom functions
     def getSelection(self):        
         return self.selectionName.strip()
         
@@ -92,32 +74,22 @@ class MCFG_N_AnimationPresetTriggerRot(Node, n_tree.MCFG_N_Base):
     def process(self):
         return Presets.TriggerRot(self.getAnimName(),self.getSelection(),self.getAxis(),self.getAngle())
 
-    # Optional: custom label
-    # Explicit user label overrides this, but here we can define a label dynamically
-    def draw_label(self):
-        return "Rotation preset"
-
 class MCFG_N_AnimationPresetTriggerMove(Node, n_tree.MCFG_N_Base):
-    @classmethod
-    def poll(cls,ntree):
-        return ntree.bl_idname == 'MCFG_N_Tree'
-    # === Basics ===
     # Description string
     '''Animation item node'''
-    # Optional identifier string. If not explicitly defined, the python class name is used.
-    #bl_idname = 'CustomNodeType'
-    # Label for nice name display
+    
+    # Mandatory variables
     bl_label = "Animation class - move trigger"
-    # Icon identifier
     bl_icon = 'ANIM'
     
+    # Custom variables
     node_group = "animation"
     animation_type = "translation"
     animation_type_min_value = "Offset0"
     animation_type_max_value = "Offset1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationnY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
     
-    
+    # Node properties
     selectionName: bpy.props.StringProperty(
         default="trigger",
         name="Selection",
@@ -138,38 +110,26 @@ class MCFG_N_AnimationPresetTriggerMove(Node, n_tree.MCFG_N_Base):
         soft_max = 5
     )
     
-    
+    # Standard functions
+    def draw_label(self):
+        return "Translation preset"
+        
     def update(self):
         self.unlinkInvalidSockets()
     
     def init(self, context):
         self.customColor()
+        
         self.outputs.new('MCFG_S_ModelAnimation', "Animation")
 
-    # Copy function to initialize a copied node from an existing one.
-    def copy(self, node):
-        print("Copying from node ", node)
-
-    # Free function to clean up on removal.
-    def free(self):
-        print("Removing node ", self, ", Goodbye!")
-
-    # Additional buttons displayed on the node.
     def draw_buttons(self, context, layout):
-        # layout.label(text="Node settings")
         box = layout.box()
         box.label(text="Name: trigger translation")
         box.prop(self, "selectionName")
         box.prop(self, "axisName")
         box.prop(self, "translationLimit")
-
-    def draw_buttons_ext(self, context, layout):
-        box = layout.box()
-        box.label(text="Name: trigger translation")
-        box.prop(self, "selectionName")
-        box.prop(self, "axisName")
-        box.prop(self, "translationLimit")
-    
+        
+    # Custom functions
     def getSelection(self):        
         return self.selectionName.strip()
         
@@ -184,9 +144,3 @@ class MCFG_N_AnimationPresetTriggerMove(Node, n_tree.MCFG_N_Base):
         
     def process(self):
         return Presets.TriggerMove(self.getAnimName(),self.getSelection(),self.getAxis(),self.getOffset())
-
-    # Optional: custom label
-    # Explicit user label overrides this, but here we can define a label dynamically
-    def draw_label(self):
-        return "Translation preset"
-        

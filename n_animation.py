@@ -4,38 +4,25 @@ from . import n_tree
 from . import utility_data as Data
 
 class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
-    @classmethod
-    def poll(cls,ntree):
-        return ntree.bl_idname == 'MCFG_N_Tree'
-    # === Basics ===
     # Description string
     '''Animation item node'''
-    # Optional identifier string. If not explicitly defined, the python class name is used.
-    #bl_idname = 'CustomNodeType'
-    # Label for nice name display
+    
+    # Mandatory variables
     bl_label = "Animation class - translation"
-    # Icon identifier
     bl_icon = 'ANIM'
     
+    # Custom variables
     node_group = "animation"
     animation_type = "translation"
     animation_type_min_value = "Offset0"
     animation_type_max_value = "Offset1"
     incompatible_nodes = ["MCFG_N_AnimationRotation","MCFG_N_AnimationRotationX","MCFG_N_AnimationRotationY","MCFG_N_AnimationRotationZ","MCFG_N_AnimationHide"]
     
-
-
-    # === Custom Properties ===
-    # These work just like custom properties in ID data blocks
-    # Extensive information can be found under
-    # http://wiki.blender.org/index.php/Doc:2.6/Manual/Extensions/Python/Properties
-    #my_string_prop: bpy.props.StringProperty()
-    
+    # Node properties
     def updateAxisType(self, context):
-        if len(self.inputs) != 12:
+        if len(self.inputs) != 12: # inputs are not yet initialized
             return
         
-        # print(self.axisType)
         if self.axisType == 'AXIS':
             self.inputs[5].enabled = self.overrideAxis
             self.inputs[6].reset()
@@ -53,7 +40,6 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         name="Name",
         description = "Name of the animation\nNaming rules:\n-must be unique\n-must start with letter\n-no speical characters\n-no whitespaces"
     )
-    
     axisType: bpy.props.EnumProperty(
         name = "Axis",
         default = 'AXIS',
@@ -65,6 +51,7 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         description = "Options to set how the transformation axis is defined in the model's memory LOD"
     )
     
+    # Side panel properties
     def updateOverrideSource(self, context):
         if len(self.inputs) != 12:
             return
@@ -73,7 +60,6 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSource) and len(self.inputs[1].links) != 0:
             self.inputs[1].id_data.links.remove(self.inputs[1].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSource:
             self.overrideSource = True
     
@@ -85,7 +71,6 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSourceAddress) and len(self.inputs[2].links) != 0:
             self.inputs[2].id_data.links.remove(self.inputs[2].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSourceAddress:
             self.overrideSourceAddress = True
     
@@ -97,7 +82,6 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSelection) and len(self.inputs[3].links) != 0:
             self.inputs[3].id_data.links.remove(self.inputs[3].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSelection:
             self.overrideSelection = True
     
@@ -109,7 +93,6 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMemory) and len(self.inputs[4].links) != 0:
             self.inputs[4].id_data.links.remove(self.inputs[4].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMemory:
             self.overrideMemory = True
     
@@ -122,7 +105,6 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideAxis) and len(self.inputs[5].links) != 0:
             self.inputs[5].id_data.links.remove(self.inputs[5].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideAxis:
             self.overrideAxis = True
     
@@ -135,7 +117,6 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideBegin) and len(self.inputs[6].links) != 0:
             self.inputs[6].id_data.links.remove(self.inputs[6].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideBegin:
             self.overrideBegin = True
     
@@ -148,7 +129,6 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideEnd) and len(self.inputs[7].links) != 0:
             self.inputs[7].id_data.links.remove(self.inputs[7].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideEnd:
             self.overrideEnd = True
     
@@ -160,7 +140,6 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMinValue) and len(self.inputs[8].links) != 0:
             self.inputs[8].id_data.links.remove(self.inputs[8].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMinValue:
             self.overrideMinValue = True
     
@@ -172,7 +151,6 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMaxValue) and len(self.inputs[9].links) != 0:
             self.inputs[9].id_data.links.remove(self.inputs[9].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMaxValue:
             self.overrideMaxValue = True
     
@@ -184,7 +162,6 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMinValue) and len(self.inputs[10].links) != 0:
             self.inputs[10].id_data.links.remove(self.inputs[10].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMinValue:
             self.overrideTypeMinValue = True
     
@@ -196,7 +173,6 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMaxValue) and len(self.inputs[11].links) != 0:
             self.inputs[11].id_data.links.remove(self.inputs[11].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMaxValue:
             self.overrideTypeMaxValue = True
     
@@ -267,10 +243,13 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         description = "Override the value from the parent class (only allowed if parent class is specified)"
     )
     
+    # Standard functions
+    def draw_label(self):
+        return "Translation"
+        
     def update(self):
         self.unlinkInvalidSockets()
         if len(self.inputs[0].links) == 0:
-            # print("Can't override")
             self.overrideSource = True
             self.overrideSourceAddress = True
             self.overrideSelection = True
@@ -283,56 +262,32 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
             self.overrideTypeMinValue = True
             self.overrideTypeMaxValue = True
     
-    #my_float_prop: bpy.props.FloatProperty(default=3.1415926)
-
-    # === Optional Functions ===
-    # Initialization function, called when a new node is created.
-    # This is the most common place to create the sockets for a node, as shown below.
-    # NOTE: this is not the same as the standard __init__ function in Python, which is
-    #       a purely internal Python method and unknown to the node system!
     def init(self, context):
         self.customColor()
         
         self.inputs.new('MCFG_S_ModelAnimation', "Parent")
         self.inputs.new('MCFG_S_ValueString', "source")
         self.inputs.new('MCFG_S_ModelSourceAddress', "sourceAddress")
-        
         self.inputs.new('MCFG_S_ValueString', "selection")
         self.inputs.new('MCFG_S_SkeletonIsDiscrete', "memory")
-       
         self.inputs.new('MCFG_S_ValueString', "axis")
         self.inputs.new('MCFG_S_ValueString', "begin")
         self.inputs.new('MCFG_S_ValueString', "end")
-        
         self.inputs.new('MCFG_S_ValueFloat', "minValue")
         self.inputs.new('MCFG_S_ValueFloat', "maxValue")
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_min_value)
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_max_value)
-        
         self.outputs.new('MCFG_S_ModelAnimation', "Animation")
         
         self.inputs[6].enabled = False
         self.inputs[7].enabled = False
 
-    # Copy function to initialize a copied node from an existing one.
-    def copy(self, node):
-        print("Copying from node ", node)
-
-    # Free function to clean up on removal.
-    def free(self):
-        print("Removing node ", self, ", Goodbye!")
-
-    # Additional buttons displayed on the node.
-    def draw_buttons(self, context, layout):
-        # layout.label(text="Node settings")
+    def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
-        # layout.prop(self, "animType")
 
-    # Detail buttons in the sidebar.
-    # If this function is not defined, the draw_buttons function is used instead
-    def draw_buttons_ext(self, context, layout):
+    def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
@@ -350,19 +305,14 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         box.prop(self, "overrideMaxValue")
         box.prop(self, "overrideTypeMinValue",text=self.animation_type_min_value)
         box.prop(self, "overrideTypeMaxValue",text=self.animation_type_max_value)
-        # my_string_prop button will only be visible in the sidebar
-    
-    def Validate(self,errors):
-        errorList = []
+
+    def copy(self, node):
+        print("Copying from node ", node)
+
+    def free(self):
+        print("Removing node ", self, ", Goodbye!")
         
-        if not utility.ValidName(self.animName):
-            errorList.append("Animation name is invalid")
-        
-        if len(errorList) != 0:
-            errors.append(errorList)
-            
-        return errors
-        
+    # Custom functions
     def getAnimName(self):
         return self.animName.strip()
         
@@ -414,9 +364,8 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         return self.inputs[4].links[0].from_node.process()
         
     def getAxis(self):
-        
         axisValue = '_HIDE_'
-        baginValue = '_HIDE_'
+        beginValue = '_HIDE_'
         endValue = '_HIDE_'
         
         if self.inputs[5].enabled:
@@ -437,7 +386,6 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
             else:
                 endValue = self.inputs[7].links[0].from_node.process()
             
-        
         return [axisValue,beginValue,endValue]
         
     def getMinValue(self):
@@ -478,6 +426,7 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         
     def process(self):
         animType = '_HIDE_'
+        
         if self.getParentName() == "":
             animType = self.animation_type
     
@@ -486,58 +435,37 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         newAnim.Set("sourceAddress",self.getSourceAddress())
         newAnim.Set("selection",self.getSelection())
         newAnim.Set("memory",self.getMemory())
-        
         axisData = self.getAxis()
         newAnim.Set("axis",axisData[0])
         newAnim.Set("begin",axisData[1])
         newAnim.Set("end",axisData[2])
-        
         newAnim.Set("minValue",self.getMinValue())
         newAnim.Set("maxValue",self.getMaxValue())
         newAnim.Set("typeMinValue",self.getMinTypeValue())
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
-        
         return newAnim
-
-    # Optional: custom label
-    # Explicit user label overrides this, but here we can define a label dynamically
-    def draw_label(self):
-        return "Translation"
         
 class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
-    @classmethod
-    def poll(cls,ntree):
-        return ntree.bl_idname == 'MCFG_N_Tree'
-    # === Basics ===
     # Description string
     '''Animation item node'''
-    # Optional identifier string. If not explicitly defined, the python class name is used.
-    #bl_idname = 'CustomNodeType'
-    # Label for nice name display
+    
+    # Mandatory variables
     bl_label = "Animation class - translation X"
-    # Icon identifier
     bl_icon = 'ANIM'
     
+    # Custom variables
     node_group = "animation"
     animation_type = "translationX"
     animation_type_min_value = "Offset0"
     animation_type_max_value = "Offset1"
     incompatible_nodes = ["MCFG_N_AnimationRotation","MCFG_N_AnimationRotationX","MCFG_N_AnimationRotationY","MCFG_N_AnimationRotationZ","MCFG_N_AnimationHide"]
     
-
-
-    # === Custom Properties ===
-    # These work just like custom properties in ID data blocks
-    # Extensive information can be found under
-    # http://wiki.blender.org/index.php/Doc:2.6/Manual/Extensions/Python/Properties
-    #my_string_prop: bpy.props.StringProperty()
-    
+    # Node properties
     def updateAxisType(self, context):
-        if len(self.inputs) != 12:
+        if len(self.inputs) != 12: # inputs are not yet initialized
             return
-        
-        # print(self.axisType)
+
         if self.axisType == 'AXIS':
             self.inputs[5].enabled = self.overrideAxis
             self.inputs[6].reset()
@@ -555,7 +483,6 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         name="Name",
         description = "Name of the animation\nNaming rules:\n-must be unique\n-must start with letter\n-no speical characters\n-no whitespaces"
     )
-    
     axisType: bpy.props.EnumProperty(
         name = "Axis",
         default = 'AXIS',
@@ -567,6 +494,7 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         description = "Options to set how the transformation axis is defined in the model's memory LOD"
     )
     
+    # Side panel properties
     def updateOverrideSource(self, context):
         if len(self.inputs) != 12:
             return
@@ -575,7 +503,6 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSource) and len(self.inputs[1].links) != 0:
             self.inputs[1].id_data.links.remove(self.inputs[1].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSource:
             self.overrideSource = True
     
@@ -587,7 +514,6 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSourceAddress) and len(self.inputs[2].links) != 0:
             self.inputs[2].id_data.links.remove(self.inputs[2].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSourceAddress:
             self.overrideSourceAddress = True
     
@@ -599,7 +525,6 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSelection) and len(self.inputs[3].links) != 0:
             self.inputs[3].id_data.links.remove(self.inputs[3].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSelection:
             self.overrideSelection = True
     
@@ -611,7 +536,6 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMemory) and len(self.inputs[4].links) != 0:
             self.inputs[4].id_data.links.remove(self.inputs[4].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMemory:
             self.overrideMemory = True
     
@@ -624,7 +548,6 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideAxis) and len(self.inputs[5].links) != 0:
             self.inputs[5].id_data.links.remove(self.inputs[5].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideAxis:
             self.overrideAxis = True
     
@@ -637,7 +560,6 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideBegin) and len(self.inputs[6].links) != 0:
             self.inputs[6].id_data.links.remove(self.inputs[6].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideBegin:
             self.overrideBegin = True
     
@@ -650,7 +572,6 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideEnd) and len(self.inputs[7].links) != 0:
             self.inputs[7].id_data.links.remove(self.inputs[7].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideEnd:
             self.overrideEnd = True
     
@@ -662,7 +583,6 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMinValue) and len(self.inputs[8].links) != 0:
             self.inputs[8].id_data.links.remove(self.inputs[8].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMinValue:
             self.overrideMinValue = True
     
@@ -674,7 +594,6 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMaxValue) and len(self.inputs[9].links) != 0:
             self.inputs[9].id_data.links.remove(self.inputs[9].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMaxValue:
             self.overrideMaxValue = True
     
@@ -686,7 +605,6 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMinValue) and len(self.inputs[10].links) != 0:
             self.inputs[10].id_data.links.remove(self.inputs[10].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMinValue:
             self.overrideTypeMinValue = True
     
@@ -698,7 +616,6 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMaxValue) and len(self.inputs[11].links) != 0:
             self.inputs[11].id_data.links.remove(self.inputs[11].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMaxValue:
             self.overrideTypeMaxValue = True
     
@@ -769,10 +686,13 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         description = "Override the value from the parent class (only allowed if parent class is specified)"
     )
     
+    # Standard functions
+    def draw_label(self):
+        return "Translation X"
+        
     def update(self):
         self.unlinkInvalidSockets()
         if len(self.inputs[0].links) == 0:
-            # print("Can't override")
             self.overrideSource = True
             self.overrideSourceAddress = True
             self.overrideSelection = True
@@ -785,56 +705,32 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
             self.overrideTypeMinValue = True
             self.overrideTypeMaxValue = True
     
-    #my_float_prop: bpy.props.FloatProperty(default=3.1415926)
-
-    # === Optional Functions ===
-    # Initialization function, called when a new node is created.
-    # This is the most common place to create the sockets for a node, as shown below.
-    # NOTE: this is not the same as the standard __init__ function in Python, which is
-    #       a purely internal Python method and unknown to the node system!
     def init(self, context):
         self.customColor()
         
         self.inputs.new('MCFG_S_ModelAnimation', "Parent")
         self.inputs.new('MCFG_S_ValueString', "source")
         self.inputs.new('MCFG_S_ModelSourceAddress', "sourceAddress")
-        
         self.inputs.new('MCFG_S_ValueString', "selection")
         self.inputs.new('MCFG_S_SkeletonIsDiscrete', "memory")
-       
         self.inputs.new('MCFG_S_ValueString', "axis")
         self.inputs.new('MCFG_S_ValueString', "begin")
         self.inputs.new('MCFG_S_ValueString', "end")
-        
         self.inputs.new('MCFG_S_ValueFloat', "minValue")
         self.inputs.new('MCFG_S_ValueFloat', "maxValue")
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_min_value)
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_max_value)
-        
         self.outputs.new('MCFG_S_ModelAnimation', "Animation")
         
         self.inputs[6].enabled = False
         self.inputs[7].enabled = False
 
-    # Copy function to initialize a copied node from an existing one.
-    def copy(self, node):
-        print("Copying from node ", node)
-
-    # Free function to clean up on removal.
-    def free(self):
-        print("Removing node ", self, ", Goodbye!")
-
-    # Additional buttons displayed on the node.
-    def draw_buttons(self, context, layout):
-        # layout.label(text="Node settings")
+    def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
-        # layout.prop(self, "animType")
 
-    # Detail buttons in the sidebar.
-    # If this function is not defined, the draw_buttons function is used instead
-    def draw_buttons_ext(self, context, layout):
+    def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
@@ -852,19 +748,14 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         box.prop(self, "overrideMaxValue")
         box.prop(self, "overrideTypeMinValue",text=self.animation_type_min_value)
         box.prop(self, "overrideTypeMaxValue",text=self.animation_type_max_value)
-        # my_string_prop button will only be visible in the sidebar
+
+    def copy(self, node):
+        print("Copying from node ", node)
+
+    def free(self):
+        print("Removing node ", self, ", Goodbye!")
     
-    def Validate(self,errors):
-        errorList = []
-        
-        if not utility.ValidName(self.animName):
-            errorList.append("Animation name is invalid")
-        
-        if len(errorList) != 0:
-            errors.append(errorList)
-            
-        return errors
-        
+    # Custom functions
     def getAnimName(self):
         return self.animName.strip()
         
@@ -916,9 +807,8 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         return self.inputs[4].links[0].from_node.process()
         
     def getAxis(self):
-        
         axisValue = '_HIDE_'
-        baginValue = '_HIDE_'
+        beginValue = '_HIDE_'
         endValue = '_HIDE_'
         
         if self.inputs[5].enabled:
@@ -939,7 +829,6 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
             else:
                 endValue = self.inputs[7].links[0].from_node.process()
             
-        
         return [axisValue,beginValue,endValue]
         
     def getMinValue(self):
@@ -988,58 +877,37 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         newAnim.Set("sourceAddress",self.getSourceAddress())
         newAnim.Set("selection",self.getSelection())
         newAnim.Set("memory",self.getMemory())
-        
         axisData = self.getAxis()
         newAnim.Set("axis",axisData[0])
         newAnim.Set("begin",axisData[1])
         newAnim.Set("end",axisData[2])
-        
         newAnim.Set("minValue",self.getMinValue())
         newAnim.Set("maxValue",self.getMaxValue())
         newAnim.Set("typeMinValue",self.getMinTypeValue())
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
-        
         return newAnim
-
-    # Optional: custom label
-    # Explicit user label overrides this, but here we can define a label dynamically
-    def draw_label(self):
-        return "Translation X"
         
 class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
-    @classmethod
-    def poll(cls,ntree):
-        return ntree.bl_idname == 'MCFG_N_Tree'
-    # === Basics ===
     # Description string
     '''Animation item node'''
-    # Optional identifier string. If not explicitly defined, the python class name is used.
-    #bl_idname = 'CustomNodeType'
-    # Label for nice name display
+
+    # Mandatory variables
     bl_label = "Animation class - translation Y"
-    # Icon identifier
     bl_icon = 'ANIM'
-    
+        
+    # Custom variables
     node_group = "animation"
     animation_type = "translationY"
     animation_type_min_value = "Offset0"
     animation_type_max_value = "Offset1"
     incompatible_nodes = ["MCFG_N_AnimationRotation","MCFG_N_AnimationRotationX","MCFG_N_AnimationRotationY","MCFG_N_AnimationRotationZ","MCFG_N_AnimationHide"]
     
-
-
-    # === Custom Properties ===
-    # These work just like custom properties in ID data blocks
-    # Extensive information can be found under
-    # http://wiki.blender.org/index.php/Doc:2.6/Manual/Extensions/Python/Properties
-    #my_string_prop: bpy.props.StringProperty()
-    
+    # Node properties
     def updateAxisType(self, context):
-        if len(self.inputs) != 12:
+        if len(self.inputs) != 12: # inputs are not yet initialized
             return
         
-        # print(self.axisType)
         if self.axisType == 'AXIS':
             self.inputs[5].enabled = self.overrideAxis
             self.inputs[6].reset()
@@ -1057,7 +925,6 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         name="Name",
         description = "Name of the animation\nNaming rules:\n-must be unique\n-must start with letter\n-no speical characters\n-no whitespaces"
     )
-    
     axisType: bpy.props.EnumProperty(
         name = "Axis",
         default = 'AXIS',
@@ -1069,6 +936,7 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         description = "Options to set how the transformation axis is defined in the model's memory LOD"
     )
     
+    # Side panel properties
     def updateOverrideSource(self, context):
         if len(self.inputs) != 12:
             return
@@ -1077,7 +945,6 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSource) and len(self.inputs[1].links) != 0:
             self.inputs[1].id_data.links.remove(self.inputs[1].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSource:
             self.overrideSource = True
     
@@ -1089,7 +956,6 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSourceAddress) and len(self.inputs[2].links) != 0:
             self.inputs[2].id_data.links.remove(self.inputs[2].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSourceAddress:
             self.overrideSourceAddress = True
     
@@ -1101,7 +967,6 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSelection) and len(self.inputs[3].links) != 0:
             self.inputs[3].id_data.links.remove(self.inputs[3].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSelection:
             self.overrideSelection = True
     
@@ -1113,7 +978,6 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMemory) and len(self.inputs[4].links) != 0:
             self.inputs[4].id_data.links.remove(self.inputs[4].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMemory:
             self.overrideMemory = True
     
@@ -1126,7 +990,6 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideAxis) and len(self.inputs[5].links) != 0:
             self.inputs[5].id_data.links.remove(self.inputs[5].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideAxis:
             self.overrideAxis = True
     
@@ -1139,7 +1002,6 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideBegin) and len(self.inputs[6].links) != 0:
             self.inputs[6].id_data.links.remove(self.inputs[6].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideBegin:
             self.overrideBegin = True
     
@@ -1152,7 +1014,6 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideEnd) and len(self.inputs[7].links) != 0:
             self.inputs[7].id_data.links.remove(self.inputs[7].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideEnd:
             self.overrideEnd = True
     
@@ -1164,7 +1025,6 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMinValue) and len(self.inputs[8].links) != 0:
             self.inputs[8].id_data.links.remove(self.inputs[8].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMinValue:
             self.overrideMinValue = True
     
@@ -1176,7 +1036,6 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMaxValue) and len(self.inputs[9].links) != 0:
             self.inputs[9].id_data.links.remove(self.inputs[9].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMaxValue:
             self.overrideMaxValue = True
     
@@ -1188,7 +1047,6 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMinValue) and len(self.inputs[10].links) != 0:
             self.inputs[10].id_data.links.remove(self.inputs[10].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMinValue:
             self.overrideTypeMinValue = True
     
@@ -1200,7 +1058,6 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMaxValue) and len(self.inputs[11].links) != 0:
             self.inputs[11].id_data.links.remove(self.inputs[11].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMaxValue:
             self.overrideTypeMaxValue = True
     
@@ -1271,10 +1128,13 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         description = "Override the value from the parent class (only allowed if parent class is specified)"
     )
     
+    # Standard functions
+    def draw_label(self):
+        return "Translation Y"
+    
     def update(self):
         self.unlinkInvalidSockets()
         if len(self.inputs[0].links) == 0:
-            # print("Can't override")
             self.overrideSource = True
             self.overrideSourceAddress = True
             self.overrideSelection = True
@@ -1286,57 +1146,33 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
             self.overrideMaxValue = True
             self.overrideTypeMinValue = True
             self.overrideTypeMaxValue = True
-    
-    #my_float_prop: bpy.props.FloatProperty(default=3.1415926)
 
-    # === Optional Functions ===
-    # Initialization function, called when a new node is created.
-    # This is the most common place to create the sockets for a node, as shown below.
-    # NOTE: this is not the same as the standard __init__ function in Python, which is
-    #       a purely internal Python method and unknown to the node system!
     def init(self, context):
         self.customColor()
         
         self.inputs.new('MCFG_S_ModelAnimation', "Parent")
         self.inputs.new('MCFG_S_ValueString', "source")
         self.inputs.new('MCFG_S_ModelSourceAddress', "sourceAddress")
-        
         self.inputs.new('MCFG_S_ValueString', "selection")
         self.inputs.new('MCFG_S_SkeletonIsDiscrete', "memory")
-       
         self.inputs.new('MCFG_S_ValueString', "axis")
         self.inputs.new('MCFG_S_ValueString', "begin")
         self.inputs.new('MCFG_S_ValueString', "end")
-        
         self.inputs.new('MCFG_S_ValueFloat', "minValue")
         self.inputs.new('MCFG_S_ValueFloat', "maxValue")
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_min_value)
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_max_value)
-        
         self.outputs.new('MCFG_S_ModelAnimation', "Animation")
         
         self.inputs[6].enabled = False
         self.inputs[7].enabled = False
 
-    # Copy function to initialize a copied node from an existing one.
-    def copy(self, node):
-        print("Copying from node ", node)
-
-    # Free function to clean up on removal.
-    def free(self):
-        print("Removing node ", self, ", Goodbye!")
-
-    # Additional buttons displayed on the node.
-    def draw_buttons(self, context, layout):
-        # layout.label(text="Node settings")
+    def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
-        # layout.prop(self, "animType")
 
-    # Detail buttons in the sidebar.
-    # If this function is not defined, the draw_buttons function is used instead
-    def draw_buttons_ext(self, context, layout):
+    def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
@@ -1354,19 +1190,14 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         box.prop(self, "overrideMaxValue")
         box.prop(self, "overrideTypeMinValue",text=self.animation_type_min_value)
         box.prop(self, "overrideTypeMaxValue",text=self.animation_type_max_value)
-        # my_string_prop button will only be visible in the sidebar
-    
-    def Validate(self,errors):
-        errorList = []
+
+    def copy(self, node):
+        print("Copying from node ", node)
+
+    def free(self):
+        print("Removing node ", self, ", Goodbye!")
         
-        if not utility.ValidName(self.animName):
-            errorList.append("Animation name is invalid")
-        
-        if len(errorList) != 0:
-            errors.append(errorList)
-            
-        return errors
-        
+    # Custom functions
     def getAnimName(self):
         return self.animName.strip()
         
@@ -1418,9 +1249,8 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         return self.inputs[4].links[0].from_node.process()
         
     def getAxis(self):
-        
         axisValue = '_HIDE_'
-        baginValue = '_HIDE_'
+        beginValue = '_HIDE_'
         endValue = '_HIDE_'
         
         if self.inputs[5].enabled:
@@ -1441,7 +1271,6 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
             else:
                 endValue = self.inputs[7].links[0].from_node.process()
             
-        
         return [axisValue,beginValue,endValue]
         
     def getMinValue(self):
@@ -1490,58 +1319,37 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         newAnim.Set("sourceAddress",self.getSourceAddress())
         newAnim.Set("selection",self.getSelection())
         newAnim.Set("memory",self.getMemory())
-        
         axisData = self.getAxis()
         newAnim.Set("axis",axisData[0])
         newAnim.Set("begin",axisData[1])
         newAnim.Set("end",axisData[2])
-        
         newAnim.Set("minValue",self.getMinValue())
         newAnim.Set("maxValue",self.getMaxValue())
         newAnim.Set("typeMinValue",self.getMinTypeValue())
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
-        
         return newAnim
-
-    # Optional: custom label
-    # Explicit user label overrides this, but here we can define a label dynamically
-    def draw_label(self):
-        return "Translation Y"
                 
 class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
-    @classmethod
-    def poll(cls,ntree):
-        return ntree.bl_idname == 'MCFG_N_Tree'
-    # === Basics ===
     # Description string
     '''Animation item node'''
-    # Optional identifier string. If not explicitly defined, the python class name is used.
-    #bl_idname = 'CustomNodeType'
-    # Label for nice name display
+
+    # Mandatory variables
     bl_label = "Animation class - translation Z"
-    # Icon identifier
     bl_icon = 'ANIM'
     
+    # Custom variables
     node_group = "animation"
     animation_type = "translationZ"
     animation_type_min_value = "Offset0"
     animation_type_max_value = "Offset1"
     incompatible_nodes = ["MCFG_N_AnimationRotation","MCFG_N_AnimationRotationX","MCFG_N_AnimationRotationY","MCFG_N_AnimationRotationZ","MCFG_N_AnimationHide"]
     
-
-
-    # === Custom Properties ===
-    # These work just like custom properties in ID data blocks
-    # Extensive information can be found under
-    # http://wiki.blender.org/index.php/Doc:2.6/Manual/Extensions/Python/Properties
-    #my_string_prop: bpy.props.StringProperty()
-    
+    # Node properties
     def updateAxisType(self, context):
-        if len(self.inputs) != 12:
+        if len(self.inputs) != 12: # inputs are not yet initialized
             return
         
-        # print(self.axisType)
         if self.axisType == 'AXIS':
             self.inputs[5].enabled = self.overrideAxis
             self.inputs[6].reset()
@@ -1559,7 +1367,6 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         name="Name",
         description = "Name of the animation\nNaming rules:\n-must be unique\n-must start with letter\n-no speical characters\n-no whitespaces"
     )
-    
     axisType: bpy.props.EnumProperty(
         name = "Axis",
         default = 'AXIS',
@@ -1571,6 +1378,7 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         description = "Options to set how the transformation axis is defined in the model's memory LOD"
     )
     
+    # Side panel properties
     def updateOverrideSource(self, context):
         if len(self.inputs) != 12:
             return
@@ -1579,7 +1387,6 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSource) and len(self.inputs[1].links) != 0:
             self.inputs[1].id_data.links.remove(self.inputs[1].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSource:
             self.overrideSource = True
     
@@ -1591,7 +1398,6 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSourceAddress) and len(self.inputs[2].links) != 0:
             self.inputs[2].id_data.links.remove(self.inputs[2].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSourceAddress:
             self.overrideSourceAddress = True
     
@@ -1603,7 +1409,6 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSelection) and len(self.inputs[3].links) != 0:
             self.inputs[3].id_data.links.remove(self.inputs[3].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSelection:
             self.overrideSelection = True
     
@@ -1615,7 +1420,6 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMemory) and len(self.inputs[4].links) != 0:
             self.inputs[4].id_data.links.remove(self.inputs[4].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMemory:
             self.overrideMemory = True
     
@@ -1628,7 +1432,6 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideAxis) and len(self.inputs[5].links) != 0:
             self.inputs[5].id_data.links.remove(self.inputs[5].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideAxis:
             self.overrideAxis = True
     
@@ -1641,7 +1444,6 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideBegin) and len(self.inputs[6].links) != 0:
             self.inputs[6].id_data.links.remove(self.inputs[6].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideBegin:
             self.overrideBegin = True
     
@@ -1654,7 +1456,6 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideEnd) and len(self.inputs[7].links) != 0:
             self.inputs[7].id_data.links.remove(self.inputs[7].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideEnd:
             self.overrideEnd = True
     
@@ -1666,7 +1467,6 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMinValue) and len(self.inputs[8].links) != 0:
             self.inputs[8].id_data.links.remove(self.inputs[8].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMinValue:
             self.overrideMinValue = True
     
@@ -1678,7 +1478,6 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMaxValue) and len(self.inputs[9].links) != 0:
             self.inputs[9].id_data.links.remove(self.inputs[9].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMaxValue:
             self.overrideMaxValue = True
     
@@ -1690,7 +1489,6 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMinValue) and len(self.inputs[10].links) != 0:
             self.inputs[10].id_data.links.remove(self.inputs[10].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMinValue:
             self.overrideTypeMinValue = True
     
@@ -1702,7 +1500,6 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMaxValue) and len(self.inputs[11].links) != 0:
             self.inputs[11].id_data.links.remove(self.inputs[11].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMaxValue:
             self.overrideTypeMaxValue = True
     
@@ -1772,11 +1569,14 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         update = updateOverrideTypeMaxValue,
         description = "Override the value from the parent class (only allowed if parent class is specified)"
     )
-    
+
+    # Standard functions
+    def draw_label(self):
+        return "Translation Z"
+        
     def update(self):
         self.unlinkInvalidSockets()
         if len(self.inputs[0].links) == 0:
-            # print("Can't override")
             self.overrideSource = True
             self.overrideSourceAddress = True
             self.overrideSelection = True
@@ -1788,57 +1588,33 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
             self.overrideMaxValue = True
             self.overrideTypeMinValue = True
             self.overrideTypeMaxValue = True
-    
-    #my_float_prop: bpy.props.FloatProperty(default=3.1415926)
 
-    # === Optional Functions ===
-    # Initialization function, called when a new node is created.
-    # This is the most common place to create the sockets for a node, as shown below.
-    # NOTE: this is not the same as the standard __init__ function in Python, which is
-    #       a purely internal Python method and unknown to the node system!
     def init(self, context):
         self.customColor()
         
         self.inputs.new('MCFG_S_ModelAnimation', "Parent")
         self.inputs.new('MCFG_S_ValueString', "source")
         self.inputs.new('MCFG_S_ModelSourceAddress', "sourceAddress")
-        
         self.inputs.new('MCFG_S_ValueString', "selection")
         self.inputs.new('MCFG_S_SkeletonIsDiscrete', "memory")
-       
         self.inputs.new('MCFG_S_ValueString', "axis")
         self.inputs.new('MCFG_S_ValueString', "begin")
         self.inputs.new('MCFG_S_ValueString', "end")
-        
         self.inputs.new('MCFG_S_ValueFloat', "minValue")
         self.inputs.new('MCFG_S_ValueFloat', "maxValue")
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_min_value)
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_max_value)
-        
         self.outputs.new('MCFG_S_ModelAnimation', "Animation")
         
         self.inputs[6].enabled = False
         self.inputs[7].enabled = False
 
-    # Copy function to initialize a copied node from an existing one.
-    def copy(self, node):
-        print("Copying from node ", node)
-
-    # Free function to clean up on removal.
-    def free(self):
-        print("Removing node ", self, ", Goodbye!")
-
-    # Additional buttons displayed on the node.
-    def draw_buttons(self, context, layout):
-        # layout.label(text="Node settings")
+    def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
-        # layout.prop(self, "animType")
 
-    # Detail buttons in the sidebar.
-    # If this function is not defined, the draw_buttons function is used instead
-    def draw_buttons_ext(self, context, layout):
+    def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
@@ -1856,19 +1632,14 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         box.prop(self, "overrideMaxValue")
         box.prop(self, "overrideTypeMinValue",text=self.animation_type_min_value)
         box.prop(self, "overrideTypeMaxValue",text=self.animation_type_max_value)
-        # my_string_prop button will only be visible in the sidebar
-    
-    def Validate(self,errors):
-        errorList = []
+
+    def copy(self, node):
+        print("Copying from node ", node)
+
+    def free(self):
+        print("Removing node ", self, ", Goodbye!")
         
-        if not utility.ValidName(self.animName):
-            errorList.append("Animation name is invalid")
-        
-        if len(errorList) != 0:
-            errors.append(errorList)
-            
-        return errors
-        
+    # Custom functions
     def getAnimName(self):
         return self.animName.strip()
         
@@ -1922,7 +1693,7 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
     def getAxis(self):
         
         axisValue = '_HIDE_'
-        baginValue = '_HIDE_'
+        beginValue = '_HIDE_'
         endValue = '_HIDE_'
         
         if self.inputs[5].enabled:
@@ -1943,7 +1714,6 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
             else:
                 endValue = self.inputs[7].links[0].from_node.process()
             
-        
         return [axisValue,beginValue,endValue]
         
     def getMinValue(self):
@@ -1992,58 +1762,37 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         newAnim.Set("sourceAddress",self.getSourceAddress())
         newAnim.Set("selection",self.getSelection())
         newAnim.Set("memory",self.getMemory())
-        
         axisData = self.getAxis()
         newAnim.Set("axis",axisData[0])
         newAnim.Set("begin",axisData[1])
         newAnim.Set("end",axisData[2])
-        
         newAnim.Set("minValue",self.getMinValue())
         newAnim.Set("maxValue",self.getMaxValue())
         newAnim.Set("typeMinValue",self.getMinTypeValue())
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
-        
         return newAnim
 
-    # Optional: custom label
-    # Explicit user label overrides this, but here we can define a label dynamically
-    def draw_label(self):
-        return "Translation Z"
-        
 class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
-    @classmethod
-    def poll(cls,ntree):
-        return ntree.bl_idname == 'MCFG_N_Tree'
-    # === Basics ===
     # Description string
     '''Animation item node'''
-    # Optional identifier string. If not explicitly defined, the python class name is used.
-    #bl_idname = 'CustomNodeType'
-    # Label for nice name display
+    
+    # Mandatory variables
     bl_label = "Animation class - rotation"
-    # Icon identifier
     bl_icon = 'ANIM'
     
+    # Custom variables
     node_group = "animation"
     animation_type = "rotation"
     animation_type_min_value = "Angle0"
     animation_type_max_value = "Angle1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
     
-
-
-    # === Custom Properties ===
-    # These work just like custom properties in ID data blocks
-    # Extensive information can be found under
-    # http://wiki.blender.org/index.php/Doc:2.6/Manual/Extensions/Python/Properties
-    #my_string_prop: bpy.props.StringProperty()
-    
+    # Node properties
     def updateAxisType(self, context):
-        if len(self.inputs) != 12:
+        if len(self.inputs) != 12: # inputs are not yet initialized
             return
         
-        # print(self.axisType)
         if self.axisType == 'AXIS':
             self.inputs[5].enabled = self.overrideAxis
             self.inputs[6].reset()
@@ -2061,7 +1810,6 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         name="Name",
         description = "Name of the animation\nNaming rules:\n-must be unique\n-must start with letter\n-no speical characters\n-no whitespaces"
     )
-    
     axisType: bpy.props.EnumProperty(
         name = "Axis",
         default = 'AXIS',
@@ -2072,7 +1820,6 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         update = updateAxisType,
         description = "Options to set how the transformation axis is defined in the model's memory LOD"
     )
-    
     angleType: bpy.props.EnumProperty(
         name = "Angle unit",
         default = 'DEG',
@@ -2083,6 +1830,7 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         description = "Options to set how to treat the angle values. Since arma expects radians, if the input is in degrees, a necessary transformation is done upon export."
     )
     
+    # Side panel properties
     def updateOverrideSource(self, context):
         if len(self.inputs) != 12:
             return
@@ -2091,7 +1839,6 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSource) and len(self.inputs[1].links) != 0:
             self.inputs[1].id_data.links.remove(self.inputs[1].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSource:
             self.overrideSource = True
     
@@ -2103,7 +1850,6 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSourceAddress) and len(self.inputs[2].links) != 0:
             self.inputs[2].id_data.links.remove(self.inputs[2].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSourceAddress:
             self.overrideSourceAddress = True
     
@@ -2115,7 +1861,6 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSelection) and len(self.inputs[3].links) != 0:
             self.inputs[3].id_data.links.remove(self.inputs[3].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSelection:
             self.overrideSelection = True
     
@@ -2127,7 +1872,6 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMemory) and len(self.inputs[4].links) != 0:
             self.inputs[4].id_data.links.remove(self.inputs[4].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMemory:
             self.overrideMemory = True
     
@@ -2140,7 +1884,6 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideAxis) and len(self.inputs[5].links) != 0:
             self.inputs[5].id_data.links.remove(self.inputs[5].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideAxis:
             self.overrideAxis = True
     
@@ -2153,7 +1896,6 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideBegin) and len(self.inputs[6].links) != 0:
             self.inputs[6].id_data.links.remove(self.inputs[6].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideBegin:
             self.overrideBegin = True
     
@@ -2166,7 +1908,6 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideEnd) and len(self.inputs[7].links) != 0:
             self.inputs[7].id_data.links.remove(self.inputs[7].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideEnd:
             self.overrideEnd = True
     
@@ -2178,7 +1919,6 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMinValue) and len(self.inputs[8].links) != 0:
             self.inputs[8].id_data.links.remove(self.inputs[8].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMinValue:
             self.overrideMinValue = True
     
@@ -2190,7 +1930,6 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMaxValue) and len(self.inputs[9].links) != 0:
             self.inputs[9].id_data.links.remove(self.inputs[9].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMaxValue:
             self.overrideMaxValue = True
     
@@ -2202,7 +1941,6 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMinValue) and len(self.inputs[10].links) != 0:
             self.inputs[10].id_data.links.remove(self.inputs[10].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMinValue:
             self.overrideTypeMinValue = True
     
@@ -2214,7 +1952,6 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMaxValue) and len(self.inputs[11].links) != 0:
             self.inputs[11].id_data.links.remove(self.inputs[11].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMaxValue:
             self.overrideTypeMaxValue = True
     
@@ -2285,10 +2022,13 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         description = "Override the value from the parent class (only allowed if parent class is specified)"
     )
     
+    # Standard functions
+    def draw_label(self):
+        return "Rotation"
+        
     def update(self):
         self.unlinkInvalidSockets()
         if len(self.inputs[0].links) == 0:
-            # print("Can't override")
             self.overrideSource = True
             self.overrideSourceAddress = True
             self.overrideSelection = True
@@ -2301,56 +2041,32 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
             self.overrideTypeMinValue = True
             self.overrideTypeMaxValue = True
     
-    #my_float_prop: bpy.props.FloatProperty(default=3.1415926)
-
-    # === Optional Functions ===
-    # Initialization function, called when a new node is created.
-    # This is the most common place to create the sockets for a node, as shown below.
-    # NOTE: this is not the same as the standard __init__ function in Python, which is
-    #       a purely internal Python method and unknown to the node system!
     def init(self, context):
         self.customColor()
         
         self.inputs.new('MCFG_S_ModelAnimation', "Parent")
         self.inputs.new('MCFG_S_ValueString', "source")
         self.inputs.new('MCFG_S_ModelSourceAddress', "sourceAddress")
-        
         self.inputs.new('MCFG_S_ValueString', "selection")
         self.inputs.new('MCFG_S_SkeletonIsDiscrete', "memory")
-       
         self.inputs.new('MCFG_S_ValueString', "axis")
         self.inputs.new('MCFG_S_ValueString', "begin")
         self.inputs.new('MCFG_S_ValueString', "end")
-        
         self.inputs.new('MCFG_S_ValueFloat', "minValue")
         self.inputs.new('MCFG_S_ValueFloat', "maxValue")
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_min_value)
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_max_value)
-        
         self.outputs.new('MCFG_S_ModelAnimation', "Animation")
         
         self.inputs[6].enabled = False
         self.inputs[7].enabled = False
 
-    # Copy function to initialize a copied node from an existing one.
-    def copy(self, node):
-        print("Copying from node ", node)
-
-    # Free function to clean up on removal.
-    def free(self):
-        print("Removing node ", self, ", Goodbye!")
-
-    # Additional buttons displayed on the node.
     def draw_buttons(self, context, layout):
-        # layout.label(text="Node settings")
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
         box.prop(self, "angleType")
-        # layout.prop(self, "animType")
 
-    # Detail buttons in the sidebar.
-    # If this function is not defined, the draw_buttons function is used instead
     def draw_buttons_ext(self, context, layout):
         box = layout.box()
         box.prop(self, "animName")
@@ -2370,19 +2086,14 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         box.prop(self, "overrideMaxValue")
         box.prop(self, "overrideTypeMinValue",text=self.animation_type_min_value)
         box.prop(self, "overrideTypeMaxValue",text=self.animation_type_max_value)
-        # my_string_prop button will only be visible in the sidebar
-    
-    def Validate(self,errors):
-        errorList = []
+
+    def copy(self, node):
+        print("Copying from node ", node)
+
+    def free(self):
+        print("Removing node ", self, ", Goodbye!")
         
-        if not utility.ValidName(self.animName):
-            errorList.append("Animation name is invalid")
-        
-        if len(errorList) != 0:
-            errors.append(errorList)
-            
-        return errors
-        
+    # Custom functions
     def getAnimName(self):
         return self.animName.strip()
         
@@ -2436,7 +2147,7 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
     def getAxis(self):
         
         axisValue = '_HIDE_'
-        baginValue = '_HIDE_'
+        beginValue = '_HIDE_'
         endValue = '_HIDE_'
         
         if self.inputs[5].enabled:
@@ -2457,7 +2168,6 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
             else:
                 endValue = self.inputs[7].links[0].from_node.process()
             
-        
         return [axisValue,beginValue,endValue]
         
     def getMinValue(self):
@@ -2518,58 +2228,37 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         newAnim.Set("sourceAddress",self.getSourceAddress())
         newAnim.Set("selection",self.getSelection())
         newAnim.Set("memory",self.getMemory())
-        
         axisData = self.getAxis()
         newAnim.Set("axis",axisData[0])
         newAnim.Set("begin",axisData[1])
         newAnim.Set("end",axisData[2])
-        
         newAnim.Set("minValue",self.getMinValue())
         newAnim.Set("maxValue",self.getMaxValue())
         newAnim.Set("typeMinValue",self.getMinTypeValue())
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
-        
         return newAnim
 
-    # Optional: custom label
-    # Explicit user label overrides this, but here we can define a label dynamically
-    def draw_label(self):
-        return "Rotation"
-        
 class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
-    @classmethod
-    def poll(cls,ntree):
-        return ntree.bl_idname == 'MCFG_N_Tree'
-    # === Basics ===
     # Description string
     '''Animation item node'''
-    # Optional identifier string. If not explicitly defined, the python class name is used.
-    #bl_idname = 'CustomNodeType'
-    # Label for nice name display
+    
+    # Mandatory variables
     bl_label = "Animation class - rotation X"
-    # Icon identifier
     bl_icon = 'ANIM'
     
+    # Custom variables
     node_group = "animation"
     animation_type = "rotationX"
     animation_type_min_value = "Angle0"
     animation_type_max_value = "Angle1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
     
-
-
-    # === Custom Properties ===
-    # These work just like custom properties in ID data blocks
-    # Extensive information can be found under
-    # http://wiki.blender.org/index.php/Doc:2.6/Manual/Extensions/Python/Properties
-    #my_string_prop: bpy.props.StringProperty()
-    
+    # Node properties
     def updateAxisType(self, context):
         if len(self.inputs) != 12:
             return
         
-        # print(self.axisType)
         if self.axisType == 'AXIS':
             self.inputs[5].enabled = self.overrideAxis
             self.inputs[6].reset()
@@ -2587,7 +2276,6 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         name="Name",
         description = "Name of the animation\nNaming rules:\n-must be unique\n-must start with letter\n-no speical characters\n-no whitespaces"
     )
-    
     axisType: bpy.props.EnumProperty(
         name = "Axis",
         default = 'AXIS',
@@ -2598,7 +2286,6 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         update = updateAxisType,
         description = "Options to set how the transformation axis is defined in the model's memory LOD"
     )
-    
     angleType: bpy.props.EnumProperty(
         name = "Angle unit",
         default = 'DEG',
@@ -2609,6 +2296,7 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         description = "Options to set how to treat the angle values. Since arma expects radians, if the input is in degrees, a necessary transformation is done upon export."
     )
     
+    # Side panel properties
     def updateOverrideSource(self, context):
         if len(self.inputs) != 12:
             return
@@ -2617,7 +2305,6 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSource) and len(self.inputs[1].links) != 0:
             self.inputs[1].id_data.links.remove(self.inputs[1].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSource:
             self.overrideSource = True
     
@@ -2629,7 +2316,6 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSourceAddress) and len(self.inputs[2].links) != 0:
             self.inputs[2].id_data.links.remove(self.inputs[2].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSourceAddress:
             self.overrideSourceAddress = True
     
@@ -2641,7 +2327,6 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSelection) and len(self.inputs[3].links) != 0:
             self.inputs[3].id_data.links.remove(self.inputs[3].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSelection:
             self.overrideSelection = True
     
@@ -2653,7 +2338,6 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMemory) and len(self.inputs[4].links) != 0:
             self.inputs[4].id_data.links.remove(self.inputs[4].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMemory:
             self.overrideMemory = True
     
@@ -2666,7 +2350,6 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideAxis) and len(self.inputs[5].links) != 0:
             self.inputs[5].id_data.links.remove(self.inputs[5].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideAxis:
             self.overrideAxis = True
     
@@ -2679,7 +2362,6 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideBegin) and len(self.inputs[6].links) != 0:
             self.inputs[6].id_data.links.remove(self.inputs[6].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideBegin:
             self.overrideBegin = True
     
@@ -2692,7 +2374,6 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideEnd) and len(self.inputs[7].links) != 0:
             self.inputs[7].id_data.links.remove(self.inputs[7].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideEnd:
             self.overrideEnd = True
     
@@ -2704,7 +2385,6 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMinValue) and len(self.inputs[8].links) != 0:
             self.inputs[8].id_data.links.remove(self.inputs[8].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMinValue:
             self.overrideMinValue = True
     
@@ -2716,7 +2396,6 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMaxValue) and len(self.inputs[9].links) != 0:
             self.inputs[9].id_data.links.remove(self.inputs[9].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMaxValue:
             self.overrideMaxValue = True
     
@@ -2728,7 +2407,6 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMinValue) and len(self.inputs[10].links) != 0:
             self.inputs[10].id_data.links.remove(self.inputs[10].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMinValue:
             self.overrideTypeMinValue = True
     
@@ -2740,7 +2418,6 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMaxValue) and len(self.inputs[11].links) != 0:
             self.inputs[11].id_data.links.remove(self.inputs[11].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMaxValue:
             self.overrideTypeMaxValue = True
     
@@ -2811,10 +2488,13 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         description = "Override the value from the parent class (only allowed if parent class is specified)"
     )
     
+    # Standard functions
+    def draw_label(self):
+        return "Rotation X"
+    
     def update(self):
         self.unlinkInvalidSockets()
         if len(self.inputs[0].links) == 0:
-            # print("Can't override")
             self.overrideSource = True
             self.overrideSourceAddress = True
             self.overrideSelection = True
@@ -2826,58 +2506,34 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
             self.overrideMaxValue = True
             self.overrideTypeMinValue = True
             self.overrideTypeMaxValue = True
-    
-    #my_float_prop: bpy.props.FloatProperty(default=3.1415926)
 
-    # === Optional Functions ===
-    # Initialization function, called when a new node is created.
-    # This is the most common place to create the sockets for a node, as shown below.
-    # NOTE: this is not the same as the standard __init__ function in Python, which is
-    #       a purely internal Python method and unknown to the node system!
     def init(self, context):
         self.customColor()
         
         self.inputs.new('MCFG_S_ModelAnimation', "Parent")
         self.inputs.new('MCFG_S_ValueString', "source")
         self.inputs.new('MCFG_S_ModelSourceAddress', "sourceAddress")
-        
         self.inputs.new('MCFG_S_ValueString', "selection")
         self.inputs.new('MCFG_S_SkeletonIsDiscrete', "memory")
-       
         self.inputs.new('MCFG_S_ValueString', "axis")
         self.inputs.new('MCFG_S_ValueString', "begin")
         self.inputs.new('MCFG_S_ValueString', "end")
-        
         self.inputs.new('MCFG_S_ValueFloat', "minValue")
         self.inputs.new('MCFG_S_ValueFloat', "maxValue")
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_min_value)
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_max_value)
-        
         self.outputs.new('MCFG_S_ModelAnimation', "Animation")
         
         self.inputs[6].enabled = False
         self.inputs[7].enabled = False
 
-    # Copy function to initialize a copied node from an existing one.
-    def copy(self, node):
-        print("Copying from node ", node)
-
-    # Free function to clean up on removal.
-    def free(self):
-        print("Removing node ", self, ", Goodbye!")
-
-    # Additional buttons displayed on the node.
-    def draw_buttons(self, context, layout):
-        # layout.label(text="Node settings")
+    def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
         box.prop(self, "angleType")
-        # layout.prop(self, "animType")
 
-    # Detail buttons in the sidebar.
-    # If this function is not defined, the draw_buttons function is used instead
-    def draw_buttons_ext(self, context, layout):
+    def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
@@ -2896,19 +2552,14 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         box.prop(self, "overrideMaxValue")
         box.prop(self, "overrideTypeMinValue",text=self.animation_type_min_value)
         box.prop(self, "overrideTypeMaxValue",text=self.animation_type_max_value)
-        # my_string_prop button will only be visible in the sidebar
-    
-    def Validate(self,errors):
-        errorList = []
+
+    def copy(self, node):
+        print("Copying from node ", node)
+
+    def free(self):
+        print("Removing node ", self, ", Goodbye!")
         
-        if not utility.ValidName(self.animName):
-            errorList.append("Animation name is invalid")
-        
-        if len(errorList) != 0:
-            errors.append(errorList)
-            
-        return errors
-        
+    # Custom functions
     def getAnimName(self):
         return self.animName.strip()
         
@@ -2960,9 +2611,8 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         return self.inputs[4].links[0].from_node.process()
         
     def getAxis(self):
-        
         axisValue = '_HIDE_'
-        baginValue = '_HIDE_'
+        beginValue = '_HIDE_'
         endValue = '_HIDE_'
         
         if self.inputs[5].enabled:
@@ -2983,7 +2633,6 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
             else:
                 endValue = self.inputs[7].links[0].from_node.process()
             
-        
         return [axisValue,beginValue,endValue]
         
     def getMinValue(self):
@@ -3044,58 +2693,37 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         newAnim.Set("sourceAddress",self.getSourceAddress())
         newAnim.Set("selection",self.getSelection())
         newAnim.Set("memory",self.getMemory())
-        
         axisData = self.getAxis()
         newAnim.Set("axis",axisData[0])
         newAnim.Set("begin",axisData[1])
         newAnim.Set("end",axisData[2])
-        
         newAnim.Set("minValue",self.getMinValue())
         newAnim.Set("maxValue",self.getMaxValue())
         newAnim.Set("typeMinValue",self.getMinTypeValue())
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
-        
         return newAnim
-
-    # Optional: custom label
-    # Explicit user label overrides this, but here we can define a label dynamically
-    def draw_label(self):
-        return "Rotation X"
         
 class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
-    @classmethod
-    def poll(cls,ntree):
-        return ntree.bl_idname == 'MCFG_N_Tree'
-    # === Basics ===
     # Description string
     '''Animation item node'''
-    # Optional identifier string. If not explicitly defined, the python class name is used.
-    #bl_idname = 'CustomNodeType'
-    # Label for nice name display
+    
+    # Mandatory variables
     bl_label = "Animation class - rotation Y"
-    # Icon identifier
     bl_icon = 'ANIM'
     
+    # Custom variables
     node_group = "animation"
     animation_type = "rotationY"
     animation_type_min_value = "Angle0"
     animation_type_max_value = "Angle1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
     
-
-
-    # === Custom Properties ===
-    # These work just like custom properties in ID data blocks
-    # Extensive information can be found under
-    # http://wiki.blender.org/index.php/Doc:2.6/Manual/Extensions/Python/Properties
-    #my_string_prop: bpy.props.StringProperty()
-    
+    # Node properties
     def updateAxisType(self, context):
         if len(self.inputs) != 12:
             return
         
-        # print(self.axisType)
         if self.axisType == 'AXIS':
             self.inputs[5].enabled = self.overrideAxis
             self.inputs[6].reset()
@@ -3113,7 +2741,6 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         name="Name",
         description = "Name of the animation\nNaming rules:\n-must be unique\n-must start with letter\n-no speical characters\n-no whitespaces"
     )
-    
     axisType: bpy.props.EnumProperty(
         name = "Axis",
         default = 'AXIS',
@@ -3124,7 +2751,6 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         update = updateAxisType,
         description = "Options to set how the transformation axis is defined in the model's memory LOD"
     )
-    
     angleType: bpy.props.EnumProperty(
         name = "Angle unit",
         default = 'DEG',
@@ -3135,6 +2761,7 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         description = "Options to set how to treat the angle values. Since arma expects radians, if the input is in degrees, a necessary transformation is done upon export."
     )
     
+    # Side panel properties
     def updateOverrideSource(self, context):
         if len(self.inputs) != 12:
             return
@@ -3143,7 +2770,6 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSource) and len(self.inputs[1].links) != 0:
             self.inputs[1].id_data.links.remove(self.inputs[1].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSource:
             self.overrideSource = True
     
@@ -3155,7 +2781,6 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSourceAddress) and len(self.inputs[2].links) != 0:
             self.inputs[2].id_data.links.remove(self.inputs[2].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSourceAddress:
             self.overrideSourceAddress = True
     
@@ -3167,7 +2792,6 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSelection) and len(self.inputs[3].links) != 0:
             self.inputs[3].id_data.links.remove(self.inputs[3].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSelection:
             self.overrideSelection = True
     
@@ -3179,7 +2803,6 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMemory) and len(self.inputs[4].links) != 0:
             self.inputs[4].id_data.links.remove(self.inputs[4].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMemory:
             self.overrideMemory = True
     
@@ -3192,7 +2815,6 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideAxis) and len(self.inputs[5].links) != 0:
             self.inputs[5].id_data.links.remove(self.inputs[5].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideAxis:
             self.overrideAxis = True
     
@@ -3205,7 +2827,6 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideBegin) and len(self.inputs[6].links) != 0:
             self.inputs[6].id_data.links.remove(self.inputs[6].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideBegin:
             self.overrideBegin = True
     
@@ -3218,7 +2839,6 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideEnd) and len(self.inputs[7].links) != 0:
             self.inputs[7].id_data.links.remove(self.inputs[7].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideEnd:
             self.overrideEnd = True
     
@@ -3230,7 +2850,6 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMinValue) and len(self.inputs[8].links) != 0:
             self.inputs[8].id_data.links.remove(self.inputs[8].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMinValue:
             self.overrideMinValue = True
     
@@ -3242,7 +2861,6 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMaxValue) and len(self.inputs[9].links) != 0:
             self.inputs[9].id_data.links.remove(self.inputs[9].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMaxValue:
             self.overrideMaxValue = True
     
@@ -3254,7 +2872,6 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMinValue) and len(self.inputs[10].links) != 0:
             self.inputs[10].id_data.links.remove(self.inputs[10].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMinValue:
             self.overrideTypeMinValue = True
     
@@ -3266,7 +2883,6 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMaxValue) and len(self.inputs[11].links) != 0:
             self.inputs[11].id_data.links.remove(self.inputs[11].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMaxValue:
             self.overrideTypeMaxValue = True
     
@@ -3337,10 +2953,13 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         description = "Override the value from the parent class (only allowed if parent class is specified)"
     )
     
+    # Standard functions
+    def draw_label(self):
+        return "Rotation Y"
+        
     def update(self):
         self.unlinkInvalidSockets()
         if len(self.inputs[0].links) == 0:
-            # print("Can't override")
             self.overrideSource = True
             self.overrideSourceAddress = True
             self.overrideSelection = True
@@ -3352,58 +2971,34 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
             self.overrideMaxValue = True
             self.overrideTypeMinValue = True
             self.overrideTypeMaxValue = True
-    
-    #my_float_prop: bpy.props.FloatProperty(default=3.1415926)
 
-    # === Optional Functions ===
-    # Initialization function, called when a new node is created.
-    # This is the most common place to create the sockets for a node, as shown below.
-    # NOTE: this is not the same as the standard __init__ function in Python, which is
-    #       a purely internal Python method and unknown to the node system!
     def init(self, context):
         self.customColor()
         
         self.inputs.new('MCFG_S_ModelAnimation', "Parent")
         self.inputs.new('MCFG_S_ValueString', "source")
         self.inputs.new('MCFG_S_ModelSourceAddress', "sourceAddress")
-        
         self.inputs.new('MCFG_S_ValueString', "selection")
         self.inputs.new('MCFG_S_SkeletonIsDiscrete', "memory")
-       
         self.inputs.new('MCFG_S_ValueString', "axis")
         self.inputs.new('MCFG_S_ValueString', "begin")
         self.inputs.new('MCFG_S_ValueString', "end")
-        
         self.inputs.new('MCFG_S_ValueFloat', "minValue")
         self.inputs.new('MCFG_S_ValueFloat', "maxValue")
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_min_value)
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_max_value)
-        
         self.outputs.new('MCFG_S_ModelAnimation', "Animation")
         
         self.inputs[6].enabled = False
         self.inputs[7].enabled = False
 
-    # Copy function to initialize a copied node from an existing one.
-    def copy(self, node):
-        print("Copying from node ", node)
-
-    # Free function to clean up on removal.
-    def free(self):
-        print("Removing node ", self, ", Goodbye!")
-
-    # Additional buttons displayed on the node.
-    def draw_buttons(self, context, layout):
-        # layout.label(text="Node settings")
+    def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
         box.prop(self, "angleType")
-        # layout.prop(self, "animType")
 
-    # Detail buttons in the sidebar.
-    # If this function is not defined, the draw_buttons function is used instead
-    def draw_buttons_ext(self, context, layout):
+    def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
@@ -3422,7 +3017,12 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         box.prop(self, "overrideMaxValue")
         box.prop(self, "overrideTypeMinValue",text=self.animation_type_min_value)
         box.prop(self, "overrideTypeMaxValue",text=self.animation_type_max_value)
-        # my_string_prop button will only be visible in the sidebar
+
+    def copy(self, node):
+        print("Copying from node ", node)
+
+    def free(self):
+        print("Removing node ", self, ", Goodbye!")
     
     def Validate(self,errors):
         errorList = []
@@ -3486,9 +3086,8 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         return self.inputs[4].links[0].from_node.process()
         
     def getAxis(self):
-        
         axisValue = '_HIDE_'
-        baginValue = '_HIDE_'
+        beginValue = '_HIDE_'
         endValue = '_HIDE_'
         
         if self.inputs[5].enabled:
@@ -3509,7 +3108,6 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
             else:
                 endValue = self.inputs[7].links[0].from_node.process()
             
-        
         return [axisValue,beginValue,endValue]
         
     def getMinValue(self):
@@ -3570,58 +3168,37 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         newAnim.Set("sourceAddress",self.getSourceAddress())
         newAnim.Set("selection",self.getSelection())
         newAnim.Set("memory",self.getMemory())
-        
         axisData = self.getAxis()
         newAnim.Set("axis",axisData[0])
         newAnim.Set("begin",axisData[1])
         newAnim.Set("end",axisData[2])
-        
         newAnim.Set("minValue",self.getMinValue())
         newAnim.Set("maxValue",self.getMaxValue())
         newAnim.Set("typeMinValue",self.getMinTypeValue())
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
-        
         return newAnim
-
-    # Optional: custom label
-    # Explicit user label overrides this, but here we can define a label dynamically
-    def draw_label(self):
-        return "Rotation Y"
                 
 class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
-    @classmethod
-    def poll(cls,ntree):
-        return ntree.bl_idname == 'MCFG_N_Tree'
-    # === Basics ===
     # Description string
     '''Animation item node'''
-    # Optional identifier string. If not explicitly defined, the python class name is used.
-    #bl_idname = 'CustomNodeType'
-    # Label for nice name display
+    
+    # Mandatory variables
     bl_label = "Animation class - rotation Z"
-    # Icon identifier
     bl_icon = 'ANIM'
     
+    # Custom variables
     node_group = "animation"
     animation_type = "rotationZ"
     animation_type_min_value = "Angle0"
     animation_type_max_value = "Angle1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
     
-
-
-    # === Custom Properties ===
-    # These work just like custom properties in ID data blocks
-    # Extensive information can be found under
-    # http://wiki.blender.org/index.php/Doc:2.6/Manual/Extensions/Python/Properties
-    #my_string_prop: bpy.props.StringProperty()
-    
+    # Node properties
     def updateAxisType(self, context):
         if len(self.inputs) != 12:
             return
         
-        # print(self.axisType)
         if self.axisType == 'AXIS':
             self.inputs[5].enabled = self.overrideAxis
             self.inputs[6].reset()
@@ -3639,7 +3216,6 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         name="Name",
         description = "Name of the animation\nNaming rules:\n-must be unique\n-must start with letter\n-no speical characters\n-no whitespaces"
     )
-    
     axisType: bpy.props.EnumProperty(
         name = "Axis",
         default = 'AXIS',
@@ -3650,7 +3226,6 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         update = updateAxisType,
         description = "Options to set how the transformation axis is defined in the model's memory LOD"
     )
-    
     angleType: bpy.props.EnumProperty(
         name = "Angle unit",
         default = 'DEG',
@@ -3661,6 +3236,7 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         description = "Options to set how to treat the angle values. Since arma expects radians, if the input is in degrees, a necessary transformation is done upon export."
     )
     
+    # Side panel properties
     def updateOverrideSource(self, context):
         if len(self.inputs) != 12:
             return
@@ -3669,7 +3245,6 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSource) and len(self.inputs[1].links) != 0:
             self.inputs[1].id_data.links.remove(self.inputs[1].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSource:
             self.overrideSource = True
     
@@ -3681,7 +3256,6 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSourceAddress) and len(self.inputs[2].links) != 0:
             self.inputs[2].id_data.links.remove(self.inputs[2].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSourceAddress:
             self.overrideSourceAddress = True
     
@@ -3693,7 +3267,6 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSelection) and len(self.inputs[3].links) != 0:
             self.inputs[3].id_data.links.remove(self.inputs[3].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSelection:
             self.overrideSelection = True
     
@@ -3705,7 +3278,6 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMemory) and len(self.inputs[4].links) != 0:
             self.inputs[4].id_data.links.remove(self.inputs[4].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMemory:
             self.overrideMemory = True
     
@@ -3718,7 +3290,6 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideAxis) and len(self.inputs[5].links) != 0:
             self.inputs[5].id_data.links.remove(self.inputs[5].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideAxis:
             self.overrideAxis = True
     
@@ -3731,7 +3302,6 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideBegin) and len(self.inputs[6].links) != 0:
             self.inputs[6].id_data.links.remove(self.inputs[6].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideBegin:
             self.overrideBegin = True
     
@@ -3744,7 +3314,6 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideEnd) and len(self.inputs[7].links) != 0:
             self.inputs[7].id_data.links.remove(self.inputs[7].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideEnd:
             self.overrideEnd = True
     
@@ -3756,7 +3325,6 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMinValue) and len(self.inputs[8].links) != 0:
             self.inputs[8].id_data.links.remove(self.inputs[8].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMinValue:
             self.overrideMinValue = True
     
@@ -3768,7 +3336,6 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMaxValue) and len(self.inputs[9].links) != 0:
             self.inputs[9].id_data.links.remove(self.inputs[9].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMaxValue:
             self.overrideMaxValue = True
     
@@ -3780,7 +3347,6 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMinValue) and len(self.inputs[10].links) != 0:
             self.inputs[10].id_data.links.remove(self.inputs[10].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMinValue:
             self.overrideTypeMinValue = True
     
@@ -3792,7 +3358,6 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMaxValue) and len(self.inputs[11].links) != 0:
             self.inputs[11].id_data.links.remove(self.inputs[11].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMaxValue:
             self.overrideTypeMaxValue = True
     
@@ -3863,10 +3428,13 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         description = "Override the value from the parent class (only allowed if parent class is specified)"
     )
     
+    # Standard functions
+    def draw_label(self):
+        return "Rotation Z"
+    
     def update(self):
         self.unlinkInvalidSockets()
         if len(self.inputs[0].links) == 0:
-            # print("Can't override")
             self.overrideSource = True
             self.overrideSourceAddress = True
             self.overrideSelection = True
@@ -3878,58 +3446,34 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
             self.overrideMaxValue = True
             self.overrideTypeMinValue = True
             self.overrideTypeMaxValue = True
-    
-    #my_float_prop: bpy.props.FloatProperty(default=3.1415926)
 
-    # === Optional Functions ===
-    # Initialization function, called when a new node is created.
-    # This is the most common place to create the sockets for a node, as shown below.
-    # NOTE: this is not the same as the standard __init__ function in Python, which is
-    #       a purely internal Python method and unknown to the node system!
     def init(self, context):
         self.customColor()
         
         self.inputs.new('MCFG_S_ModelAnimation', "Parent")
         self.inputs.new('MCFG_S_ValueString', "source")
         self.inputs.new('MCFG_S_ModelSourceAddress', "sourceAddress")
-        
         self.inputs.new('MCFG_S_ValueString', "selection")
         self.inputs.new('MCFG_S_SkeletonIsDiscrete', "memory")
-       
         self.inputs.new('MCFG_S_ValueString', "axis")
         self.inputs.new('MCFG_S_ValueString', "begin")
         self.inputs.new('MCFG_S_ValueString', "end")
-        
         self.inputs.new('MCFG_S_ValueFloat', "minValue")
         self.inputs.new('MCFG_S_ValueFloat', "maxValue")
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_min_value)
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_max_value)
-        
         self.outputs.new('MCFG_S_ModelAnimation', "Animation")
         
         self.inputs[6].enabled = False
         self.inputs[7].enabled = False
 
-    # Copy function to initialize a copied node from an existing one.
-    def copy(self, node):
-        print("Copying from node ", node)
-
-    # Free function to clean up on removal.
-    def free(self):
-        print("Removing node ", self, ", Goodbye!")
-
-    # Additional buttons displayed on the node.
-    def draw_buttons(self, context, layout):
-        # layout.label(text="Node settings")
+    def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
         box.prop(self, "angleType")
-        # layout.prop(self, "animType")
 
-    # Detail buttons in the sidebar.
-    # If this function is not defined, the draw_buttons function is used instead
-    def draw_buttons_ext(self, context, layout):
+    def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "axisType")
@@ -3948,19 +3492,14 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         box.prop(self, "overrideMaxValue")
         box.prop(self, "overrideTypeMinValue",text=self.animation_type_min_value)
         box.prop(self, "overrideTypeMaxValue",text=self.animation_type_max_value)
-        # my_string_prop button will only be visible in the sidebar
-    
-    def Validate(self,errors):
-        errorList = []
+
+    def copy(self, node):
+        print("Copying from node ", node)
+
+    def free(self):
+        print("Removing node ", self, ", Goodbye!")
         
-        if not utility.ValidName(self.animName):
-            errorList.append("Animation name is invalid")
-        
-        if len(errorList) != 0:
-            errors.append(errorList)
-            
-        return errors
-        
+    # Custom functions
     def getAnimName(self):
         return self.animName.strip()
         
@@ -4012,9 +3551,8 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         return self.inputs[4].links[0].from_node.process()
         
     def getAxis(self):
-        
         axisValue = '_HIDE_'
-        baginValue = '_HIDE_'
+        beginValue = '_HIDE_'
         endValue = '_HIDE_'
         
         if self.inputs[5].enabled:
@@ -4035,7 +3573,6 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
             else:
                 endValue = self.inputs[7].links[0].from_node.process()
             
-        
         return [axisValue,beginValue,endValue]
         
     def getMinValue(self):
@@ -4096,58 +3633,37 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         newAnim.Set("sourceAddress",self.getSourceAddress())
         newAnim.Set("selection",self.getSelection())
         newAnim.Set("memory",self.getMemory())
-        
         axisData = self.getAxis()
         newAnim.Set("axis",axisData[0])
         newAnim.Set("begin",axisData[1])
         newAnim.Set("end",axisData[2])
-        
         newAnim.Set("minValue",self.getMinValue())
         newAnim.Set("maxValue",self.getMaxValue())
         newAnim.Set("typeMinValue",self.getMinTypeValue())
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
-        
         return newAnim
-
-    # Optional: custom label
-    # Explicit user label overrides this, but here we can define a label dynamically
-    def draw_label(self):
-        return "Rotation Z"
         
 class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
-    @classmethod
-    def poll(cls,ntree):
-        return ntree.bl_idname == 'MCFG_N_Tree'
-    # === Basics ===
     # Description string
     '''Animation item node'''
-    # Optional identifier string. If not explicitly defined, the python class name is used.
-    #bl_idname = 'CustomNodeType'
-    # Label for nice name display
+    
+    # Mandatory variables
     bl_label = "Animation class - hide"
-    # Icon identifier
     bl_icon = 'ANIM'
     
+    # Custom variables
     node_group = "animation"
     animation_type = "hide"
     animation_type_min_value = "hideValue"
     animation_type_max_value = "unhideValue"
     incompatible_nodes = ["MCFG_N_AnimationRotation","MCFG_N_AnimationRotationX","MCFG_N_AnimationRotationY","MCFG_N_AnimationRotationZ","MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationY","MCFG_N_AnimationTranslationZ"]
     
-
-
-    # === Custom Properties ===
-    # These work just like custom properties in ID data blocks
-    # Extensive information can be found under
-    # http://wiki.blender.org/index.php/Doc:2.6/Manual/Extensions/Python/Properties
-    #my_string_prop: bpy.props.StringProperty()
-    
+    # Node properties
     def updateAxisType(self, context):
         if len(self.inputs) != 12:
             return
         
-        # print(self.axisType)
         if self.axisType == 'AXIS':
             self.inputs[5].enabled = self.overrideAxis
             self.inputs[6].reset()
@@ -4165,7 +3681,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         name="Name",
         description = "Name of the animation\nNaming rules:\n-must be unique\n-must start with letter\n-no speical characters\n-no whitespaces"
     )
-    
     axisType: bpy.props.EnumProperty(
         name = "Axis",
         default = 'AXIS',
@@ -4177,6 +3692,7 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         description = "Options to set how the transformation axis is defined in the model's memory LOD"
     )
     
+    # Side panel properties
     def updateOverrideSource(self, context):
         if len(self.inputs) != 12:
             return
@@ -4185,7 +3701,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSource) and len(self.inputs[1].links) != 0:
             self.inputs[1].id_data.links.remove(self.inputs[1].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSource:
             self.overrideSource = True
     
@@ -4197,7 +3712,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSourceAddress) and len(self.inputs[2].links) != 0:
             self.inputs[2].id_data.links.remove(self.inputs[2].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSourceAddress:
             self.overrideSourceAddress = True
     
@@ -4209,7 +3723,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         if (not self.overrideSelection) and len(self.inputs[3].links) != 0:
             self.inputs[3].id_data.links.remove(self.inputs[3].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideSelection:
             self.overrideSelection = True
     
@@ -4221,7 +3734,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMemory) and len(self.inputs[4].links) != 0:
             self.inputs[4].id_data.links.remove(self.inputs[4].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMemory:
             self.overrideMemory = True
     
@@ -4234,7 +3746,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         if (not self.overrideAxis) and len(self.inputs[5].links) != 0:
             self.inputs[5].id_data.links.remove(self.inputs[5].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideAxis:
             self.overrideAxis = True
     
@@ -4247,7 +3758,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         if (not self.overrideBegin) and len(self.inputs[6].links) != 0:
             self.inputs[6].id_data.links.remove(self.inputs[6].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideBegin:
             self.overrideBegin = True
     
@@ -4260,7 +3770,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         if (not self.overrideEnd) and len(self.inputs[7].links) != 0:
             self.inputs[7].id_data.links.remove(self.inputs[7].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideEnd:
             self.overrideEnd = True
     
@@ -4272,7 +3781,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMinValue) and len(self.inputs[8].links) != 0:
             self.inputs[8].id_data.links.remove(self.inputs[8].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMinValue:
             self.overrideMinValue = True
     
@@ -4284,7 +3792,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         if (not self.overrideMaxValue) and len(self.inputs[9].links) != 0:
             self.inputs[9].id_data.links.remove(self.inputs[9].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideMaxValue:
             self.overrideMaxValue = True
     
@@ -4296,7 +3803,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMinValue) and len(self.inputs[10].links) != 0:
             self.inputs[10].id_data.links.remove(self.inputs[10].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMinValue:
             self.overrideTypeMinValue = True
     
@@ -4308,7 +3814,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         if (not self.overrideTypeMaxValue) and len(self.inputs[11].links) != 0:
             self.inputs[11].id_data.links.remove(self.inputs[11].links[0])
             
-        
         if len(self.inputs[0].links) == 0 and not self.overrideTypeMaxValue:
             self.overrideTypeMaxValue = True
     
@@ -4379,10 +3884,13 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         description = "Override the value from the parent class (only allowed if parent class is specified)"
     )
     
+    # Standard functions
+    def draw_label(self):
+        return "Hide"
+    
     def update(self):
         self.unlinkInvalidSockets()
         if len(self.inputs[0].links) == 0:
-            # print("Can't override")
             self.overrideSource = True
             self.overrideSourceAddress = True
             self.overrideSelection = True
@@ -4394,60 +3902,34 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
             self.overrideMaxValue = True
             self.overrideTypeMinValue = True
             self.overrideTypeMaxValue = True
-    
-    #my_float_prop: bpy.props.FloatProperty(default=3.1415926)
 
-    # === Optional Functions ===
-    # Initialization function, called when a new node is created.
-    # This is the most common place to create the sockets for a node, as shown below.
-    # NOTE: this is not the same as the standard __init__ function in Python, which is
-    #       a purely internal Python method and unknown to the node system!
     def init(self, context):
         self.customColor()
         
         self.inputs.new('MCFG_S_ModelAnimation', "Parent")
         self.inputs.new('MCFG_S_ValueString', "source")
         self.inputs.new('MCFG_S_ModelSourceAddress', "sourceAddress")
-        
         self.inputs.new('MCFG_S_ValueString', "selection")
         self.inputs.new('MCFG_S_SkeletonIsDiscrete', "memory")
-       
         self.inputs.new('MCFG_S_ValueString', "axis")
         self.inputs.new('MCFG_S_ValueString', "begin")
         self.inputs.new('MCFG_S_ValueString', "end")
-        
         self.inputs.new('MCFG_S_ValueFloat', "minValue")
         self.inputs.new('MCFG_S_ValueFloat', "maxValue")
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_min_value)
         self.inputs.new('MCFG_S_ValueFloat', self.animation_type_max_value)
-        
         self.outputs.new('MCFG_S_ModelAnimation', "Animation")
-        
         
         self.inputs[4].enabled = False
         self.inputs[5].enabled = False
         self.inputs[6].enabled = False
         self.inputs[7].enabled = False
 
-    # Copy function to initialize a copied node from an existing one.
-    def copy(self, node):
-        print("Copying from node ", node)
-
-    # Free function to clean up on removal.
-    def free(self):
-        print("Removing node ", self, ", Goodbye!")
-
-    # Additional buttons displayed on the node.
-    def draw_buttons(self, context, layout):
-        # layout.label(text="Node settings")
+    def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
-        # box.prop(self, "axisType")
-        # layout.prop(self, "animType")
 
-    # Detail buttons in the sidebar.
-    # If this function is not defined, the draw_buttons function is used instead
-    def draw_buttons_ext(self, context, layout):
+    def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
         # box.prop(self, "axisType")
@@ -4465,19 +3947,14 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         box.prop(self, "overrideMaxValue")
         box.prop(self, "overrideTypeMinValue",text=self.animation_type_min_value)
         box.prop(self, "overrideTypeMaxValue",text=self.animation_type_max_value)
-        # my_string_prop button will only be visible in the sidebar
-    
-    def Validate(self,errors):
-        errorList = []
+
+    def copy(self, node):
+        print("Copying from node ", node)
+
+    def free(self):
+        print("Removing node ", self, ", Goodbye!")
         
-        if not utility.ValidName(self.animName):
-            errorList.append("Animation name is invalid")
-        
-        if len(errorList) != 0:
-            errors.append(errorList)
-            
-        return errors
-        
+    # Custom functions
     def getAnimName(self):
         return self.animName.strip()
         
@@ -4529,9 +4006,8 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         return self.inputs[4].links[0].from_node.process()
         
     def getAxis(self):
-        
         axisValue = '_HIDE_'
-        baginValue = '_HIDE_'
+        beginValue = '_HIDE_'
         endValue = '_HIDE_'
         
         if self.inputs[5].enabled:
@@ -4552,7 +4028,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
             else:
                 endValue = self.inputs[7].links[0].from_node.process()
             
-        
         return [axisValue,beginValue,endValue]
         
     def getMinValue(self):
@@ -4601,20 +4076,12 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         newAnim.Set("sourceAddress",self.getSourceAddress())
         newAnim.Set("selection",self.getSelection())
         newAnim.Set("memory",-1)
-        
         newAnim.Set("axis",-1)
         newAnim.Set("begin",-1)
         newAnim.Set("end",-1)
-        
         newAnim.Set("minValue",self.getMinValue())
         newAnim.Set("maxValue",self.getMaxValue())
         newAnim.Set("typeMinValue",self.getMinTypeValue())
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
-        
         return newAnim
-
-    # Optional: custom label
-    # Explicit user label overrides this, but here we can define a label dynamically
-    def draw_label(self):
-        return "Hide"

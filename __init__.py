@@ -16,7 +16,7 @@ if "bpy" in locals():
     import importlib
     importlib.reload(n_tree)
     importlib.reload(s_skeletonParent)
-    importlib.reload(s_skeletonOutput)
+    # importlib.reload(s_skeletonOutput)
     importlib.reload(s_skeletonBone)
     importlib.reload(s_skeletonBoneList)
     importlib.reload(s_skeletonIsDiscrete)
@@ -63,7 +63,7 @@ if "bpy" in locals():
 else:
     from . import n_tree
     from . import s_skeletonParent
-    from . import s_skeletonOutput
+    # from . import s_skeletonOutput
     from . import s_skeletonBone
     from . import s_skeletonBoneList
     from . import s_skeletonIsDiscrete
@@ -110,14 +110,11 @@ else:
 import bpy
 import os
 
-# Implementation of custom nodes from Python
-
-
-# Derived from the Node base type.
-
+# Addon preferences
 class MCFG_Preferences(bpy.types.AddonPreferences):
     bl_idname = __name__
     
+    # Color settings
     useCustomColors: bpy.props.BoolProperty(
         description = "Display nodes belonging to the distinct categories with unique background colors.",
         name = "Use custom node colors",
@@ -156,6 +153,7 @@ class MCFG_Preferences(bpy.types.AddonPreferences):
         max = 1.0
     )
     
+    # Validation settings
     validationOutput: bpy.props.EnumProperty(
         name = "Log",
         description = "Where the validation log should be written in case the validation fails.",
@@ -165,7 +163,6 @@ class MCFG_Preferences(bpy.types.AddonPreferences):
         ),
         default = 'CONSOLE'
     )
-    
     warnsAreErr: bpy.props.BoolProperty(
         name = "Warnings are errors",
         description = "Treat warnings as errors when evaluting the validation results.",
@@ -191,35 +188,15 @@ class MCFG_Preferences(bpy.types.AddonPreferences):
         row.prop(self,"warnsAreErr")
         box.prop(self,"validationOutput")
         
-
-        
-
-
-
-### Node Categories ###
-# Node categories are a python system for automatically
-# extending the Add menu, toolbar panels and search operator.
-# For more examples see release/scripts/startup/nodeitems_builtins.py
-
 import nodeitems_utils
 from nodeitems_utils import NodeItem
 
-# our own base class with an appropriate poll function,
-# so the categories only show up in our own tree type
-
-
-
-
-
-# all categories in a list
+# node menu
 node_categories = [
-    # identifier, label, items list
     n_tree.MCFG_N_Category('SKELETONNODES', "Skeleton", items=[
-        # our basic node
         NodeItem("MCFG_N_Skeleton")
     ]),
     n_tree.MCFG_N_Category('SKELETONPRESETNODES', "Skeleton presets", items=[
-        # our basic node
         NodeItem("MCFG_N_SkeletonPresetDefault"),
         NodeItem("MCFG_N_SkeletonPresetArmaman")
     ]),
@@ -276,12 +253,14 @@ node_categories = [
     ])
 ]
 
+# Registration
+
 classes = (
     MCFG_Preferences,
     n_tree.MCFG_N_Tree,
     n_tree.MCFG_N_Frame,
     s_skeletonParent.MCFG_S_SkeletonParent,
-    s_skeletonOutput.MCFG_S_SkeletonOutput,
+    # s_skeletonOutput.MCFG_S_SkeletonOutput,
     s_skeletonBone.MCFG_S_SkeletonBone,
     s_skeletonBoneList.MCFG_S_SkeletonBoneList,
     s_skeletonIsDiscrete.MCFG_S_SkeletonIsDiscrete,
@@ -329,7 +308,7 @@ classes = (
     s_valueString.MCFG_S_ValueString,
     n_valueString.MCFG_N_ValueString,
     s_modelSourceAddress.MCFG_S_ModelSourceAddress,
-    ui.MCFG_InfoBox,
+    # ui.MCFG_InfoBox,
     ui.MCFG_ReportBox,
     ui.MCFG_Panel_Export,
     ui.MCFG_Panel_Validate,
@@ -353,11 +332,9 @@ def register():
         subtype = 'DIR_PATH'
     )
     
-    
     bpy.types.NODE_MT_editor_menus.append(ui.draw_header)
     
     print("Register done")
-
 
 def unregister():
     nodeitems_utils.unregister_node_categories('MODELCFG_NODES')
