@@ -19,6 +19,8 @@ Once the setup is completed, the structure can be validated and exported to the 
 ### Disclaimer
 While this project seeks to eliminate the need for manual (as in typing it by hand) creation of model.cfg files, basic knowledge of their structure, capabilities and limitaions is still necessary to utilize this addon. Some basic (although granted, not at all thorough) information about them can be found on the [Arma 3 Community Wiki](https://community.bistudio.com/wiki/Model_Config).
 
+The concept of this project was mostly inspired by the [Rigging nodes](https://gitlab.com/AquaticNightmare/rigging_nodes/-/releases) addon by AquaticNightmare but no actual code was taken from the project.
+
 The programming of this addon is most likely not the best, or most efficient, but it functions, it's not performance heavy as code only really runs during validation and export. Part of the reason for this is that there is very little documentation for custom node editors in Blender, so most the development consists of trial-error. Please keep this in mind.
 
 ### Documentation
