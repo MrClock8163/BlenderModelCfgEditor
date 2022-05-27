@@ -1,30 +1,23 @@
 import bpy
 from bpy.types import Node
-from . import n_tree
-from . import utility_presets as Presets
+from .. import n_tree
+from .. import utility_presets as Presets
 
-class MCFG_N_ModelPresetCopy(Node, n_tree.MCFG_N_Base):
+class MCFG_N_ModelPresetArmaman(Node, n_tree.MCFG_N_Base):
     # Description string
     '''Model class node'''
     
     # Mandatory variables
-    bl_label = "Model class - copy"
+    bl_label = "Model class - ArmaMan"
     bl_icon = 'OBJECT_DATA'
     
     # Custom variables
     node_group = "model"
     export_type = "model"
     
-    # Node properties
-    modelName: bpy.props.StringProperty(
-        default="Model",
-        name="Name",
-        description = "Name of the model class\nNaming rules:\n-must be same as the name of the model P3D file\n-must be unique\n-must start with letter\n-no speical characters\n-no whitespaces"
-    )
-    
     # Side panel properties
     def updateExportClass(self,context):
-        if len(self.outputs) != 1:
+        if len(self.inputs) != 1:
             return
         
         if not self.exportClass:
@@ -32,7 +25,7 @@ class MCFG_N_ModelPresetCopy(Node, n_tree.MCFG_N_Base):
                 for i in range(len(self.outputs[0].links)):
                     self.outputs[0].id_data.links.remove(self.outputs[0].links[0])
                 self.exportClass = False
-                
+    
     exportClass: bpy.props.BoolProperty(
         default = True,
         name = "Export",
@@ -45,34 +38,47 @@ class MCFG_N_ModelPresetCopy(Node, n_tree.MCFG_N_Base):
         return "Model preset"
         
     def update(self):
+        if len(self.inputs) == 0 or len(self.outputs) == 0:
+            return
+            
         self.unlinkInvalidSockets()
+        
+        if len(self.outputs[0].links) > 0:
+            self.exportClass = True
         
     def init(self, context):
         self.customColor()
         
-        self.inputs.new('MCFG_S_ModelParent', "Parent")
+        self.inputs.new('MCFG_S_SkeletonParent', "Skeleton")
+        self.inputs.new('MCFG_S_ModelSectionList', "Sections")
         self.outputs.new('MCFG_S_ModelParent', "Out")
 
     def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
-        box.label(text="Name: copy class")
-        box.prop(self, "modelName")
-
+        box.label(text="Name: ArmaMan")
+        
     def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "exportClass")
-        box.label(text="Name: copy class")
-        box.prop(self, "modelName")
+        box.label(text="Name: ArmaMan")
         
     # Custom functions
-    def getModelName(self):
-        return self.modelName.strip()
-        
-    def getParentName(self):
+    def getSkeleton(self):
         if len(self.inputs[0].links) == 0:
             return ""
             
-        return self.inputs[0].links[0].from_node.getModelName()
-    
+        return self.inputs[0].links[0].from_node.getSkeletonName()
+        
+    def getModelName(self):
+        return "ArmaMan"
+        
+    def getNewSections(self):
+        if len(self.inputs[1].links) == 0:
+            return []
+            
+        sectionList = self.inputs[1].links[0].from_node.process()
+        
+        return sectionList
+        
     def process(self):        
-        return Presets.CloneModel(self.getModelName(),self.getParentName())
+        return Presets.ArmaMan(self.getSkeleton(),self.getNewSections())

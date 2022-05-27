@@ -1,6 +1,6 @@
 import bpy
 from bpy.types import Node
-from . import n_tree
+from .. import n_tree
 
 class MCFG_N_SectionList(Node, n_tree.MCFG_N_Base):
     # Description string

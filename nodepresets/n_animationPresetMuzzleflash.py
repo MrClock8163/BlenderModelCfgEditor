@@ -1,42 +1,38 @@
 import bpy
 from bpy.types import Node
-from . import n_tree
-from . import utility_presets as Presets
+from .. import n_tree
+from .. import utility_presets as Presets
 
-class MCFG_N_AnimationPresetSelectorRot(Node, n_tree.MCFG_N_Base):
+class MCFG_N_AnimationPresetMuzzleflashRot(Node, n_tree.MCFG_N_Base):
     # Description string
     '''Animation item node'''
     
     # Mandatory variables
-    bl_label = "Animation class - rotate selector"
+    bl_label = "Animation class - rotate muzzle flash"
     bl_icon = 'ANIM'
     
     # Custom variables
     node_group = "animation"
-    animation_type = "rotation"
-    animation_type_min_value = "Angle0"
-    animation_type_max_value = "Angle1"
+    animation_type = "translation"
+    animation_type_min_value = "Offset0"
+    animation_type_max_value = "Offset1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationnY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
     
     # Node properties
     selectionName: bpy.props.StringProperty(
-        default="selector",
+        default="zasleh",
         name="Selection",
         description = "Name of the selection to animate"
     )
-    axisName: bpy.props.StringProperty(
-        default="selector_axis",
-        name="Axis",
-        description = "Name of the rotation axis"
+    beginName: bpy.props.StringProperty(
+        default="usti hlavne",
+        name="Axis point 1",
+        description = "Name of the first axis point"
     )
-    rotationLimit: bpy.props.IntProperty(
-        default = 30,
-        name = "Angle",
-        description = "Angle of the selector in degrees when the weapon is set to the last mode",
-        min = -90,
-        max = 90,
-        soft_min = -30,
-        soft_max = 30
+    endName: bpy.props.StringProperty(
+        default="konec hlavne",
+        name="Axis point 2",
+        description = "Name of the second axis point"
     )
     
     # Standard functions
@@ -53,10 +49,10 @@ class MCFG_N_AnimationPresetSelectorRot(Node, n_tree.MCFG_N_Base):
 
     def draw_buttons(self, context, layout):
         box = layout.box()
-        box.label(text="Name: selector rotation")
+        box.label(text="Name: muzzle flash rotation")
         box.prop(self, "selectionName")
-        box.prop(self, "axisName")
-        box.prop(self, "rotationLimit")
+        box.prop(self, "beginName")
+        box.prop(self, "endName")
         
     # Custom functions
     def getSelection(self):        
@@ -66,10 +62,7 @@ class MCFG_N_AnimationPresetSelectorRot(Node, n_tree.MCFG_N_Base):
         return (self.getSelection() + "_rot")
         
     def getAxis(self):
-        return self.axisName.strip()
-        
-    def getAngle(self):
-        return (self.rotationLimit * (3.141592653589793/180))
+        return [self.beginName.strip(),self.endName.strip()]
         
     def process(self):
-        return Presets.SelectorRot(self.getAnimName(),self.getSelection(),self.getAxis(),self.getAngle())
+        return Presets.MuzzleflashRot(self.getAnimName(),self.getSelection(),self.getAxis())

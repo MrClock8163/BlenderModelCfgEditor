@@ -14,94 +14,107 @@ bl_info = {
 
 if "bpy" in locals():
     import importlib
+    
+    # Nodes
+    importlib.reload(nodes.n_animation)
+    importlib.reload(nodes.n_animationList)
+    importlib.reload(nodes.n_bone)
+    importlib.reload(nodes.n_boneList)
+    importlib.reload(nodes.n_joinList)
+    importlib.reload(nodes.n_model)
+    importlib.reload(nodes.n_section)
+    importlib.reload(nodes.n_sectionList)
+    importlib.reload(nodes.n_skeleton)
+    importlib.reload(nodes.n_valueFloat)
+    importlib.reload(nodes.n_valueString)
+    
+    # Node presets
+    importlib.reload(nodepresets.n_animationListPresetBullets)
+    importlib.reload(nodepresets.n_animationPresetMagazine)
+    importlib.reload(nodepresets.n_animationPresetMuzzleflash)
+    importlib.reload(nodepresets.n_animationPresetSelector)
+    importlib.reload(nodepresets.n_animationPresetSight)
+    importlib.reload(nodepresets.n_animationPresetTrigger)
+    importlib.reload(nodepresets.n_boneListPresetGenerate)
+    importlib.reload(nodepresets.n_boneListPresetReplace)
+    importlib.reload(nodepresets.n_boneListPresetStandards)
+    importlib.reload(nodepresets.n_boneListPresetSymmetrize)
+    importlib.reload(nodepresets.n_modelPresetArmaman)
+    importlib.reload(nodepresets.n_modelPresetCopy)
+    importlib.reload(nodepresets.n_modelPresetDefault)
+    importlib.reload(nodepresets.n_skeletonPresetArmaman)
+    importlib.reload(nodepresets.n_skeletonPresetDefault)
+    
+    # Sockets
+    importlib.reload(sockets.s_list)
+    importlib.reload(sockets.s_modelAnimation)
+    importlib.reload(sockets.s_modelAnimationList)
+    importlib.reload(sockets.s_modelParent)
+    importlib.reload(sockets.s_modelSection)
+    importlib.reload(sockets.s_modelSectionList)
+    importlib.reload(sockets.s_modelSourceAddress)
+    importlib.reload(sockets.s_skeletonBone)
+    importlib.reload(sockets.s_skeletonBoneList)
+    importlib.reload(sockets.s_skeletonIsDiscrete)
+    importlib.reload(sockets.s_skeletonParent)
+    importlib.reload(sockets.s_valueFloat)
+    importlib.reload(sockets.s_valueString)
+    
+    # Misc
     importlib.reload(n_tree)
-    importlib.reload(s_skeletonParent)
-    # importlib.reload(s_skeletonOutput)
-    importlib.reload(s_skeletonBone)
-    importlib.reload(s_skeletonBoneList)
-    importlib.reload(s_skeletonIsDiscrete)
-    importlib.reload(n_skeleton)
-    importlib.reload(n_skeletonPresetDefault)
-    importlib.reload(n_skeletonPresetArmaman)
-    importlib.reload(n_bone)
-    importlib.reload(n_boneList)
-    importlib.reload(n_boneListPresetGenerate)
-    importlib.reload(n_boneListPresetStandards)
-    importlib.reload(n_boneListPresetReplace)
-    importlib.reload(n_boneListPresetSymmetrize)
-    importlib.reload(n_model)
-    importlib.reload(n_modelPresetDefault)
-    importlib.reload(n_modelPresetCopy)
-    importlib.reload(n_modelPresetArmaman)
-    importlib.reload(s_list)
-    importlib.reload(n_joinList)
-    importlib.reload(s_modelParent)
-    importlib.reload(s_modelSection)
-    importlib.reload(s_modelSectionList)
-    importlib.reload(s_modelAnimation)
-    importlib.reload(s_modelAnimationList)
-    importlib.reload(n_section)
-    importlib.reload(n_sectionList)
-    importlib.reload(n_animation)
-    importlib.reload(n_animationPresetMuzzleflash)
-    importlib.reload(n_animationPresetTrigger)
-    importlib.reload(n_animationPresetSelector)
-    importlib.reload(n_animationPresetSight)
-    importlib.reload(n_animationPresetMagazine)
-    importlib.reload(n_animationList)
-    importlib.reload(n_animationListPresetBullets)
-    importlib.reload(s_valueFloat)
-    importlib.reload(n_valueFloat)
-    importlib.reload(s_valueString)
-    importlib.reload(n_valueString)
-    importlib.reload(s_modelSourceAddress)
     importlib.reload(ui)
     importlib.reload(utility)
     importlib.reload(utility_data)
     importlib.reload(utility_presets)
 
 else:
+    # Nodes
+    from . nodes import n_animation
+    from . nodes import n_animationList
+    from . nodes import n_bone
+    from . nodes import n_boneList
+    from . nodes import n_joinList
+    from . nodes import n_model
+    from . nodes import n_section
+    from . nodes import n_sectionList
+    from . nodes import n_skeleton
+    from . nodes import n_valueFloat
+    from . nodes import n_valueString
+    
+    # Node presets
+    from . nodepresets import n_animationListPresetBullets
+    from . nodepresets import n_animationPresetMagazine
+    from . nodepresets import n_animationPresetMuzzleflash
+    from . nodepresets import n_animationPresetSelector
+    from . nodepresets import n_animationPresetSight
+    from . nodepresets import n_animationPresetTrigger
+    from . nodepresets import n_boneListPresetGenerate
+    from . nodepresets import n_boneListPresetReplace
+    from . nodepresets import n_boneListPresetStandards
+    from . nodepresets import n_boneListPresetSymmetrize
+    from . nodepresets import n_modelPresetArmaman
+    from . nodepresets import n_modelPresetCopy
+    from . nodepresets import n_modelPresetDefault
+    from . nodepresets import n_skeletonPresetArmaman
+    from . nodepresets import n_skeletonPresetDefault
+    
+    # Sockets
+    from . sockets import s_list
+    from . sockets import s_modelAnimation
+    from . sockets import s_modelAnimationList
+    from . sockets import s_modelParent
+    from . sockets import s_modelSection
+    from . sockets import s_modelSectionList
+    from . sockets import s_modelSourceAddress
+    from . sockets import s_skeletonBone
+    from . sockets import s_skeletonBoneList
+    from . sockets import s_skeletonIsDiscrete
+    from . sockets import s_skeletonParent
+    from . sockets import s_valueFloat
+    from . sockets import s_valueString
+    
+    # Misc
     from . import n_tree
-    from . import s_skeletonParent
-    # from . import s_skeletonOutput
-    from . import s_skeletonBone
-    from . import s_skeletonBoneList
-    from . import s_skeletonIsDiscrete
-    from . import n_skeleton
-    from . import n_skeletonPresetDefault
-    from . import n_skeletonPresetArmaman
-    from . import n_bone
-    from . import n_boneList
-    from . import n_boneListPresetGenerate
-    from . import n_boneListPresetStandards
-    from . import n_boneListPresetReplace
-    from . import n_boneListPresetSymmetrize
-    from . import n_model
-    from . import n_modelPresetDefault
-    from . import n_modelPresetCopy
-    from . import n_modelPresetArmaman
-    from . import s_list
-    from . import n_joinList
-    from . import s_modelParent
-    from . import s_modelSection
-    from . import s_modelSectionList
-    from . import s_modelAnimation
-    from . import s_modelAnimationList
-    from . import n_section
-    from . import n_sectionList
-    from . import n_animation
-    from . import n_animationPresetMuzzleflash
-    from . import n_animationPresetTrigger
-    from . import n_animationPresetSelector
-    from . import n_animationPresetSight
-    from . import n_animationPresetMagazine
-    from . import n_animationList
-    from . import n_animationListPresetBullets
-    from . import s_valueFloat
-    from . import n_valueFloat
-    from . import s_valueString
-    from . import n_valueString
-    from . import s_modelSourceAddress
     from . import ui
     from . import utility
     from . import utility_data
@@ -256,59 +269,65 @@ node_categories = [
 # Registration
 
 classes = (
+    
+    # Nodes
+    nodes.n_animation.MCFG_N_AnimationTranslation,
+    nodes.n_animation.MCFG_N_AnimationTranslationX,
+    nodes.n_animation.MCFG_N_AnimationTranslationY,
+    nodes.n_animation.MCFG_N_AnimationTranslationZ,
+    nodes.n_animation.MCFG_N_AnimationRotation,
+    nodes.n_animation.MCFG_N_AnimationRotationX,
+    nodes.n_animation.MCFG_N_AnimationRotationY,
+    nodes.n_animation.MCFG_N_AnimationRotationZ,
+    nodes.n_animation.MCFG_N_AnimationHide,
+    nodes.n_animationList.MCFG_N_AnimationList,
+    nodes.n_bone.MCFG_N_Bone,
+    nodes.n_boneList.MCFG_N_BoneList,
+    nodes.n_joinList.MCFG_N_JoinList,
+    nodes.n_model.MCFG_N_Model,
+    nodes.n_section.MCFG_N_Section,
+    nodes.n_sectionList.MCFG_N_SectionList,
+    nodes.n_skeleton.MCFG_N_Skeleton,
+    nodes.n_valueFloat.MCFG_N_ValueFloat,
+    nodes.n_valueString.MCFG_N_ValueString,
+    
+    # Node presets
+    nodepresets.n_animationListPresetBullets.MCFG_N_AnimationListPresetBulletsHide,
+    nodepresets.n_animationPresetMagazine.MCFG_N_AnimationPresetMagazineHide,
+    nodepresets.n_animationPresetMuzzleflash.MCFG_N_AnimationPresetMuzzleflashRot,
+    nodepresets.n_animationPresetSelector.MCFG_N_AnimationPresetSelectorRot,
+    nodepresets.n_animationPresetSight.MCFG_N_AnimationPresetSightHide,
+    nodepresets.n_animationPresetTrigger.MCFG_N_AnimationPresetTriggerRot,
+    nodepresets.n_animationPresetTrigger.MCFG_N_AnimationPresetTriggerMove,
+    nodepresets.n_boneListPresetGenerate.MCFG_N_BoneListPresetGenerate,
+    nodepresets.n_boneListPresetReplace.MCFG_N_BoneListPresetReplace,
+    nodepresets.n_boneListPresetStandards.MCFG_N_BoneListPresetStandardWeapon,
+    nodepresets.n_boneListPresetSymmetrize.MCFG_N_BoneListPresetSymmetrize,
+    nodepresets.n_modelPresetArmaman.MCFG_N_ModelPresetArmaman,
+    nodepresets.n_modelPresetCopy.MCFG_N_ModelPresetCopy,
+    nodepresets.n_modelPresetDefault.MCFG_N_ModelPresetDefault,
+    nodepresets.n_skeletonPresetArmaman.MCFG_N_SkeletonPresetArmaman,
+    nodepresets.n_skeletonPresetDefault.MCFG_N_SkeletonPresetDefault,
+    
+    # Sockets
+    sockets.s_list.MCFG_S_List,
+    sockets.s_modelAnimation.MCFG_S_ModelAnimation,
+    sockets.s_modelAnimationList.MCFG_S_ModelAnimationList,
+    sockets.s_modelParent.MCFG_S_ModelParent,
+    sockets.s_modelSection.MCFG_S_ModelSection,
+    sockets.s_modelSectionList.MCFG_S_ModelSectionList,
+    sockets.s_modelSourceAddress.MCFG_S_ModelSourceAddress,
+    sockets.s_skeletonBone.MCFG_S_SkeletonBone,
+    sockets.s_skeletonBoneList.MCFG_S_SkeletonBoneList,
+    sockets.s_skeletonIsDiscrete.MCFG_S_SkeletonIsDiscrete,
+    sockets.s_skeletonParent.MCFG_S_SkeletonParent,
+    sockets.s_valueFloat.MCFG_S_ValueFloat,
+    sockets.s_valueString.MCFG_S_ValueString,
+    
+    # Misc
     MCFG_Preferences,
     n_tree.MCFG_N_Tree,
     n_tree.MCFG_N_Frame,
-    s_skeletonParent.MCFG_S_SkeletonParent,
-    # s_skeletonOutput.MCFG_S_SkeletonOutput,
-    s_skeletonBone.MCFG_S_SkeletonBone,
-    s_skeletonBoneList.MCFG_S_SkeletonBoneList,
-    s_skeletonIsDiscrete.MCFG_S_SkeletonIsDiscrete,
-    n_skeleton.MCFG_N_Skeleton,
-    n_skeletonPresetDefault.MCFG_N_SkeletonPresetDefault,
-    n_skeletonPresetArmaman.MCFG_N_SkeletonPresetArmaman,
-    n_bone.MCFG_N_Bone,
-    n_boneList.MCFG_N_BoneList,
-    n_boneListPresetGenerate.MCFG_N_BoneListPresetGenerate,
-    n_boneListPresetStandards.MCFG_N_BoneListPresetStandardWeapon,
-    n_boneListPresetReplace.MCFG_N_BoneListPresetReplace,
-    n_boneListPresetSymmetrize.MCFG_N_BoneListPresetSymmetrize,
-    n_model.MCFG_N_Model,
-    n_modelPresetDefault.MCFG_N_ModelPresetDefault,
-    n_modelPresetCopy.MCFG_N_ModelPresetCopy,
-    n_modelPresetArmaman.MCFG_N_ModelPresetArmaman,
-    s_list.MCFG_S_List,
-    n_joinList.MCFG_N_JoinList,
-    s_modelParent.MCFG_S_ModelParent,
-    s_modelSection.MCFG_S_ModelSection,
-    s_modelSectionList.MCFG_S_ModelSectionList,
-    s_modelAnimation.MCFG_S_ModelAnimation,
-    s_modelAnimationList.MCFG_S_ModelAnimationList,
-    n_section.MCFG_N_Section,
-    n_sectionList.MCFG_N_SectionList,
-    n_animation.MCFG_N_AnimationTranslation,
-    n_animation.MCFG_N_AnimationTranslationX,
-    n_animation.MCFG_N_AnimationTranslationY,
-    n_animation.MCFG_N_AnimationTranslationZ,
-    n_animation.MCFG_N_AnimationRotation,
-    n_animation.MCFG_N_AnimationRotationX,
-    n_animation.MCFG_N_AnimationRotationY,
-    n_animation.MCFG_N_AnimationRotationZ,
-    n_animation.MCFG_N_AnimationHide,
-    n_animationPresetMuzzleflash.MCFG_N_AnimationPresetMuzzleflashRot,
-    n_animationPresetTrigger.MCFG_N_AnimationPresetTriggerRot,
-    n_animationPresetTrigger.MCFG_N_AnimationPresetTriggerMove,
-    n_animationPresetSelector.MCFG_N_AnimationPresetSelectorRot,
-    n_animationPresetSight.MCFG_N_AnimationPresetSightHide,
-    n_animationPresetMagazine.MCFG_N_AnimationPresetMagazineHide,
-    n_animationList.MCFG_N_AnimationList,
-    n_animationListPresetBullets.MCFG_N_AnimationListPresetBulletsHide,
-    s_valueFloat.MCFG_S_ValueFloat,
-    n_valueFloat.MCFG_N_ValueFloat,
-    s_valueString.MCFG_S_ValueString,
-    n_valueString.MCFG_N_ValueString,
-    s_modelSourceAddress.MCFG_S_ModelSourceAddress,
-    # ui.MCFG_InfoBox,
     ui.MCFG_ReportBox,
     ui.MCFG_Panel_Export,
     ui.MCFG_Panel_Validate,

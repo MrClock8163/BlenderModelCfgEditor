@@ -1,14 +1,14 @@
 import bpy
 from bpy.types import Node
-from . import n_tree
-from . import utility_presets as Presets
+from .. import n_tree
+from .. import utility_presets as Presets
 
-class MCFG_N_SkeletonPresetArmaman(Node, n_tree.MCFG_N_Base):
+class MCFG_N_SkeletonPresetDefault(Node, n_tree.MCFG_N_Base):
     # Description string
     '''Skeleton class node'''
     
     # Mandatory variables
-    bl_label = "Skeleton class - OFP2_ManSkeleton"
+    bl_label = "Skeleton class - Default"
     bl_icon = 'ARMATURE_DATA'
     
     # Custom variables
@@ -53,16 +53,16 @@ class MCFG_N_SkeletonPresetArmaman(Node, n_tree.MCFG_N_Base):
 
     def draw_buttons(self, context, layout):
         box = layout.box()
-        box.label(text="Name: OFP2_ManSkeleton")
+        box.label(text="Name: Default")
         
     def draw_buttons_ext(self, context, layout):
         box = layout.box()
         box.prop(self, "exportClass")
-        box.label(text="Name: OFP2_ManSkeleton")
+        box.label(text="Name: Default")
         
     # Custom functions
     def getSkeletonName(self):
-        return "OFP2_ManSkeleton"
-        
-    def process(self):        
-        return Presets.OFP2_ManSkeleton()
+        return "Default"
+    
+    def process(self):
+        return Presets.DefaultSkeleton()

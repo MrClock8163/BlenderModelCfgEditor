@@ -1,14 +1,14 @@
 import bpy
 from bpy.types import Node
-from . import n_tree
-from . import utility_presets as Presets
+from .. import n_tree
+from .. import utility_presets as Presets
 
-class MCFG_N_AnimationPresetMagazineHide(Node, n_tree.MCFG_N_Base):
+class MCFG_N_AnimationListPresetBulletsHide(Node, n_tree.MCFG_N_Base):
     # Description string
-    '''Animation item node'''
+    '''Animation list node'''
     
     # Mandatory variables
-    bl_label = "Animation class - hide magazine"
+    bl_label = "Animation list - hide bullets"
     bl_icon = 'ANIM'
     
     # Custom variables
@@ -20,9 +20,9 @@ class MCFG_N_AnimationPresetMagazineHide(Node, n_tree.MCFG_N_Base):
     
     # Node properties
     selectionName: bpy.props.StringProperty(
-        default="magazine",
-        name="Selection",
-        description = "Name of the selection to animate"
+        default="bullet_%",
+        name="Selection name",
+        description = "Name of the selection to animate\nMark the place for the generated index with a '%'"
     )
     animScope: bpy.props.EnumProperty(
         name = "Scope",
@@ -41,6 +41,36 @@ class MCFG_N_AnimationPresetMagazineHide(Node, n_tree.MCFG_N_Base):
         max = 100,
         soft_max = 5
     )
+    idlength: bpy.props.IntProperty(
+        default=2,
+        name = "ID length",
+        description = "Length of the ID section of the generated bones\nWhere the ID number is fewer digits than this value, leading zeros are introduced\nWhen the value is lower than the digit count of the largest generated ID, that value is applied",
+        min = 1,
+        max = 50,
+        soft_max = 5
+    )
+    magCapacity: bpy.props.IntProperty(
+        name = "Magazine capacity",
+        description = "Ammo capacity of the magazine",
+        default = 20,
+        min = 1,
+        max = 1000,
+        soft_max = 200
+    )
+    interval1: bpy.props.IntProperty(
+        name = "First bullet",
+        description = "Index of first bullet to be animated",
+        default = 1,
+        min = 1,
+        max = 100
+    )
+    interval2: bpy.props.IntProperty(
+        name = "Last bullet",
+        description = "Index of last bullet to be animated",
+        default = 1,
+        min = 1,
+        max = 100
+    )
     
     # Standard functions
     def draw_label(self):
@@ -51,15 +81,19 @@ class MCFG_N_AnimationPresetMagazineHide(Node, n_tree.MCFG_N_Base):
     
     def init(self, context):
         self.customColor()
-        self.outputs.new('MCFG_S_ModelAnimation', "Animation")
+        self.outputs.new('MCFG_S_ModelAnimationList', "Animation list")
 
     def draw_buttons(self, context, layout):
         box = layout.box()
-        box.label(text="Name: magazine hide")
+        box.label(text="Name: bullet hide")
         box.prop(self, "selectionName")
         box.prop(self, "animScope")
         if self.animScope == 'SPECIFIC':
             box.prop(self, "muzzleIndex")
+        box.prop(self, "idlength")
+        box.prop(self, "magCapacity")
+        box.prop(self, "interval1")
+        box.prop(self, "interval2")
         
     # Custom functions
     def getSelection(self):        
@@ -75,4 +109,4 @@ class MCFG_N_AnimationPresetMagazineHide(Node, n_tree.MCFG_N_Base):
             return self.muzzleIndex - 1
         
     def process(self):
-        return Presets.MagazineHide(self.getSelection(),self.getMuzzleIndex())
+        return Presets.BulletHide(self.getSelection(),self.getMuzzleIndex(),self.idlength,self.magCapacity,[self.interval1,self.interval2])

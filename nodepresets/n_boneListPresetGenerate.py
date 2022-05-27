@@ -1,8 +1,8 @@
 import bpy
 from bpy.types import Node
-from . import n_tree
-from . import utility_data as Data
-from . import utility_presets as Presets
+from .. import n_tree
+from .. import utility_data as Data
+from .. import utility_presets as Presets
 
 class MCFG_N_BoneListPresetGenerate(Node, n_tree.MCFG_N_Base):
     # Description string

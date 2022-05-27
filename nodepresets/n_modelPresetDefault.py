@@ -1,14 +1,14 @@
 import bpy
 from bpy.types import Node
-from . import n_tree
-from . import utility_presets as Presets
+from .. import n_tree
+from .. import utility_presets as Presets
 
-class MCFG_N_ModelPresetArmaman(Node, n_tree.MCFG_N_Base):
+class MCFG_N_ModelPresetDefault(Node, n_tree.MCFG_N_Base):
     # Description string
     '''Model class node'''
     
     # Mandatory variables
-    bl_label = "Model class - ArmaMan"
+    bl_label = "Model class - Default"
     bl_icon = 'OBJECT_DATA'
     
     # Custom variables
@@ -17,7 +17,7 @@ class MCFG_N_ModelPresetArmaman(Node, n_tree.MCFG_N_Base):
     
     # Side panel properties
     def updateExportClass(self,context):
-        if len(self.inputs) != 1:
+        if len(self.outputs) != 1:
             return
         
         if not self.exportClass:
@@ -38,7 +38,7 @@ class MCFG_N_ModelPresetArmaman(Node, n_tree.MCFG_N_Base):
         return "Model preset"
         
     def update(self):
-        if len(self.inputs) == 0 or len(self.outputs) == 0:
+        if len(self.outputs) == 0:
             return
             
         self.unlinkInvalidSockets()
@@ -49,36 +49,20 @@ class MCFG_N_ModelPresetArmaman(Node, n_tree.MCFG_N_Base):
     def init(self, context):
         self.customColor()
         
-        self.inputs.new('MCFG_S_SkeletonParent', "Skeleton")
-        self.inputs.new('MCFG_S_ModelSectionList', "Sections")
         self.outputs.new('MCFG_S_ModelParent', "Out")
 
     def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
-        box.label(text="Name: ArmaMan")
-        
+        box.label(text="Name: Default")
+
     def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "exportClass")
-        box.label(text="Name: ArmaMan")
+        box.label(text="Name: Default")
         
     # Custom functions
-    def getSkeleton(self):
-        if len(self.inputs[0].links) == 0:
-            return ""
-            
-        return self.inputs[0].links[0].from_node.getSkeletonName()
-        
     def getModelName(self):
-        return "ArmaMan"
-        
-    def getNewSections(self):
-        if len(self.inputs[1].links) == 0:
-            return []
-            
-        sectionList = self.inputs[1].links[0].from_node.process()
-        
-        return sectionList
-        
+        return "Default"
+    
     def process(self):        
-        return Presets.ArmaMan(self.getSkeleton(),self.getNewSections())
+        return Presets.DefaultModel()
