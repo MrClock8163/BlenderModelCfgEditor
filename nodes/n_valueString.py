@@ -11,7 +11,7 @@ class MCFG_N_ValueString(Node, n_tree.MCFG_N_Base):
     bl_icon = 'NONE'
     
     # Custom variables
-    node_group = "value"
+    node_group = "operator"
     
     # Node properties
     stringProperty: bpy.props.StringProperty(
@@ -33,3 +33,6 @@ class MCFG_N_ValueString(Node, n_tree.MCFG_N_Base):
     # Custom functions
     def process(self):
         return self.stringProperty.strip()
+        
+    def inspect(self):
+        print(self.process())

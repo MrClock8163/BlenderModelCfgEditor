@@ -32,3 +32,7 @@ class MCFG_N_BoneListPresetStandardWeapon(Node, n_tree.MCFG_N_Base):
     # Custom functions
     def process(self):
         return Presets.BoneStandardWeapon()
+        
+    def inspect(self):
+        for bone in self.process():
+            print(bone)

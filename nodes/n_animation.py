@@ -446,6 +446,11 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         
         return newAnim
         
+    def inspect(self):
+        data = self.process()
+        
+        print(data.Print())
+        
 class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
     # Description string
     '''Animation item node'''
@@ -888,6 +893,11 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         
         return newAnim
         
+    def inspect(self):
+        data = self.process()
+        
+        print(data.Print())
+        
 class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
     # Description string
     '''Animation item node'''
@@ -1329,6 +1339,11 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
         return newAnim
+        
+    def inspect(self):
+        data = self.process()
+        
+        print(data.Print())
                 
 class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -1772,6 +1787,11 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
         return newAnim
+        
+    def inspect(self):
+        data = self.process()
+        
+        print(data.Print())
 
 class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -2238,6 +2258,11 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
         return newAnim
+        
+    def inspect(self):
+        data = self.process()
+        
+        print(data.Print())
 
 class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -2703,6 +2728,11 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
         return newAnim
+        
+    def inspect(self):
+        data = self.process()
+        
+        print(data.Print())
         
 class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -3178,6 +3208,11 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
         return newAnim
+        
+    def inspect(self):
+        data = self.process()
+        
+        print(data.Print())
                 
 class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -3644,6 +3679,11 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         
         return newAnim
         
+    def inspect(self):
+        data = self.process()
+        
+        print(data.Print())
+        
 class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
     # Description string
     '''Animation item node'''
@@ -4085,3 +4125,8 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
         return newAnim
+        
+    def inspect(self):
+        data = self.process()
+        
+        print(data.Print())

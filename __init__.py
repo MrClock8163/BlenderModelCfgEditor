@@ -20,7 +20,9 @@ if "bpy" in locals():
     importlib.reload(nodes.n_animationList)
     importlib.reload(nodes.n_bone)
     importlib.reload(nodes.n_boneList)
+    importlib.reload(nodes.n_inspect)
     importlib.reload(nodes.n_joinList)
+    importlib.reload(nodes.n_mathBasic)
     importlib.reload(nodes.n_model)
     importlib.reload(nodes.n_section)
     importlib.reload(nodes.n_sectionList)
@@ -57,6 +59,7 @@ if "bpy" in locals():
     importlib.reload(sockets.s_skeletonBoneList)
     importlib.reload(sockets.s_skeletonIsDiscrete)
     importlib.reload(sockets.s_skeletonParent)
+    importlib.reload(sockets.s_universal)
     importlib.reload(sockets.s_valueFloat)
     importlib.reload(sockets.s_valueString)
     
@@ -66,6 +69,7 @@ if "bpy" in locals():
     importlib.reload(utility)
     importlib.reload(utility_data)
     importlib.reload(utility_presets)
+    importlib.reload(utility_presets_setup)
 
 else:
     # Nodes
@@ -73,7 +77,9 @@ else:
     from . nodes import n_animationList
     from . nodes import n_bone
     from . nodes import n_boneList
+    from . nodes import n_inspect
     from . nodes import n_joinList
+    from . nodes import n_mathBasic
     from . nodes import n_model
     from . nodes import n_section
     from . nodes import n_sectionList
@@ -110,6 +116,7 @@ else:
     from . sockets import s_skeletonBoneList
     from . sockets import s_skeletonIsDiscrete
     from . sockets import s_skeletonParent
+    from . sockets import s_universal
     from . sockets import s_valueFloat
     from . sockets import s_valueString
     
@@ -119,6 +126,7 @@ else:
     from . import utility
     from . import utility_data
     from . import utility_presets
+    from . import utility_presets_setup
 
 import bpy
 import os
@@ -130,38 +138,54 @@ class MCFG_Preferences(bpy.types.AddonPreferences):
     # Color settings
     useCustomColors: bpy.props.BoolProperty(
         description = "Display nodes belonging to the distinct categories with unique background colors.",
-        name = "Use custom node colors",
-        default = False
+        name = "Node background colors",
+        default = True
     )
     customColorSkeleton: bpy.props.FloatVectorProperty(
-        name = "Skeleton nodes",
+        name = "Skeleton",
         description = "Color used for skeleton related nodes",
         subtype = 'COLOR',
         default = (0.792, 0.322, 0.067),
         min = 0.0,
         max = 1.0
     )
-    customColorModel: bpy.props.FloatVectorProperty(
-        name = "Model nodes",
-        description = "Color used for model related nodes",
-        subtype = 'COLOR',
-        default = (0.0, 1.0, 1.0),
-        min = 0.0,
-        max = 1.0
-    )
     customColorBones: bpy.props.FloatVectorProperty(
-        name = "Bone nodes",
+        name = "Bone",
         description = "Color used for bone related nodes",
         subtype = 'COLOR',
         default = (0.902, 0.271,0.333),
         min = 0.0,
         max = 1.0
     )
+    customColorModel: bpy.props.FloatVectorProperty(
+        name = "Model",
+        description = "Color used for model related nodes",
+        subtype = 'COLOR',
+        default = (0.0, 0.7, 1.0),
+        min = 0.0,
+        max = 1.0
+    )
+    customColorSection: bpy.props.FloatVectorProperty(
+        name = "Section",
+        description = "Color used for section related nodes",
+        subtype = 'COLOR',
+        default = (0.0, 0.7, 0),
+        min = 0.0,
+        max = 1.0
+    )
     customColorAnimations: bpy.props.FloatVectorProperty(
-        name = "Animation nodes",
+        name = "Animation",
         description = "Color used for animation related nodes",
         subtype = 'COLOR',
-        default = (0.239, 0.741,0.996),
+        default = (0, 0.4,1.0),
+        min = 0.0,
+        max = 1.0
+    )
+    customColorOperator: bpy.props.FloatVectorProperty(
+        name = "Operator",
+        description = "Color used for operation related nodes",
+        subtype = 'COLOR',
+        default = (0.4, 0.4,0.4),
         min = 0.0,
         max = 1.0
     )
@@ -182,6 +206,14 @@ class MCFG_Preferences(bpy.types.AddonPreferences):
         default = True
     )
     
+    # Preset settings
+    customSetupPresets: bpy.props.StringProperty(
+        name="Custom setup presets", 
+        description="Folder that contains the .py files describing custom setup presets", 
+        subtype='DIR_PATH',
+        default=""
+    )
+    
     def draw(self,context):
         layout = self.layout
         
@@ -190,16 +222,24 @@ class MCFG_Preferences(bpy.types.AddonPreferences):
         col.label(text="Color settings")
         col.prop(self,"useCustomColors")
         if self.useCustomColors:
-            col.prop(self,"customColorSkeleton")
-            col.prop(self,"customColorModel")
-            col.prop(self,"customColorBones")
-            col.prop(self,"customColorAnimations")
+            row = box.row()
+            row.prop(self,"customColorSkeleton")
+            row.prop(self,"customColorBones")
+            row.prop(self,"customColorModel")
+            row = box.row()
+            row.prop(self,"customColorSection")
+            row.prop(self,"customColorAnimations")
+            row.prop(self,"customColorOperator")
             
         box = layout.box()
         box.label(text="Validation settings")
         row = box.row()
         row.prop(self,"warnsAreErr")
         box.prop(self,"validationOutput")
+        
+        box = layout.box()
+        box.label(text="Preset settings")
+        box.prop(self,"customSetupPresets")
         
 import nodeitems_utils
 from nodeitems_utils import NodeItem
@@ -257,9 +297,11 @@ node_categories = [
         NodeItem("MCFG_N_AnimationListPresetBulletsHide")
     ]),
     n_tree.MCFG_N_Category('OPERATORS', "Operators", items=[
+        NodeItem("MCFG_N_JoinList"),
         NodeItem("MCFG_N_ValueFloat"),
         NodeItem("MCFG_N_ValueString"),
-        NodeItem("MCFG_N_JoinList")
+        NodeItem("MCFG_N_MathBasic"),
+        NodeItem("MCFG_N_Inspect")
     ]),
     n_tree.MCFG_N_Category('LAYOUTNODES', "Layout", items=[
         NodeItem("NodeFrame")
@@ -283,7 +325,9 @@ classes = (
     nodes.n_animationList.MCFG_N_AnimationList,
     nodes.n_bone.MCFG_N_Bone,
     nodes.n_boneList.MCFG_N_BoneList,
+    nodes.n_inspect.MCFG_N_Inspect,
     nodes.n_joinList.MCFG_N_JoinList,
+    nodes.n_mathBasic.MCFG_N_MathBasic,
     nodes.n_model.MCFG_N_Model,
     nodes.n_section.MCFG_N_Section,
     nodes.n_sectionList.MCFG_N_SectionList,
@@ -321,6 +365,7 @@ classes = (
     sockets.s_skeletonBoneList.MCFG_S_SkeletonBoneList,
     sockets.s_skeletonIsDiscrete.MCFG_S_SkeletonIsDiscrete,
     sockets.s_skeletonParent.MCFG_S_SkeletonParent,
+    sockets.s_universal.MCFG_S_Universal,
     sockets.s_valueFloat.MCFG_S_ValueFloat,
     sockets.s_valueString.MCFG_S_ValueString,
     
@@ -331,7 +376,12 @@ classes = (
     ui.MCFG_ReportBox,
     ui.MCFG_Panel_Export,
     ui.MCFG_Panel_Validate,
-    ui.MCFG_PT_Panel
+    ui.MCFG_Panel_AddPreset,
+    ui.MCFG_Panel_Inspect,
+    ui.MCFG_PT_Panel_Inspect,
+    ui.MCFG_PT_Panel_Export,
+    ui.MCFG_PT_Panel_Presets,
+    ui.MCFG_PT_Panel_Docs
 )
 
 def register():
@@ -350,6 +400,17 @@ def register():
         default = "",
         subtype = 'DIR_PATH'
     )
+    bpy.types.Scene.modelCfgEditorSetupPresets = bpy.props.EnumProperty (
+        name = "",
+        description = "Node setup presets",
+        default = None,
+        items = utility_presets_setup.GetSetups
+    )
+    bpy.types.Scene.modelCfgEditorIgnoreErrors = bpy.props.BoolProperty (
+        name = "Ignore errors",
+        description = "(NOT RECOMMENDED) Export setup regardless of whether or not the validation succeeds",
+        default = False
+    )
     
     bpy.types.NODE_MT_editor_menus.append(ui.draw_header)
     
@@ -363,6 +424,7 @@ def unregister():
         unregister_class(cls)
         
     del bpy.types.Scene.modelCfgExportDir
+    del bpy.types.Scene.modelCfgEditorSetupPresets
 
     bpy.types.NODE_MT_editor_menus.remove(ui.draw_header)
 

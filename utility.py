@@ -88,13 +88,17 @@ def ExportFile(self,context,export = True):
     couldSortMesh = CfgMesh.SortParenting()
     
     # Second preliminary checks
+    if not CfgSkelly.Unique() or not CfgMesh.Unique():
+        ShowInfoBox("The class names are not unique",title = "Error",icon = 'ERROR')
+        return
+    
     if not couldSortSkelly or not couldSortMesh:
         ShowInfoBox("Couldn't sort parenting",title = "Error",icon = 'ERROR')
         return
     
     # Validation
     [isValidData,counts] = ValidateClassStructure(CfgSkelly,CfgMesh)
-    if not isValidData:
+    if not isValidData and not context.scene.modelCfgEditorIgnoreErrors:
         verdict = ["Validation failed","Export failed"]
     else:
         verdict = ["Validation successful","Export successful"]
@@ -109,7 +113,7 @@ def ExportFile(self,context,export = True):
     
     bpy.ops.mcfg.reportbox('INVOKE_DEFAULT',report=reportFinal)
     
-    if not isValidData or not export:
+    if (not isValidData and not context.scene.modelCfgEditorIgnoreErrors) or not export:
         return
     
     # Export
@@ -124,3 +128,18 @@ def ExportFile(self,context,export = True):
     print(CfgMesh.Print(),file=exportFile)
     
     exportFile.close()
+    
+# Print inspected data
+def InspectData(self,context):
+    nodeTree = context.space_data.node_tree
+    
+    inspectors = 0
+    for node in nodeTree.nodes:
+        if node.bl_idname == "MCFG_N_Inspect" and node.active:
+            inspectors += 1
+            node.inspect()
+            
+    if inspectors == 0:
+        ShowInfoBox("There are no active inspector nodes","Info",'INFO')
+    else:
+        ShowInfoBox("Check System Log for inspection output","Info",'INFO')

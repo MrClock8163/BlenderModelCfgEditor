@@ -11,7 +11,7 @@ class MCFG_N_AnimationList(Node, n_tree.MCFG_N_Base):
     bl_icon = 'NONE'
     
     # Custom variables
-    node_group = "model"
+    node_group = "animation"
     
     # Node properties
     def updateAnimCount(self,context):
@@ -60,3 +60,9 @@ class MCFG_N_AnimationList(Node, n_tree.MCFG_N_Base):
                 animList.append(socket.links[0].from_node.process())
                 
         return animList
+    
+    def inspect(self):
+        data = self.process()
+        
+        for anim in data:
+            print(anim.Print())

@@ -747,6 +747,11 @@ class CfgModels(ClassBase):
     
     # Data validator
     def Unique(self):
+        
+        for mesh in self.modelList:
+            if self.modelList.count(mesh) > 1:
+                return False
+        
         return True
         
     def SortParenting(self):

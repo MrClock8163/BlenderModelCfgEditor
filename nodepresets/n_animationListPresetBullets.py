@@ -110,3 +110,7 @@ class MCFG_N_AnimationListPresetBulletsHide(Node, n_tree.MCFG_N_Base):
         
     def process(self):
         return Presets.BulletHide(self.getSelection(),self.getMuzzleIndex(),self.idlength,self.magCapacity,[self.interval1,self.interval2])
+        
+    def inspect(self):
+        for anim in self.process():
+            print(anim.Print())

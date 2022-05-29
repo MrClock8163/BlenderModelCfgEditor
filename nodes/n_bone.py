@@ -30,7 +30,6 @@ class MCFG_N_Bone(Node, n_tree.MCFG_N_Base):
         
         self.inputs.new('MCFG_S_SkeletonBone', "Parent")
         self.inputs[0].hide_value = True
-        print(self.inputs[0].hide_value)
         self.outputs.new('MCFG_S_SkeletonBone', "Bone")
 
     def draw_buttons(self, context, layout):
@@ -50,3 +49,6 @@ class MCFG_N_Bone(Node, n_tree.MCFG_N_Base):
         newBone = Data.Bone(self.getBoneName(),self.getParentName())
         
         return newBone
+        
+    def inspect(self):
+        print(self.process)

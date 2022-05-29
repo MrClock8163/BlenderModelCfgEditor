@@ -56,3 +56,9 @@ class MCFG_N_BoneList(Node, n_tree.MCFG_N_Base):
                 boneList.append(socket.links[0].from_node.process())
         
         return boneList
+        
+    def inspect(self):
+        data = self.process()
+        
+        for bone in data:
+            print(bone)

@@ -2,6 +2,7 @@ import bpy
 from bpy.types import Node
 from .. import n_tree
 from .. import utility_presets as Presets
+from .. import utility_data as Data
 
 class MCFG_N_BoneListPresetSymmetrize(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -54,7 +55,15 @@ class MCFG_N_BoneListPresetSymmetrize(Node, n_tree.MCFG_N_Base):
             return []
             
         boneList = self.inputs[0].links[0].from_node.process()
+        
+        if len(boneList) != 0 and (types(boneList[0]) != Data.Bone):
+            return []
+        
         return boneList
         
     def process(self):
         return Presets.BoneSymmetrize(self.getBoneList(),self.stringLeft,self.stringRight)
+        
+    def inspect(self):
+        for bone in self.process():
+            print(bone)

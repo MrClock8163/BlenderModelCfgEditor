@@ -73,3 +73,7 @@ class MCFG_N_AnimationPresetSelectorRot(Node, n_tree.MCFG_N_Base):
         
     def process(self):
         return Presets.SelectorRot(self.getAnimName(),self.getSelection(),self.getAxis(),self.getAngle())
+        
+    def inspect(self):
+        data = self.process()
+        print(data.Print())

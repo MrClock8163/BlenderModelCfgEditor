@@ -78,7 +78,14 @@ class MCFG_N_ModelPresetArmaman(Node, n_tree.MCFG_N_Base):
             
         sectionList = self.inputs[1].links[0].from_node.process()
         
+        if len(sectionList) != 0 and (type(sectionList[0]) != str):
+            return []
+        
         return sectionList
         
     def process(self):        
         return Presets.ArmaMan(self.getSkeleton(),self.getNewSections())
+        
+    def inspect(self):
+        data = self.process()
+        print(data.Print())

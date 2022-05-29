@@ -104,3 +104,7 @@ class MCFG_N_BoneListPresetGenerate(Node, n_tree.MCFG_N_Base):
         
     def process(self):
         return Presets.BoneGenerator(self.getSelection(),self.getParent(),self.baseBone,self.idlength,[self.range1,self.range2])
+        
+    def inspect(self):
+        for bone in self.process():
+            print(bone)

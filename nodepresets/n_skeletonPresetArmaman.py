@@ -66,3 +66,7 @@ class MCFG_N_SkeletonPresetArmaman(Node, n_tree.MCFG_N_Base):
         
     def process(self):        
         return Presets.OFP2_ManSkeleton()
+        
+    def inspect(self):
+        data = self.process()
+        print(data.Print())

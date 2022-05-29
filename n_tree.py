@@ -17,10 +17,11 @@ class MCFG_N_Base:
     node_group = "default"
     incompatible_nodes = []
     export_type = ""
+    doc_url = ""
     
     def unlinkInvalidSockets(self):
         for socket in self.inputs:
-            if len(socket.links) != 0 and not (socket.links[0].from_socket.bl_idname == socket.bl_idname or socket.links[0].from_socket.bl_idname in socket.compatibleSockets):
+            if len(socket.links) != 0 and not (socket.links[0].from_socket.bl_idname == socket.bl_idname or socket.links[0].from_socket.bl_idname in socket.compatibleSockets or socket.bl_idname == "MCFG_S_Universal" or socket.links[0].from_socket.bl_idname == "MCFG_S_Universal"):
                 socket.id_data.links.remove(socket.links[0])
                 
             if len(socket.links) != 0 and socket.enabled == False:
@@ -38,19 +39,27 @@ class MCFG_N_Base:
             self.use_custom_color = True
             if self.node_group == "skeleton":
                 cColor = addonPrefs.customColorSkeleton
-            elif self.node_group == "model":
-                cColor = addonPrefs.customColorModel
             elif self.node_group == "bone":
                 cColor = addonPrefs.customColorBones
+            elif self.node_group == "model":
+                cColor = addonPrefs.customColorModel
+            elif self.node_group == "section":
+                cColor = addonPrefs.customColorSection
             elif self.node_group == "animation":
                 cColor = addonPrefs.customColorAnimations
+            elif self.node_group == "operator":
+                cColor = addonPrefs.customColorOperator
             else:
-                cColor = (1.0,1.0,1.0)
+                cColor = (0.2,0.2,0.2)
             self.color = cColor
             
     def process(self):
-        return None
         print("Process function is not defined for: " + str(self))
+        return None
+        
+    def inspect(self):
+        print("Inspect function is not defined for: " + str(self))
+        return None
 
     @classmethod
     def poll(cls, ntree):

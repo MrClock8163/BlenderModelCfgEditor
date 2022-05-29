@@ -11,7 +11,7 @@ class MCFG_N_Section(Node, n_tree.MCFG_N_Base):
     bl_icon = 'MESH_DATA'
     
     # Custom variables
-    node_group = "model"
+    node_group = "section"
     
     # Node properties
     sectionName: bpy.props.StringProperty(
@@ -38,3 +38,6 @@ class MCFG_N_Section(Node, n_tree.MCFG_N_Base):
 
     def process(self):
         return self.getSectionName()
+        
+    def inspect(self):
+        print(self.process())

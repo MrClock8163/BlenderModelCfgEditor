@@ -76,3 +76,7 @@ class MCFG_N_ModelPresetCopy(Node, n_tree.MCFG_N_Base):
     
     def process(self):        
         return Presets.CloneModel(self.getModelName(),self.getParentName())
+        
+    def inspect(self):
+        data = self.process()
+        print(data.Print())

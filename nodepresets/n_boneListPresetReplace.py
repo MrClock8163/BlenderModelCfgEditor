@@ -75,7 +75,15 @@ class MCFG_N_BoneListPresetReplace(Node, n_tree.MCFG_N_Base):
             return []
             
         boneList = self.inputs[0].links[0].from_node.process()
+        
+        if len(boneList) != 0 and (types(boneList[0]) != Data.Bone):
+            return []
+        
         return boneList
         
     def process(self):
         return Presets.BoneReplace(self.getBoneList(),self.searchFor,self.replaceWith,self.result,self.operation)
+        
+    def inspect(self):
+        for bone in self.process():
+            print(bone)

@@ -11,7 +11,7 @@ class MCFG_N_SectionList(Node, n_tree.MCFG_N_Base):
     bl_icon = 'NONE'
     
     # Custom variables
-    node_group = "model"
+    node_group = "section"
     
     # Node properties
     def updateSectionCount(self,context):
@@ -61,3 +61,7 @@ class MCFG_N_SectionList(Node, n_tree.MCFG_N_Base):
                 sectionList.append(newSection)
         
         return sectionList
+    
+    def inspect(self):
+        for section in self.process():
+            print(section)

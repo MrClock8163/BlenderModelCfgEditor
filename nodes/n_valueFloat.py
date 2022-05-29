@@ -11,7 +11,7 @@ class MCFG_N_ValueFloat(Node, n_tree.MCFG_N_Base):
     bl_icon = 'NONE'
     
     # Custom variables
-    node_group = "value"
+    node_group = "operator"
     
     # Node properties
     floatProperty: bpy.props.FloatProperty(
@@ -37,3 +37,6 @@ class MCFG_N_ValueFloat(Node, n_tree.MCFG_N_Base):
     # Custom functions
     def process(self):
         return self.floatProperty
+        
+    def inspect(self):
+        print(self.process())

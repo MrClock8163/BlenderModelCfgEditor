@@ -193,6 +193,9 @@ class MCFG_N_Model(Node, n_tree.MCFG_N_Base):
             
         sectionList = self.inputs[3].links[0].from_node.process()
         
+        if len(sectionList) != 0 and (type(sectionList[0]) != str):
+            return []
+        
         return sectionList
         
     def getAnimationList(self):
@@ -201,6 +204,9 @@ class MCFG_N_Model(Node, n_tree.MCFG_N_Base):
             return []
         
         animationList = self.inputs[4].links[0].from_node.process()
+        
+        if len(animationList) != 0 and (type(animationList[0]) != Data.Animation):
+            return []
         
         return animationList
     
@@ -214,3 +220,7 @@ class MCFG_N_Model(Node, n_tree.MCFG_N_Base):
             newModel.AddAnim(anim)
         
         return newModel
+        
+    def inspect(self):
+        data = self.process()
+        print(data.Print())

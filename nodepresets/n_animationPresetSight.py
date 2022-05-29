@@ -51,3 +51,7 @@ class MCFG_N_AnimationPresetSightHide(Node, n_tree.MCFG_N_Base):
         
     def process(self):
         return Presets.SightHide(self.getAnimName(),self.getSelection())
+        
+    def inspect(self):
+        data = self.process()
+        print(data.Print())

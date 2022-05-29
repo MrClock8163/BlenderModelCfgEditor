@@ -14,6 +14,7 @@ class MCFG_N_Skeleton(Node, n_tree.MCFG_N_Base):
     # Custom variables
     node_group = "skeleton"
     export_type = "skeleton"
+    doc_url = "https://translate.google.com/"
     
     # Node properties
     skeletonName: bpy.props.StringProperty(
@@ -171,6 +172,9 @@ class MCFG_N_Skeleton(Node, n_tree.MCFG_N_Base):
             
         boneList = self.inputs[3].links[0].from_node.process()
         
+        if len(boneList) != 0 and (type(boneList[0]) != Data.Bone):
+            return []
+        
         return boneList
     
     def process(self):
@@ -180,3 +184,7 @@ class MCFG_N_Skeleton(Node, n_tree.MCFG_N_Base):
         newSkeleton.Set("skeletonBones",self.getBoneList())
         
         return newSkeleton
+        
+    def inspect(self):
+        data = self.process()
+        print(data.Print())
