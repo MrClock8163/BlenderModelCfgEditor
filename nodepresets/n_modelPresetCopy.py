@@ -14,6 +14,7 @@ class MCFG_N_ModelPresetCopy(Node, n_tree.MCFG_N_Base):
     # Custom variables
     node_group = "model"
     export_type = "model"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Model-class:-copy"
     
     # Node properties
     modelName: bpy.props.StringProperty(
@@ -50,7 +51,7 @@ class MCFG_N_ModelPresetCopy(Node, n_tree.MCFG_N_Base):
     def init(self, context):
         self.customColor()
         
-        self.inputs.new('MCFG_S_ModelParent', "Parent")
+        self.inputs.new('MCFG_S_ModelParent', "Source")
         self.outputs.new('MCFG_S_ModelParent', "Out")
 
     def draw_buttons(self, context, layout): # Node properties

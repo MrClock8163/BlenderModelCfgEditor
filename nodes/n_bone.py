@@ -13,6 +13,7 @@ class MCFG_N_Bone(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "bone"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Bone-item"
     
     # Node properties
     boneName: bpy.props.StringProperty(
@@ -51,4 +52,4 @@ class MCFG_N_Bone(Node, n_tree.MCFG_N_Base):
         return newBone
         
     def inspect(self):
-        print(self.process)
+        print(self.process())

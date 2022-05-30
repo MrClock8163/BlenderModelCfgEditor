@@ -12,6 +12,7 @@ class MCFG_N_JoinList(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "operator"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Join-lists"
     
     # Node properties
     def updateListCount(self,context):

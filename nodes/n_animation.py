@@ -17,6 +17,7 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
     animation_type_min_value = "Offset0"
     animation_type_max_value = "Offset1"
     incompatible_nodes = ["MCFG_N_AnimationRotation","MCFG_N_AnimationRotationX","MCFG_N_AnimationRotationY","MCFG_N_AnimationRotationZ","MCFG_N_AnimationHide"]
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-class:-translation"
     
     # Node properties
     def updateAxisType(self, context):
@@ -465,6 +466,7 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
     animation_type_min_value = "Offset0"
     animation_type_max_value = "Offset1"
     incompatible_nodes = ["MCFG_N_AnimationRotation","MCFG_N_AnimationRotationX","MCFG_N_AnimationRotationY","MCFG_N_AnimationRotationZ","MCFG_N_AnimationHide"]
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-class:-translation-X"
     
     # Node properties
     def updateAxisType(self, context):
@@ -912,6 +914,7 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
     animation_type_min_value = "Offset0"
     animation_type_max_value = "Offset1"
     incompatible_nodes = ["MCFG_N_AnimationRotation","MCFG_N_AnimationRotationX","MCFG_N_AnimationRotationY","MCFG_N_AnimationRotationZ","MCFG_N_AnimationHide"]
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-class:-translation-Y"
     
     # Node properties
     def updateAxisType(self, context):
@@ -1359,6 +1362,7 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
     animation_type_min_value = "Offset0"
     animation_type_max_value = "Offset1"
     incompatible_nodes = ["MCFG_N_AnimationRotation","MCFG_N_AnimationRotationX","MCFG_N_AnimationRotationY","MCFG_N_AnimationRotationZ","MCFG_N_AnimationHide"]
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-class:-translation-Z"
     
     # Node properties
     def updateAxisType(self, context):
@@ -1807,6 +1811,7 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
     animation_type_min_value = "Angle0"
     animation_type_max_value = "Angle1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-class:-rotation"
     
     # Node properties
     def updateAxisType(self, context):
@@ -2278,6 +2283,7 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
     animation_type_min_value = "Angle0"
     animation_type_max_value = "Angle1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-class:-rotation-X"
     
     # Node properties
     def updateAxisType(self, context):
@@ -2748,6 +2754,7 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
     animation_type_min_value = "Angle0"
     animation_type_max_value = "Angle1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-class:-rotation-Y"
     
     # Node properties
     def updateAxisType(self, context):
@@ -3228,6 +3235,7 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
     animation_type_min_value = "Angle0"
     animation_type_max_value = "Angle1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-class:-rotation-Z"
     
     # Node properties
     def updateAxisType(self, context):
@@ -3698,6 +3706,7 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
     animation_type_min_value = "hideValue"
     animation_type_max_value = "unhideValue"
     incompatible_nodes = ["MCFG_N_AnimationRotation","MCFG_N_AnimationRotationX","MCFG_N_AnimationRotationY","MCFG_N_AnimationRotationZ","MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationY","MCFG_N_AnimationTranslationZ"]
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-class:-hide"
     
     # Node properties
     def updateAxisType(self, context):
@@ -4115,10 +4124,10 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         newAnim.Set("source",self.getSource())
         newAnim.Set("sourceAddress",self.getSourceAddress())
         newAnim.Set("selection",self.getSelection())
-        newAnim.Set("memory",-1)
-        newAnim.Set("axis",-1)
-        newAnim.Set("begin",-1)
-        newAnim.Set("end",-1)
+        newAnim.Set("memory",'_HIDE_')
+        newAnim.Set("axis",'_HIDE_')
+        newAnim.Set("begin",'_HIDE_')
+        newAnim.Set("end",'_HIDE_')
         newAnim.Set("minValue",self.getMinValue())
         newAnim.Set("maxValue",self.getMaxValue())
         newAnim.Set("typeMinValue",self.getMinTypeValue())

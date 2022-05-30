@@ -17,6 +17,7 @@ class MCFG_N_AnimationPresetTriggerRot(Node, n_tree.MCFG_N_Base):
     animation_type_min_value = "Angle0"
     animation_type_max_value = "Angle1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationnY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-class:-rotate-trigger"
     
     # Node properties
     selectionName: bpy.props.StringProperty(
@@ -73,6 +74,10 @@ class MCFG_N_AnimationPresetTriggerRot(Node, n_tree.MCFG_N_Base):
         
     def process(self):
         return Presets.TriggerRot(self.getAnimName(),self.getSelection(),self.getAxis(),self.getAngle())
+        
+    def inspect(self):
+        data = self.process()
+        print(data.Print())
 
 class MCFG_N_AnimationPresetTriggerMove(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -88,6 +93,7 @@ class MCFG_N_AnimationPresetTriggerMove(Node, n_tree.MCFG_N_Base):
     animation_type_min_value = "Offset0"
     animation_type_max_value = "Offset1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationnY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-class:-move-trigger"
     
     # Node properties
     selectionName: bpy.props.StringProperty(

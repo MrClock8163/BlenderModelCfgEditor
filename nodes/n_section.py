@@ -12,6 +12,7 @@ class MCFG_N_Section(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "section"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Section-item"
     
     # Node properties
     sectionName: bpy.props.StringProperty(

@@ -8,7 +8,7 @@ bl_info = {
     # "warning": "Work in progress",
     # "tracket_url": "",
     # "support": "TESTING",
-    "doc_url": "https://discord.gg/KQSBDF3",
+    "doc_url": "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki",
     "category": "Node"
 }
 

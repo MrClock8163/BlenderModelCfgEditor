@@ -2,6 +2,7 @@ import bpy
 from bpy.types import Node
 from .. import n_tree
 from .. import utility_presets as Presets
+from .. import utility_data as Data
 
 class MCFG_N_BoneListPresetReplace(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -13,6 +14,7 @@ class MCFG_N_BoneListPresetReplace(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "bone"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Bone-list:-replace"
     
     # Node properties
     searchFor: bpy.props.StringProperty(
@@ -76,7 +78,7 @@ class MCFG_N_BoneListPresetReplace(Node, n_tree.MCFG_N_Base):
             
         boneList = self.inputs[0].links[0].from_node.process()
         
-        if len(boneList) != 0 and (types(boneList[0]) != Data.Bone):
+        if len(boneList) != 0 and (type(boneList[0]) != Data.Bone):
             return []
         
         return boneList

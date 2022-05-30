@@ -13,6 +13,7 @@ class MCFG_N_BoneListPresetStandardWeapon(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "bone"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Bone-list:-weapon-standards"
     
     # Standard functions
     def draw_label(self):

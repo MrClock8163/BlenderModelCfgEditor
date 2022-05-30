@@ -12,6 +12,7 @@ class MCFG_N_ValueString(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "operator"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-String-input"
     
     # Node properties
     stringProperty: bpy.props.StringProperty(

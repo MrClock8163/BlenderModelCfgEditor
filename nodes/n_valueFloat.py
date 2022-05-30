@@ -12,6 +12,7 @@ class MCFG_N_ValueFloat(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "operator"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Float-input"
     
     # Node properties
     floatProperty: bpy.props.FloatProperty(

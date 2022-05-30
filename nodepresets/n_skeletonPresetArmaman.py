@@ -14,6 +14,7 @@ class MCFG_N_SkeletonPresetArmaman(Node, n_tree.MCFG_N_Base):
     # Custom variables
     node_group = "skeleton"
     export_type = "skeleton"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Skeleton-class:-OFP2_ManSkeleton"
     
     # Side panel properties
     def updateExportClass(self, context):

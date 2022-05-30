@@ -12,6 +12,7 @@ class MCFG_N_SectionList(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "section"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Section-list"
     
     # Node properties
     def updateSectionCount(self,context):

@@ -12,6 +12,7 @@ class MCFG_N_AnimationList(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "animation"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-list"
     
     # Node properties
     def updateAnimCount(self,context):

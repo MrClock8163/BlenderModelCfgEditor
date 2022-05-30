@@ -12,6 +12,7 @@ class MCFG_N_MathBasic(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "operator"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Basic-math"
     
     # Node properties
     operation: bpy.props.EnumProperty (

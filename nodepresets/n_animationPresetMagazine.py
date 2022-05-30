@@ -17,6 +17,7 @@ class MCFG_N_AnimationPresetMagazineHide(Node, n_tree.MCFG_N_Base):
     animation_type_min_value = "Angle0"
     animation_type_max_value = "Angle1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationnY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-class:-hide-magazine"
     
     # Node properties
     selectionName: bpy.props.StringProperty(

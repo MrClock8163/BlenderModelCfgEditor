@@ -14,6 +14,7 @@ class MCFG_N_BoneListPresetSymmetrize(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "bone"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Bone-list:-symmetrize"
     
     # Node properties
     stringLeft: bpy.props.StringProperty(
@@ -56,7 +57,7 @@ class MCFG_N_BoneListPresetSymmetrize(Node, n_tree.MCFG_N_Base):
             
         boneList = self.inputs[0].links[0].from_node.process()
         
-        if len(boneList) != 0 and (types(boneList[0]) != Data.Bone):
+        if len(boneList) != 0 and (type(boneList[0]) != Data.Bone):
             return []
         
         return boneList

@@ -14,7 +14,7 @@ class MCFG_N_Skeleton(Node, n_tree.MCFG_N_Base):
     # Custom variables
     node_group = "skeleton"
     export_type = "skeleton"
-    doc_url = "https://translate.google.com/"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Skeleton-class"
     
     # Node properties
     skeletonName: bpy.props.StringProperty(

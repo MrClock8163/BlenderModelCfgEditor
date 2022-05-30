@@ -12,6 +12,7 @@ class MCFG_N_BoneList(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "bone"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Bone-list"
     
     # Node properties
     def updateBoneCount(self,context):
