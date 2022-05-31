@@ -115,7 +115,7 @@ class MCFG_N_Skeleton(Node, n_tree.MCFG_N_Base):
         
         self.inputs.new('MCFG_S_SkeletonParent', "Parent")
         self.inputs.new('MCFG_S_SkeletonParent', "Inherit bones")
-        self.inputs.new('MCFG_S_SkeletonIsDiscrete', "Discrete")
+        self.inputs.new('MCFG_S_ValueBool', "Discrete")
         self.inputs.new('MCFG_S_SkeletonBoneList', "Bone list")
         self.outputs.new('MCFG_S_SkeletonParent', "Out")
 

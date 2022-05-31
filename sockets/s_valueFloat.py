@@ -6,7 +6,7 @@ class MCFG_S_ValueFloat(NodeSocket):
     '''Float socket'''
     
     # Mandatory variables
-    bl_label = "Input bone"
+    bl_label = "Float value"
     
     # Custom variables
     compatibleSockets = []

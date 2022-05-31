@@ -20,6 +20,7 @@ if "bpy" in locals():
     importlib.reload(nodes.n_animationList)
     importlib.reload(nodes.n_bone)
     importlib.reload(nodes.n_boneList)
+    importlib.reload(nodes.n_demostrative)
     importlib.reload(nodes.n_inspect)
     importlib.reload(nodes.n_joinList)
     importlib.reload(nodes.n_mathBasic)
@@ -57,9 +58,9 @@ if "bpy" in locals():
     importlib.reload(sockets.s_modelSourceAddress)
     importlib.reload(sockets.s_skeletonBone)
     importlib.reload(sockets.s_skeletonBoneList)
-    importlib.reload(sockets.s_skeletonIsDiscrete)
     importlib.reload(sockets.s_skeletonParent)
     importlib.reload(sockets.s_universal)
+    importlib.reload(sockets.s_valueBool)
     importlib.reload(sockets.s_valueFloat)
     importlib.reload(sockets.s_valueString)
     
@@ -77,6 +78,7 @@ else:
     from . nodes import n_animationList
     from . nodes import n_bone
     from . nodes import n_boneList
+    from . nodes import n_demostrative
     from . nodes import n_inspect
     from . nodes import n_joinList
     from . nodes import n_mathBasic
@@ -114,9 +116,9 @@ else:
     from . sockets import s_modelSourceAddress
     from . sockets import s_skeletonBone
     from . sockets import s_skeletonBoneList
-    from . sockets import s_skeletonIsDiscrete
     from . sockets import s_skeletonParent
     from . sockets import s_universal
+    from . sockets import s_valueBool
     from . sockets import s_valueFloat
     from . sockets import s_valueString
     
@@ -182,7 +184,7 @@ class MCFG_Preferences(bpy.types.AddonPreferences):
         max = 1.0
     )
     customColorOperator: bpy.props.FloatVectorProperty(
-        name = "Operator",
+        name = "Operator and misc",
         description = "Color used for operation related nodes",
         subtype = 'COLOR',
         default = (0.4, 0.4,0.4),
@@ -249,14 +251,14 @@ node_categories = [
     n_tree.MCFG_N_Category('SKELETONNODES', "Skeleton", items=[
         NodeItem("MCFG_N_Skeleton")
     ]),
-    n_tree.MCFG_N_Category('SKELETONPRESETNODES', "Skeleton presets", items=[
+    n_tree.MCFG_N_Category('SKELETONPRESETNODES', "Skeleton preset", items=[
         NodeItem("MCFG_N_SkeletonPresetDefault"),
         NodeItem("MCFG_N_SkeletonPresetArmaman")
     ]),
     n_tree.MCFG_N_Category('MODELNODES', "Model", items=[
         NodeItem("MCFG_N_Model")
     ]),
-    n_tree.MCFG_N_Category('MODELPRESETNODES', "Model presets", items=[
+    n_tree.MCFG_N_Category('MODELPRESETNODES', "Model preset", items=[
         NodeItem("MCFG_N_ModelPresetDefault"),
         NodeItem("MCFG_N_ModelPresetCopy"),
         NodeItem("MCFG_N_ModelPresetArmaman")
@@ -265,7 +267,7 @@ node_categories = [
         NodeItem("MCFG_N_Bone"),
         NodeItem("MCFG_N_BoneList")
     ]),
-    n_tree.MCFG_N_Category('BONEPRESETNODES', "Bone presets", items=[
+    n_tree.MCFG_N_Category('BONEPRESETNODES', "Bone preset", items=[
         NodeItem("MCFG_N_BoneListPresetStandardWeapon"),
         NodeItem("MCFG_N_BoneListPresetGenerate"),
         NodeItem("MCFG_N_BoneListPresetReplace"),
@@ -287,7 +289,7 @@ node_categories = [
         NodeItem("MCFG_N_AnimationHide"),
         NodeItem("MCFG_N_AnimationList")
     ]),
-    n_tree.MCFG_N_Category('ANIMATIONPRESETNODES', "Animation presets", items=[
+    n_tree.MCFG_N_Category('ANIMATIONPRESETNODES', "Animation preset", items=[
         NodeItem("MCFG_N_AnimationPresetMuzzleflashRot"),
         NodeItem("MCFG_N_AnimationPresetTriggerRot"),
         NodeItem("MCFG_N_AnimationPresetTriggerMove"),
@@ -296,12 +298,15 @@ node_categories = [
         NodeItem("MCFG_N_AnimationPresetMagazineHide"),
         NodeItem("MCFG_N_AnimationListPresetBulletsHide")
     ]),
-    n_tree.MCFG_N_Category('OPERATORS', "Operators", items=[
+    n_tree.MCFG_N_Category('OPERATORS', "Operator", items=[
         NodeItem("MCFG_N_JoinList"),
         NodeItem("MCFG_N_ValueFloat"),
         NodeItem("MCFG_N_ValueString"),
-        NodeItem("MCFG_N_MathBasic"),
-        NodeItem("MCFG_N_Inspect")
+        NodeItem("MCFG_N_MathBasic")
+    ]),
+    n_tree.MCFG_N_Category('MISC', "Miscellaneous", items=[
+        NodeItem("MCFG_N_Inspect"),
+        NodeItem("MCFG_N_Demostrative")
     ]),
     n_tree.MCFG_N_Category('LAYOUTNODES', "Layout", items=[
         NodeItem("NodeFrame")
@@ -325,6 +330,7 @@ classes = (
     nodes.n_animationList.MCFG_N_AnimationList,
     nodes.n_bone.MCFG_N_Bone,
     nodes.n_boneList.MCFG_N_BoneList,
+    nodes.n_demostrative.MCFG_N_Demostrative,
     nodes.n_inspect.MCFG_N_Inspect,
     nodes.n_joinList.MCFG_N_JoinList,
     nodes.n_mathBasic.MCFG_N_MathBasic,
@@ -363,9 +369,9 @@ classes = (
     sockets.s_modelSourceAddress.MCFG_S_ModelSourceAddress,
     sockets.s_skeletonBone.MCFG_S_SkeletonBone,
     sockets.s_skeletonBoneList.MCFG_S_SkeletonBoneList,
-    sockets.s_skeletonIsDiscrete.MCFG_S_SkeletonIsDiscrete,
     sockets.s_skeletonParent.MCFG_S_SkeletonParent,
     sockets.s_universal.MCFG_S_Universal,
+    sockets.s_valueBool.MCFG_S_ValueBool,
     sockets.s_valueFloat.MCFG_S_ValueFloat,
     sockets.s_valueString.MCFG_S_ValueString,
     

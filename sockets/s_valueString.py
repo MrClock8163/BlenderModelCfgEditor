@@ -6,7 +6,7 @@ class MCFG_S_ValueString(NodeSocket):
     '''String socket'''
     
     # Mandatory variables
-    bl_label = "Input bone"
+    bl_label = "String value"
     
     # Custom variables
     compatibleSockets = ["MCFG_S_SkeletonBone"]
