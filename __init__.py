@@ -2,7 +2,7 @@ bl_info = {
     "name": "Arma 3 model.cfg node editor",
     "author": "MrClock",
     "version": (0, 1, 0),
-    "blender": (2, 90, 0),
+    "blender": (2, 83, 0),
     "location": "Model config editor",
     "description": "Node tree based tool for creating model configuration files",
     # "warning": "Work in progress",
