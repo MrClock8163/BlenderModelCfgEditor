@@ -396,3 +396,56 @@ def BulletHide(baseName,muzzleindex,fieldsize,capacity,interval):
         newAnimList.append(newAnim)
     
     return newAnimList
+    
+def DoorRot(doorRange,handle,angleDoor,angleHandle):
+    newAnimList = []
+    
+    baseAnim = Animation("Door_base_rot","rotation","")
+    baseAnim.Set("source","empty")
+    baseAnim.Set("selection","empty")
+    baseAnim.Set("typeMaxValue",angleDoor)
+    
+    if handle:
+        baseAnim.Set("minValue",0.1)
+    
+    newAnimList.append(baseAnim)
+    
+    for i in range(doorRange[0], doorRange[1] + 1):
+        index = str(i)
+    
+        newDoorAnim = Animation("Door_%_rot".replace("%",index),"rotation","Door_base_rot")
+        newDoorAnim.Set("source","Door_%_source".replace("%",index))
+        newDoorAnim.Set("sourceAddress",'_HIDE_')
+        newDoorAnim.Set("selection","Door_%".replace("%",index))
+        newDoorAnim.Set("axis","Door_%_axis".replace("%",index))
+        newDoorAnim.Set("memory",'_HIDE_')
+        newDoorAnim.Set("minValue",'_HIDE_')
+        newDoorAnim.Set("maxValue",'_HIDE_')
+        newDoorAnim.Set("typeMinValue",'_HIDE_')
+        newDoorAnim.Set("typeMaxValue",'_HIDE_')
+        newAnimList.append(newDoorAnim)
+        
+        if handle:
+            newHandleAnim1 = Animation("Door_Handle_%_rot_1".replace("%",index),"rotation","")
+            newHandleAnim1.Set("source","Door_%_source".replace("%",index))
+            newHandleAnim1.Set("selection","Door_Handle_%".replace("%",index))
+            newHandleAnim1.Set("axis","Door_Handle_%_axis".replace("%",index))
+            newHandleAnim1.Set("maxValue",0.1)
+            newHandleAnim1.Set("typeMaxValue",angleHandle)
+            
+            newHandleAnim2 = Animation("Door_Handle_%_rot_2".replace("%",index),"rotation","Door_Handle_%_rot_1".replace("%",index))
+            newHandleAnim2.Set("source",'_HIDE_')
+            newHandleAnim2.Set("sourceAddress",'_HIDE_')
+            newHandleAnim2.Set("selection",'_HIDE_')
+            newHandleAnim2.Set("axis",'_HIDE_')
+            newHandleAnim2.Set("memory",'_HIDE_')
+            newHandleAnim2.Set("minValue",0.1)
+            newHandleAnim2.Set("minValue",0.4)
+            newHandleAnim2.Set("typeMinValue",'_HIDE_')
+            newHandleAnim2.Set("typeMaxValue",-angleHandle)
+            
+            newAnimList.append(newHandleAnim1)
+            newAnimList.append(newHandleAnim2)
+            
+    
+    return newAnimList
