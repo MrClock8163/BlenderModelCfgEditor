@@ -39,6 +39,7 @@ if "bpy" in locals():
     importlib.reload(nodepresets.n_animationPresetSight)
     importlib.reload(nodepresets.n_animationPresetTrigger)
     importlib.reload(nodepresets.n_boneListPresetGenerate)
+    importlib.reload(nodepresets.n_boneListPresetHouse)
     importlib.reload(nodepresets.n_boneListPresetReplace)
     importlib.reload(nodepresets.n_boneListPresetStandards)
     importlib.reload(nodepresets.n_boneListPresetSymmetrize)
@@ -97,6 +98,7 @@ else:
     from . nodepresets import n_animationPresetSight
     from . nodepresets import n_animationPresetTrigger
     from . nodepresets import n_boneListPresetGenerate
+    from . nodepresets import n_boneListPresetHouse
     from . nodepresets import n_boneListPresetReplace
     from . nodepresets import n_boneListPresetStandards
     from . nodepresets import n_boneListPresetSymmetrize
@@ -269,6 +271,7 @@ node_categories = [
     ]),
     n_tree.MCFG_N_Category('BONEPRESETNODES', "Bone preset", items=[
         NodeItem("MCFG_N_BoneListPresetStandardWeapon"),
+        NodeItem("MCFG_N_BoneListPresetHouse"),
         NodeItem("MCFG_N_BoneListPresetGenerate"),
         NodeItem("MCFG_N_BoneListPresetReplace"),
         NodeItem("MCFG_N_BoneListPresetSymmetrize")
@@ -350,6 +353,7 @@ classes = (
     nodepresets.n_animationPresetTrigger.MCFG_N_AnimationPresetTriggerRot,
     nodepresets.n_animationPresetTrigger.MCFG_N_AnimationPresetTriggerMove,
     nodepresets.n_boneListPresetGenerate.MCFG_N_BoneListPresetGenerate,
+    nodepresets.n_boneListPresetHouse.MCFG_N_BoneListPresetHouse,
     nodepresets.n_boneListPresetReplace.MCFG_N_BoneListPresetReplace,
     nodepresets.n_boneListPresetStandards.MCFG_N_BoneListPresetStandardWeapon,
     nodepresets.n_boneListPresetSymmetrize.MCFG_N_BoneListPresetSymmetrize,

@@ -4,6 +4,8 @@ from .utility_data import Bone, Skeleton, Model, Animation
 ####PRESET DATA GENERATORS####
 ##############################
 
+# Bones
+
 def BoneGenerator(baseName,parent,baseBone,fieldsize,interval):
     newBoneList = []
     interval.sort()
@@ -45,6 +47,26 @@ def BoneStandardWeapon():
     newBoneList.append(Bone("recoil",""))
     
     return newBoneList
+    
+def BoneStandardHouse(damCount,doorCount,doorHandles,glassCount):
+    newBoneList = []
+    
+    for i in range(damCount):
+        newBoneList.append(Bone("Dam_" + str(i + 1),""))
+        newBoneList.append(Bone("Unhide" + str(i + 1),""))
+        
+    for i in range(doorCount):
+        newBoneList.append(Bone("Door_" + str(i + 1),""))
+        
+        if doorHandles:
+            newBoneList.append(Bone("Door_Handle_" + str(i + 1),"Door_" + str(i + 1)))
+            newBoneList.append(Bone("Door_Handle_" + str(i + 1) + "_axis","Door_Handle_" + str(i + 1)))
+            
+    for i in range(glassCount):
+        newBoneList.append(Bone("Glass_" + str(i + 1) + "_hide",""))
+        newBoneList.append(Bone("Glass_" + str(i + 1) + "_unhide",""))
+    
+    return newBoneList
 
 def BoneReplace(oldList,searchfor,replacewith,result,operation):
     newBoneList = []
@@ -84,7 +106,8 @@ def BoneSymmetrize(baseList,stringLeft,stringRight):
         newBoneList.append(Bone(newNameRight,newParentRight))
     
     return newBoneList
-    
+
+# Skeletons
 
 def DefaultSkeleton():
     newSkeleton = Skeleton("Default","")
@@ -209,7 +232,9 @@ def OFP2_ManSkeleton():
     newSkeleton.Set("pivotsModel","A3\\anims_f\data\skeleton\SkeletonPivots.p3d")
     
     return newSkeleton
-    
+
+# Models
+
 def DefaultModel():
     newModel = Model("Default","")
     newModel.Set("animationsList",'_HIDE_')
@@ -260,7 +285,9 @@ def ArmaMan(skeletonName,additionalSections = []):
     newModel.Set("animationsList",'_HIDE_')
     
     return newModel
-    
+
+# Animations
+
 def MuzzleflashRot(name,selection,axis):
     newAnim = Animation(name,"rotation","")
     newAnim.Set("source","ammoRandom")
