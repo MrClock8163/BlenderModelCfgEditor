@@ -429,7 +429,7 @@ def register():
         subtype = 'DIR_PATH'
     )
     bpy.types.Scene.modelCfgEditorSetupPresets = bpy.props.EnumProperty (
-        name = "",
+        name = "Presets",
         description = "Node setup presets",
         default = None,
         items = utility_presets_setup.GetSetups

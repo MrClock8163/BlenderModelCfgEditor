@@ -177,7 +177,7 @@ class MCFG_PT_Panel_Presets(bpy.types.Panel):
             layout = self.layout
             box = layout.box()
             box.label(text="Node presets")
-            box.prop(context.scene,"modelCfgEditorSetupPresets")
+            box.prop(context.scene,"modelCfgEditorSetupPresets",text="")
             box.operator('mcfg.addpreset', icon = 'ADD')
 
 class MCFG_PT_Panel_Docs(bpy.types.Panel):

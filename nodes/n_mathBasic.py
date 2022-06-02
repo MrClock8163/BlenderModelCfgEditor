@@ -16,7 +16,7 @@ class MCFG_N_MathBasic(Node, n_tree.MCFG_N_Base):
     
     # Node properties
     operation: bpy.props.EnumProperty (
-        name = "",
+        name = "Operation",
         description = "Type of operation to perform",
         default = 'ADD',
         items = (
@@ -38,7 +38,7 @@ class MCFG_N_MathBasic(Node, n_tree.MCFG_N_Base):
         self.outputs.new('MCFG_S_ValueFloat', "Result")
 
     def draw_buttons(self, context, layout):
-        layout.prop(self, "operation")
+        layout.prop(self, "operation",text="")
         
     # Custom functions
     def getValueA(self):
