@@ -91,6 +91,38 @@ def BoneStandardTank(wheelsFix,wheelsDamp):
         
     return newBoneList
 
+def BoneStandardTurret(turretCount,hasCommander):
+    newBoneList = []
+    
+    if turretCount == 1:
+        newBoneList.append(Bone("turret",""))
+        newBoneList.append(Bone("gun","turret"))
+        newBoneList.append(Bone("gun_recoil","gun"))
+        newBoneList.append(Bone("gunnerview","gun"))
+        
+        if hasCommander:
+            newBoneList.append(Bone("commander","turret"))
+    
+    else:
+        for i in range(turretCount):
+            if i == 0:
+                newBoneList.append(Bone("turret_main",""))
+                newBoneList.append(Bone("gun_main","turret_main"))
+                newBoneList.append(Bone("gun_main_recoil","gun_main"))
+                newBoneList.append(Bone("gunnerview_main","gun_main"))
+            else:
+                index = str(i)
+                newBoneList.append(Bone("turret_%".replace("%",index),""))
+                newBoneList.append(Bone("gun_%".replace("%",index),"turret_%".replace("%",index)))
+                newBoneList.append(Bone("gun_%_recoil".replace("%",index),"gun_%".replace("%",index)))
+                newBoneList.append(Bone("gunnerview_%".replace("%",index),"gun_%".replace("%",index)))
+                
+        if hasCommander:
+            newBoneList.append(Bone("commander","turret_main"))
+    
+    return newBoneList
+
+
 def BoneReplace(oldList,searchfor,replacewith,result,operation):
     newBoneList = []
     

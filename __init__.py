@@ -46,6 +46,7 @@ if "bpy" in locals():
     importlib.reload(nodepresets.n_boneListPresetStandards)
     importlib.reload(nodepresets.n_boneListPresetSymmetrize)
     importlib.reload(nodepresets.n_boneListPresetTank)
+    importlib.reload(nodepresets.n_boneListPresetTurret)
     importlib.reload(nodepresets.n_modelPresetArmaman)
     importlib.reload(nodepresets.n_modelPresetCopy)
     importlib.reload(nodepresets.n_modelPresetDefault)
@@ -108,6 +109,7 @@ else:
     from . nodepresets import n_boneListPresetStandards
     from . nodepresets import n_boneListPresetSymmetrize
     from . nodepresets import n_boneListPresetTank
+    from . nodepresets import n_boneListPresetTurret
     from . nodepresets import n_modelPresetArmaman
     from . nodepresets import n_modelPresetCopy
     from . nodepresets import n_modelPresetDefault
@@ -281,7 +283,8 @@ node_categories = [
         NodeItem("MCFG_N_BoneListPresetGenerate"),
         NodeItem("MCFG_N_BoneListPresetReplace"),
         NodeItem("MCFG_N_BoneListPresetSymmetrize"),
-        NodeItem("MCFG_N_BoneListPresetTank")
+        NodeItem("MCFG_N_BoneListPresetTank"),
+        NodeItem("MCFG_N_BoneListPresetTurret")
     ]),
     n_tree.MCFG_N_Category('SECTIONNODES', "Section", items=[
         NodeItem("MCFG_N_Section"),
@@ -371,6 +374,7 @@ classes = (
     nodepresets.n_boneListPresetStandards.MCFG_N_BoneListPresetStandardWeapon,
     nodepresets.n_boneListPresetSymmetrize.MCFG_N_BoneListPresetSymmetrize,
     nodepresets.n_boneListPresetTank.MCFG_N_BoneListPresetTank,
+    nodepresets.n_boneListPresetTurret.MCFG_N_BoneListPresetTurret,
     nodepresets.n_modelPresetArmaman.MCFG_N_ModelPresetArmaman,
     nodepresets.n_modelPresetCopy.MCFG_N_ModelPresetCopy,
     nodepresets.n_modelPresetDefault.MCFG_N_ModelPresetDefault,
