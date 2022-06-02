@@ -148,10 +148,11 @@ class MCFG_PT_Panel_Export(bpy.types.Panel):
         if tree:
             layout = self.layout
             layout.operator('mcfg.validate', icon = 'FILE_REFRESH')
-            layout.label(text="Export configuration")
-            layout.prop(context.scene,"modelCfgExportDir")
-            layout.prop(context.scene,"modelCfgEditorIgnoreErrors")
-            layout.prop(context.scene,"modelCfgEditorOpenNotepad")
+            box = layout.box()
+            box.label(text="Export configuration")
+            box.prop(context.scene,"modelCfgExportDir")
+            box.prop(context.scene,"modelCfgEditorIgnoreErrors")
+            box.prop(context.scene,"modelCfgEditorOpenNotepad")
             layout.operator('mcfg.export', icon = 'EXPORT')
 
 class MCFG_PT_Panel_Presets(bpy.types.Panel):
@@ -174,8 +175,9 @@ class MCFG_PT_Panel_Presets(bpy.types.Panel):
         
         if tree:
             layout = self.layout
-            layout.label(text="Node presets")
-            layout.prop(context.scene,"modelCfgEditorSetupPresets")
+            box = layout.box()
+            box.label(text="Node presets")
+            box.prop(context.scene,"modelCfgEditorSetupPresets")
             layout.operator('mcfg.addpreset', icon = 'ADD')
 
 class MCFG_PT_Panel_Docs(bpy.types.Panel):
