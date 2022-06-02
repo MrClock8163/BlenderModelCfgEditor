@@ -451,6 +451,34 @@ def DoorRot(doorRange,handle,angleDoor,angleHandle):
     
     return newAnimList
 
+def DoorMove(doorRange,offsetDoor):
+    newAnimList = []
+    
+    baseAnim = Animation("Door_base_move","translation","")
+    baseAnim.Set("source","empty")
+    baseAnim.Set("selection","empty")
+    baseAnim.Set("axis","empty")
+    baseAnim.Set("typeMaxValue",offsetDoor)
+    newAnimList.append(baseAnim)
+    
+    for i in range(doorRange[0],doorRange[1] + 1):
+        index = str(i)
+        
+        newDoorAnim = Animation("Door_%_move".replace("%",index),"translation","Door_base_move")
+        newDoorAnim.Set("source","Door_%_source".replace("%",index))
+        newDoorAnim.Set("sourceAddress",'_HIDE_')
+        newDoorAnim.Set("selection","Door_%".replace("%",index))
+        newDoorAnim.Set("axis","Door_%_axis".replace("%",index))
+        newDoorAnim.Set("memory",'_HIDE_')
+        newDoorAnim.Set("minValue",'_HIDE_')
+        newDoorAnim.Set("maxValue",'_HIDE_')
+        newDoorAnim.Set("typeMinValue",'_HIDE_')
+        newDoorAnim.Set("typeMaxValue",'_HIDE_')
+        newAnimList.append(newDoorAnim)
+    
+    return newAnimList
+
+
 def GlassHide(glassCount):
     newAnimList = []
     

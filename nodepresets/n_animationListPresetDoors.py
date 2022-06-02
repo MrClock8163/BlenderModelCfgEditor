@@ -92,3 +92,77 @@ class MCFG_N_AnimationListPresetDoorsRot(Node, n_tree.MCFG_N_Base):
     def inspect(self):
         for anim in self.process():
             print(anim.Print())
+            
+class MCFG_N_AnimationListPresetDoorsMove(Node, n_tree.MCFG_N_Base):
+    # Description string
+    '''Animation list node'''
+    
+    # Mandatory variables
+    bl_label = "Animation list - move doors"
+    bl_icon = 'ANIM'
+    
+    # Custom variables
+    node_group = "animation"
+    animation_type = "translation"
+    animation_type_min_value = "Angle0"
+    animation_type_max_value = "Angle1"
+    incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationnY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-list:-move-doors"
+    
+    # Node properties
+    doorFirst: bpy.props.IntProperty(
+        name = "First",
+        description = "First door to be animated",
+        default = 1,
+        min = 1,
+        max = 100,
+        soft_max = 5
+    )
+    doorLast: bpy.props.IntProperty(
+        name = "Last",
+        description = "Last door to be animated",
+        default = 1,
+        min = 1,
+        max = 100,
+        soft_max = 5
+    )
+    offsetDoor: bpy.props.IntProperty(
+        name = "Door offset",
+        description = "Door translation offset",
+        default = 1,
+        min = -100,
+        max = 100,
+        soft_min = -5,
+        soft_max = 5
+    )
+    
+    # Standard functions
+    def draw_label(self):
+        return "Translation preset"
+        
+    def update(self):
+        self.unlinkInvalidSockets()
+    
+    def init(self, context):
+        self.customColor()
+        self.outputs.new('MCFG_S_ModelAnimationList', "Animation list")
+
+    def draw_buttons(self, context, layout):
+        box = layout.box()
+        box.label(text="Name: move doors")
+        box.prop(self, "doorFirst")
+        box.prop(self, "doorLast")
+        box.prop(self, "offsetDoor")
+        
+    # Custom functions    
+    def getRange(self):
+        doorRange = [self.doorFirst,self.doorLast]
+        doorRange.sort()
+        return doorRange
+    
+    def process(self):
+        return Presets.DoorMove(self.getRange(),self.offsetDoor)
+        
+    def inspect(self):
+        for anim in self.process():
+            print(anim.Print())
