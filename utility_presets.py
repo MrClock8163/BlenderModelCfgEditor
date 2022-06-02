@@ -68,6 +68,29 @@ def BoneStandardHouse(damCount,doorCount,doorHandles,glassCount):
     
     return newBoneList
 
+def BoneStandardTank(wheelsFix,wheelsDamp):
+    newBoneList = []
+    
+    # Fixed wheels
+    for i in range(wheelsFix):
+        index = str(i + 1)
+        
+        newBoneList.append(Bone("koll%".replace("%",index),""))
+        newBoneList.append(Bone("kolp%".replace("%",index),""))
+        
+    # Suspended wheels
+    for i in range(wheelsDamp):
+        index = str(i + 1)
+        
+        newBoneList.append(Bone("podkolol%".replace("%",index),""))
+        newBoneList.append(Bone("podkolol%_hide".replace("%",index),"podkolol%".replace("%",index)))
+        newBoneList.append(Bone("kolol%".replace("%",index),"podkolol%".replace("%",index)))
+        newBoneList.append(Bone("podkolop%".replace("%",index),""))
+        newBoneList.append(Bone("podkolop%_hide".replace("%",index),"podkolop%".replace("%",index)))
+        newBoneList.append(Bone("kolop%".replace("%",index),"podkolop%".replace("%",index)))
+        
+    return newBoneList
+
 def BoneReplace(oldList,searchfor,replacewith,result,operation):
     newBoneList = []
     
