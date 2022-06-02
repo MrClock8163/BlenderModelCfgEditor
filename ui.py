@@ -14,7 +14,7 @@ class MCFG_ReportBox(bpy.types.Operator):
     bl_idname = "mcfg.reportbox"
     
     # Operator properties
-    report = bpy.props.StringProperty (
+    report: bpy.props.StringProperty (
         name = "Report info",
         description = "Pop-up text to display",
         default = ""
