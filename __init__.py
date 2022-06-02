@@ -445,6 +445,7 @@ def unregister():
         
     del bpy.types.Scene.modelCfgExportDir
     del bpy.types.Scene.modelCfgEditorSetupPresets
+    del bpy.types.Scene.modelCfgEditorIgnoreErrors
 
     bpy.types.NODE_MT_editor_menus.remove(ui.draw_header)
 
