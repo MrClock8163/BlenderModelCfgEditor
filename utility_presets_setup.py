@@ -146,17 +146,18 @@ weapon = {
 house = {
     "tag" : 'HOUSE',
     "name" : "House",
-    "desc" : "Skeleton, bones list, model, sections list",
+    "desc" : "Skeleton, preset bones list, model, sections list, preset animations",
     "nodes" : [
         "MCFG_N_Skeleton",
         "MCFG_N_Model",
         "MCFG_N_BoneListPresetHouse",
         "MCFG_N_JoinList",
         "MCFG_N_AnimationListPresetDoorsRot",
-        "MCFG_N_AnimationListPresetGlasses"
+        "MCFG_N_AnimationListPresetGlasses",
+        "MCFG_N_SectionList"
     ],
-    "x" : [0,300,-200,100,-300,-100],
-    "y" : [0,-100,0,-300,-300,-400],
+    "x" : [0,300,-200,100,-300,-100,-500],
+    "y" : [0,-100,0,-300,-300,-400,-200],
     "settings" : [
         [3,"listCount",2]
     ],
@@ -165,7 +166,8 @@ house = {
         [2,0,0,3],
         [3,1,0,4],
         [4,3,0,0],
-        [5,3,0,1]
+        [5,3,0,1],
+        [6,1,0,3]
     ]
 }
 
