@@ -143,4 +143,30 @@ weapon = {
     ]
 }
 
-presets = [generic,gear,weapon]
+house = {
+    "tag" : 'HOUSE',
+    "name" : "House",
+    "desc" : "Skeleton, bones list, model, sections list",
+    "nodes" : [
+        "MCFG_N_Skeleton",
+        "MCFG_N_Model",
+        "MCFG_N_BoneListPresetHouse",
+        "MCFG_N_JoinList",
+        "MCFG_N_AnimationListPresetDoorsRot",
+        "MCFG_N_AnimationListPresetGlasses"
+    ],
+    "x" : [0,300,-200,100,-300,-100],
+    "y" : [0,-100,0,-300,-300,-400],
+    "settings" : [
+        [3,"listCount",2]
+    ],
+    "links" : [
+        [0,1,0,2],
+        [2,0,0,3],
+        [3,1,0,4],
+        [4,3,0,0],
+        [5,3,0,1]
+    ]
+}
+
+presets = [generic,gear,weapon,house]
