@@ -23,7 +23,7 @@ class MCFG_N_BoneListPresetTurret(Node, n_tree.MCFG_N_Base):
         default = 1,
         min = 0,
         max = 100,
-        soft_max = 2
+        soft_max = 5
     )
     hasCommander: bpy.props.BoolProperty(
         name = "Commander",
