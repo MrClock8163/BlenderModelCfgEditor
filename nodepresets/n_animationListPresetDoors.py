@@ -13,7 +13,7 @@ class MCFG_N_AnimationListPresetDoorsRot(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "animation"
-    animation_type = "rotate"
+    animation_type = "rotation"
     animation_type_min_value = "Angle0"
     animation_type_max_value = "Angle1"
     incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationnY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]

@@ -403,6 +403,7 @@ def DoorRot(doorRange,handle,angleDoor,angleHandle):
     baseAnim = Animation("Door_base_rot","rotation","")
     baseAnim.Set("source","empty")
     baseAnim.Set("selection","empty")
+    baseAnim.Set("axis","empty")
     baseAnim.Set("typeMaxValue",angleDoor)
     
     if handle:
