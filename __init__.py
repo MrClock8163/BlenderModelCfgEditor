@@ -304,7 +304,7 @@ node_categories = [
         NodeItem("MCFG_N_AnimationPresetSightHide"),
         NodeItem("MCFG_N_AnimationPresetMagazineHide"),
         NodeItem("MCFG_N_AnimationListPresetBulletsHide"),
-        NodeItem("MCFG_N_AnimationListPresetDoors"),
+        NodeItem("MCFG_N_AnimationListPresetDoorsRot"),
         NodeItem("MCFG_N_AnimationListPresetGlasses")
     ]),
     n_tree.MCFG_N_Category('OPERATORS', "Operator", items=[
@@ -352,7 +352,7 @@ classes = (
     
     # Node presets
     nodepresets.n_animationListPresetBullets.MCFG_N_AnimationListPresetBulletsHide,
-    nodepresets.n_animationListPresetDoors.MCFG_N_AnimationListPresetDoors,
+    nodepresets.n_animationListPresetDoors.MCFG_N_AnimationListPresetDoorsRot,
     nodepresets.n_animationListPresetGlasses.MCFG_N_AnimationListPresetGlasses,
     nodepresets.n_animationPresetMagazine.MCFG_N_AnimationPresetMagazineHide,
     nodepresets.n_animationPresetMuzzleflash.MCFG_N_AnimationPresetMuzzleflashRot,

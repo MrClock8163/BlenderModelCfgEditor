@@ -3,7 +3,7 @@ from bpy.types import Node
 from .. import n_tree
 from .. import utility_presets as Presets
 
-class MCFG_N_AnimationListPresetDoors(Node, n_tree.MCFG_N_Base):
+class MCFG_N_AnimationListPresetDoorsRot(Node, n_tree.MCFG_N_Base):
     # Description string
     '''Animation list node'''
     
