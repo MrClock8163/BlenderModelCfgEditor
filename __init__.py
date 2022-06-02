@@ -431,6 +431,11 @@ def register():
         description = "(NOT RECOMMENDED) Export setup regardless of whether or not the validation succeeds",
         default = False
     )
+    bpy.types.Scene.modelCfgEditorOpenNotepad = bpy.props.BoolProperty (
+        name = "Open file",
+        description = "Open the model.cfg file after export in default text editor",
+        default = False
+    )
     
     bpy.types.NODE_MT_editor_menus.append(ui.draw_header)
     
@@ -446,6 +451,7 @@ def unregister():
     del bpy.types.Scene.modelCfgExportDir
     del bpy.types.Scene.modelCfgEditorSetupPresets
     del bpy.types.Scene.modelCfgEditorIgnoreErrors
+    del bpy.types.Scene.modelCfgEditorOpenNotepad
 
     bpy.types.NODE_MT_editor_menus.remove(ui.draw_header)
 

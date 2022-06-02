@@ -151,6 +151,7 @@ class MCFG_PT_Panel_Export(bpy.types.Panel):
             layout.label(text="Export configuration")
             layout.prop(context.scene,"modelCfgExportDir")
             layout.prop(context.scene,"modelCfgEditorIgnoreErrors")
+            layout.prop(context.scene,"modelCfgEditorOpenNotepad")
             layout.operator('mcfg.export', icon = 'EXPORT')
 
 class MCFG_PT_Panel_Presets(bpy.types.Panel):

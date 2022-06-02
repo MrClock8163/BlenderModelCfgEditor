@@ -1,5 +1,6 @@
 import bpy
 import os
+import webbrowser
 
 from .utility_print import ConfigFormatter
 from . import utility_data as Data
@@ -128,6 +129,9 @@ def ExportFile(self,context,export = True):
     print(CfgMesh.Print(),file=exportFile)
     
     exportFile.close()
+    
+    if context.scene.modelCfgEditorOpenNotepad:
+        webbrowser.open(context.scene.modelCfgExportDir + "model.cfg")
     
 # Print inspected data
 def InspectData(self,context):
