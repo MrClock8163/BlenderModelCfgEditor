@@ -331,7 +331,7 @@ class Animation(ClassBase):
         
         omitedProps = 0
         
-        if self.animType != '_HIDE_':
+        if self.animType != '_HIDE_' and self.parent == "":
             printOutput += ConfigFormatter.Property("type",self.animType,"",tabs + 1) + ConfigFormatter.Endl()
         else:
             omitedProps += 1
