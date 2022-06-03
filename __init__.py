@@ -405,12 +405,16 @@ classes = (
     MCFG_Preferences,
     n_tree.MCFG_N_Tree,
     n_tree.MCFG_N_Frame,
+    ui.MCFG_ModelSelectionItem,
+    ui.MCFG_UL_ModelSelectionList,
+    ui.MCFG_BonesFromModel,
+    ui.MCFG_SectionsFromModel,
     ui.MCFG_ReportBox,
     ui.MCFG_Panel_Export,
     ui.MCFG_Panel_Validate,
     ui.MCFG_Panel_AddPreset,
     ui.MCFG_Panel_Inspect,
-    ui.MCFG_PT_Panel_Inspect,
+    ui.MCFG_PT_Panel_Tools,
     ui.MCFG_PT_Panel_Export,
     ui.MCFG_PT_Panel_Presets,
     ui.MCFG_PT_Panel_Docs
@@ -426,6 +430,7 @@ def register():
 
     nodeitems_utils.register_node_categories('MODELCFG_NODES', node_categories)
     
+    # Panel settings
     bpy.types.Scene.modelCfgExportDir = bpy.props.StringProperty (
         name = "Directory",
         description = "Directory to save file to",
@@ -449,6 +454,12 @@ def register():
         default = False
     )
     
+    # Helper properties
+    bpy.types.Scene.ModelSelectionList = bpy.props.CollectionProperty(type=ui.MCFG_ModelSelectionItem)
+    bpy.types.Scene.ModelSelectionListIndex = bpy.props.IntProperty(name = "Selection index",default = 0)
+    bpy.types.Scene.ModelSelectionListListNode = bpy.props.BoolProperty(name = "Create list node",default = False)
+    
+    
     bpy.types.NODE_MT_editor_menus.append(ui.draw_header)
     
     print("Register done")
@@ -464,6 +475,9 @@ def unregister():
     del bpy.types.Scene.modelCfgEditorSetupPresets
     del bpy.types.Scene.modelCfgEditorIgnoreErrors
     del bpy.types.Scene.modelCfgEditorOpenNotepad
+    del bpy.types.Scene.ModelSelectionList
+    del bpy.types.Scene.ModelSelectionListIndex
+    del bpy.types.Scene.ModelSelectionListListNode
 
     bpy.types.NODE_MT_editor_menus.remove(ui.draw_header)
 

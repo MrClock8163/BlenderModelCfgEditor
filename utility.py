@@ -147,3 +147,50 @@ def InspectData(self,context):
         ShowInfoBox("There are no active inspector nodes","Info",'INFO')
     else:
         ShowInfoBox("Check System Log for inspection output","Info",'INFO')
+
+# Create bone nodes from the selected selections of the active model
+def CreateBoneNodes(self,context):
+    nodeTree = context.space_data.node_tree
+    selections = bpy.context.scene.ModelSelectionList
+    
+    boneCount = 0
+    nodeList = []
+    
+    for i in range(len(selections)):
+        selection = selections[i]
+        if selection.include:
+            newNode = nodeTree.nodes.new("MCFG_N_Bone")
+            newNode.boneName = selection.name
+            newNode.location = [0,boneCount * -100]
+            nodeList.append(newNode)
+            boneCount += 1
+    
+    # create list node if desired
+    if context.scene.ModelSelectionListListNode and len(nodeList) > 0:
+        listNode = nodeTree.nodes.new("MCFG_N_BoneList")
+        listNode.location = [200,0]
+        listNode.boneCount = len(nodeList)
+        
+        for i in range(len(nodeList)):
+            nodeTree.links.new(nodeList[i].outputs[0],listNode.inputs[i])
+        
+        context.scene.ModelSelectionListListNode = False
+
+# Create section list node from the selected selections of the active model
+def CreateSectionNodes(self,context):
+    nodeTree = context.space_data.node_tree
+    selections = bpy.context.scene.ModelSelectionList
+    
+    newSections = []
+    for i in range(len(selections)):
+        selection = selections[i]
+        
+        if selection.include:
+            newSections.append(selection.name)
+    
+    newNode = nodeTree.nodes.new("MCFG_N_SectionList")
+    newNode.location = [0,0]
+    newNode.sectionCount = len(newSections)
+    
+    for i in range(len(newSections)):
+        newNode.inputs[i].stringValue = newSections[i]

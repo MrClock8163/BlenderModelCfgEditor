@@ -4,7 +4,95 @@ import bpy
 from . import utility
 from . import utility_presets_setup as Presets
 from . import bl_info
-            
+
+class MCFG_ModelSelectionItem(bpy.types.PropertyGroup):
+    # Description string
+    '''Model selection list item'''
+    
+    # Properties
+    name: bpy.props.StringProperty(
+        name = "Name",
+        description = "Selection name",
+        default = "Untitled selection"
+    )
+    include: bpy.props.BoolProperty(
+        name = "Include",
+        description = "",
+        default = False
+    )
+
+class MCFG_UL_ModelSelectionList(bpy.types.UIList):
+    # Description string
+    '''Model selection list'''
+    
+    # Standard functions
+    def draw_item(self,context,layout,data,item,icon,active_data,active_propname,index):
+        if self.layout_type in {'DEFAULT','COMPACT'}:
+            layout.prop(item,"include",text = "")
+            layout.label(text=item.name)
+        
+        elif self.layout_type in {'GRID'}:
+            layout.alignment = 'CENTER'
+            layout.prop(item,"include",text = "")
+            layout.label(text=item.name)
+
+class MCFG_BonesFromModel(bpy.types.Operator):
+    # Description string
+    '''Create bones from model selections'''
+    
+    # Mandatory variables
+    bl_label = "Bones"
+    bl_idname = "mcfg.bonesfrommodel"
+    
+    # Standard functions
+    def draw(self,context):
+        layout = self.layout
+        layout.template_list("MCFG_UL_ModelSelectionList","SelectionList",context.scene,"ModelSelectionList",context.scene,"ModelSelectionListIndex")
+        layout.prop(context.scene,"ModelSelectionListListNode")
+    
+    def execute(self,context):
+        utility.CreateBoneNodes(self,context)
+        return {'FINISHED'}
+        
+    def invoke(self,context,event):
+        selectedObject = bpy.context.selected_objects[0]
+        
+        bpy.context.scene.ModelSelectionList.clear()
+        
+        for group in selectedObject.vertex_groups:
+            newItem = bpy.context.scene.ModelSelectionList.add()
+            newItem.name = group.name
+
+        return context.window_manager.invoke_props_dialog(self)
+
+class MCFG_SectionsFromModel(bpy.types.Operator):
+    # Description string
+    '''Create sections from model selections'''
+    
+    # Mandatory variables
+    bl_label = "Sections"
+    bl_idname = "mcfg.sectionsfrommodel"
+    
+    # Standard functions
+    def draw(self,context):
+        layout = self.layout
+        layout.template_list("MCFG_UL_ModelSelectionList","SelectionList",context.scene,"ModelSelectionList",context.scene,"ModelSelectionListIndex")
+    
+    def execute(self,context):
+        utility.CreateSectionNodes(self,context)
+        return {'FINISHED'}
+        
+    def invoke(self,context,event):
+        selectedObject = bpy.context.selected_objects[0]
+        
+        bpy.context.scene.ModelSelectionList.clear()
+        
+        for group in selectedObject.vertex_groups:
+            newItem = bpy.context.scene.ModelSelectionList.add()
+            newItem.name = group.name
+
+        return context.window_manager.invoke_props_dialog(self)
+
 class MCFG_ReportBox(bpy.types.Operator):
     # Description string
     '''Info report pop-up'''
@@ -105,12 +193,12 @@ class MCFG_Panel_Inspect(bpy.types.Operator):
         utility.InspectData(self,context)
         return {'FINISHED'}
 
-class MCFG_PT_Panel_Inspect(bpy.types.Panel):
+class MCFG_PT_Panel_Tools(bpy.types.Panel):
     # Description string
-    '''Inspect panel section'''
+    '''Tools panel section'''
     
     # Mandatory variables
-    bl_label = "Inspect"
+    bl_label = "Tools"
     bl_space_type = 'NODE_EDITOR'
     bl_region_type = 'UI'
     bl_category = "Model config"
@@ -125,7 +213,15 @@ class MCFG_PT_Panel_Inspect(bpy.types.Panel):
         
         if tree:
             layout = self.layout
-            layout.operator('mcfg.inspect', icon = 'VIEWZOOM')
+            box = layout.box()
+            box.label(text="Mesh:")
+            box.operator('mcfg.bonesfrommodel', icon = 'BONE_DATA',text="Bones from model")
+            box.operator('mcfg.sectionsfrommodel', icon = 'MESH_DATA',text="Sections from model")
+            box.enabled = len(bpy.context.selected_objects) == 1 and bpy.context.selected_objects[0].type == 'MESH'
+            layout.separator()
+            box = layout.box()
+            box.label(text="Inspection:")
+            box.operator('mcfg.inspect', icon = 'VIEWZOOM')
 
 class MCFG_PT_Panel_Export(bpy.types.Panel):
     # Description string
@@ -148,6 +244,7 @@ class MCFG_PT_Panel_Export(bpy.types.Panel):
         if tree:
             layout = self.layout
             layout.operator('mcfg.validate', icon = 'FILE_REFRESH')
+            layout.separator()
             box = layout.box()
             box.label(text="Export configuration")
             box.prop(context.scene,"modelCfgExportDir")
@@ -202,6 +299,7 @@ class MCFG_PT_Panel_Docs(bpy.types.Panel):
             layout = self.layout
             wiki = layout.operator('wm.url_open', text = "Open addon wiki",icon='URL')
             wiki.url = bl_info.get("doc_url")
+            layout.separator()
             box = layout.box()
             box.label(text="Node documentation")
             op = box.operator('wm.url_open', text = "Open",icon='HELP')
