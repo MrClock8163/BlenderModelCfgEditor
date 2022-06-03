@@ -35,6 +35,7 @@ if "bpy" in locals():
     importlib.reload(nodepresets.n_animationListPresetBullets)
     importlib.reload(nodepresets.n_animationListPresetDoors)
     importlib.reload(nodepresets.n_animationListPresetGlasses)
+    importlib.reload(nodepresets.n_animationListPresetTank)
     importlib.reload(nodepresets.n_animationPresetMagazine)
     importlib.reload(nodepresets.n_animationPresetMuzzleflash)
     importlib.reload(nodepresets.n_animationPresetSelector)
@@ -98,6 +99,7 @@ else:
     from . nodepresets import n_animationListPresetBullets
     from . nodepresets import n_animationListPresetDoors
     from . nodepresets import n_animationListPresetGlasses
+    from . nodepresets import n_animationListPresetTank
     from . nodepresets import n_animationPresetMagazine
     from . nodepresets import n_animationPresetMuzzleflash
     from . nodepresets import n_animationPresetSelector
@@ -312,7 +314,8 @@ node_categories = [
         NodeItem("MCFG_N_AnimationListPresetBulletsHide"),
         NodeItem("MCFG_N_AnimationListPresetDoorsRot"),
         NodeItem("MCFG_N_AnimationListPresetDoorsMove"),
-        NodeItem("MCFG_N_AnimationListPresetGlasses")
+        NodeItem("MCFG_N_AnimationListPresetGlasses"),
+        NodeItem("MCFG_N_AnimationListPresetTank")
     ]),
     n_tree.MCFG_N_Category('OPERATORS', "Operator", items=[
         NodeItem("MCFG_N_JoinList"),
@@ -362,6 +365,7 @@ classes = (
     nodepresets.n_animationListPresetDoors.MCFG_N_AnimationListPresetDoorsRot,
     nodepresets.n_animationListPresetDoors.MCFG_N_AnimationListPresetDoorsMove,
     nodepresets.n_animationListPresetGlasses.MCFG_N_AnimationListPresetGlasses,
+    nodepresets.n_animationListPresetTank.MCFG_N_AnimationListPresetTank,
     nodepresets.n_animationPresetMagazine.MCFG_N_AnimationPresetMagazineHide,
     nodepresets.n_animationPresetMuzzleflash.MCFG_N_AnimationPresetMuzzleflashRot,
     nodepresets.n_animationPresetSelector.MCFG_N_AnimationPresetSelectorRot,

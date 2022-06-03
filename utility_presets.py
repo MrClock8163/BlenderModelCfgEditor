@@ -564,3 +564,107 @@ def GlassHide(glassCount):
         newAnimList.append(newAnim2)
     
     return newAnimList
+    
+def TankWheels(wheelsFix,wheelsDamp,damping):
+    newAnimList = []
+    
+    
+    baseAnim = Animation("wheel_base_rot","rotationX","")
+    baseAnim.Set("source","empty")
+    baseAnim.Set("sourceAddress","loop")
+    baseAnim.Set("selection","empty")
+    baseAnim.Set("axis","empty")
+    baseAnim.Set("typeMaxValue",-360 * (3.141592653589793/180))
+    newAnimList.append(baseAnim)
+    
+    for i in range(wheelsFix):
+        index = str(i + 1)
+        
+        newAnim = Animation("wheel_koll%".replace("%",index),"rotationX","wheel_base_rot")
+        newAnim.Set("source","wheell")
+        newAnim.Set("sourceAddress",'_HIDE_')
+        newAnim.Set("selection","koll%".replace("%",index))
+        newAnim.Set("axis","wheel_1_%_axis".replace("%",index))
+        newAnim.Set("memory",'_HIDE_')
+        newAnim.Set("minValue",'_HIDE_')
+        newAnim.Set("maxValue",'_HIDE_')
+        newAnim.Set("typeMinValue",'_HIDE_')
+        newAnim.Set("typeMaxValue",'_HIDE_')
+        newAnimList.append(newAnim)
+        
+        newAnim = Animation("wheel_kolp%".replace("%",index),"rotationX","wheel_base_rot")
+        newAnim.Set("source","wheelr")
+        newAnim.Set("sourceAddress",'_HIDE_')
+        newAnim.Set("selection","kolp%".replace("%",index))
+        newAnim.Set("axis","wheel_2_%_axis".replace("%",index))
+        newAnim.Set("memory",'_HIDE_')
+        newAnim.Set("minValue",'_HIDE_')
+        newAnim.Set("maxValue",'_HIDE_')
+        newAnim.Set("typeMinValue",'_HIDE_')
+        newAnim.Set("typeMaxValue",'_HIDE_')
+        newAnimList.append(newAnim)
+        
+    if wheelsDamp > 0:
+        newAnim = Animation("wheel_base_damp","translation","")
+        newAnim.Set("source","damper")
+        newAnim.Set("selection","empty")
+        newAnim.Set("axis","damper_axis")
+        newAnim.Set("typeMinValue",damping[0])
+        newAnim.Set("typeMaxValue",damping[1])
+        newAnimList.append(newAnim)
+        
+    for i in range(wheelsDamp):
+        index = str(i + 1)
+        axisindex = str(wheelsFix + i + 1)
+        
+        # Wheel rotations
+        newAnim = Animation("wheel_kolol%".replace("%",index),"rotationX","wheel_base_rot")
+        newAnim.Set("source","wheell")
+        newAnim.Set("sourceAddress",'_HIDE_')
+        newAnim.Set("selection","kolol%".replace("%",index))
+        newAnim.Set("axis","wheel_1_%_axis".replace("%",axisindex))
+        newAnim.Set("memory",'_HIDE_')
+        newAnim.Set("minValue",'_HIDE_')
+        newAnim.Set("maxValue",'_HIDE_')
+        newAnim.Set("typeMinValue",'_HIDE_')
+        newAnim.Set("typeMaxValue",'_HIDE_')
+        newAnimList.append(newAnim)
+        
+        newAnim = Animation("wheel_kolop%".replace("%",index),"rotationX","wheel_base_rot")
+        newAnim.Set("source","wheelr")
+        newAnim.Set("sourceAddress",'_HIDE_')
+        newAnim.Set("selection","kolop%".replace("%",index))
+        newAnim.Set("axis","wheel_2_%_axis".replace("%",axisindex))
+        newAnim.Set("memory",'_HIDE_')
+        newAnim.Set("minValue",'_HIDE_')
+        newAnim.Set("maxValue",'_HIDE_')
+        newAnim.Set("typeMinValue",'_HIDE_')
+        newAnim.Set("typeMaxValue",'_HIDE_')
+        newAnimList.append(newAnim)
+        
+        # Wheel damping
+        newAnim = Animation("wheel_podkolol%".replace("%",index),"translation","wheel_base_damp")
+        newAnim.Set("source",'_HIDE_')
+        newAnim.Set("sourceAddress",'_HIDE_')
+        newAnim.Set("selection","podkolol%".replace("%",index))
+        newAnim.Set("axis",'_HIDE_')
+        newAnim.Set("memory",'_HIDE_')
+        newAnim.Set("minValue",'_HIDE_')
+        newAnim.Set("maxValue",'_HIDE_')
+        newAnim.Set("typeMinValue",'_HIDE_')
+        newAnim.Set("typeMaxValue",'_HIDE_')
+        newAnimList.append(newAnim)
+        
+        newAnim = Animation("wheel_podkolop%".replace("%",index),"translation","wheel_base_damp")
+        newAnim.Set("source",'_HIDE_')
+        newAnim.Set("sourceAddress",'_HIDE_')
+        newAnim.Set("selection","podkolop%".replace("%",index))
+        newAnim.Set("axis",'_HIDE_')
+        newAnim.Set("memory",'_HIDE_')
+        newAnim.Set("minValue",'_HIDE_')
+        newAnim.Set("maxValue",'_HIDE_')
+        newAnim.Set("typeMinValue",'_HIDE_')
+        newAnim.Set("typeMaxValue",'_HIDE_')
+        newAnimList.append(newAnim)
+        
+    return newAnimList
