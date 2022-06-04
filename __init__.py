@@ -249,11 +249,11 @@ class MCFG_Preferences(bpy.types.AddonPreferences):
         box.label(text="Validation settings")
         row = box.row()
         row.prop(self,"warnsAreErr")
-        box.prop(self,"validationOutput")
+        box.prop(self,"validationOutput",icon='CONSOLE')
         
         box = layout.box()
         box.label(text="Preset settings")
-        box.prop(self,"customSetupPresets")
+        box.prop(self,"customSetupPresets",icon='PRESET')
         
 import nodeitems_utils
 from nodeitems_utils import NodeItem
@@ -413,6 +413,7 @@ classes = (
     ui.MCFG_Panel_Export,
     ui.MCFG_Panel_Validate,
     ui.MCFG_Panel_AddPreset,
+    ui.MCFG_Panel_CreatePreset,
     ui.MCFG_Panel_Inspect,
     ui.MCFG_PT_Panel_Tools,
     ui.MCFG_PT_Panel_Export,
@@ -453,12 +454,26 @@ def register():
         description = "Open the model.cfg file after export in default text editor",
         default = False
     )
+    bpy.types.Scene.modelCfgEditorPresetName = bpy.props.StringProperty (
+        name = "Name",
+        description = "Name of the preset to be created",
+        default = "Untitled preset"
+    )
+    bpy.types.Scene.modelCfgEditorPresetDesc = bpy.props.StringProperty (
+        name = "Description",
+        description = "Description of the preset to be created",
+        default = ""
+    )
+    bpy.types.Scene.modelCfgEditorPresetTag = bpy.props.StringProperty (
+        name = "Indentifier",
+        description = "Short identifier for preset (no special characters, no whitespaces)",
+        default = ""
+    )
     
     # Helper properties
     bpy.types.Scene.ModelSelectionList = bpy.props.CollectionProperty(type=ui.MCFG_ModelSelectionItem)
     bpy.types.Scene.ModelSelectionListIndex = bpy.props.IntProperty(name = "Selection index",default = 0)
     bpy.types.Scene.ModelSelectionListListNode = bpy.props.BoolProperty(name = "Create list node",default = False)
-    
     
     bpy.types.NODE_MT_editor_menus.append(ui.draw_header)
     
@@ -475,6 +490,9 @@ def unregister():
     del bpy.types.Scene.modelCfgEditorSetupPresets
     del bpy.types.Scene.modelCfgEditorIgnoreErrors
     del bpy.types.Scene.modelCfgEditorOpenNotepad
+    del bpy.types.Scene.modelCfgEditorPresetName
+    del bpy.types.Scene.modelCfgEditorPresetDesc
+    del bpy.types.Scene.modelCfgEditorPresetTag
     del bpy.types.Scene.ModelSelectionList
     del bpy.types.Scene.ModelSelectionListIndex
     del bpy.types.Scene.ModelSelectionListListNode

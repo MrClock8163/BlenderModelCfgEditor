@@ -2,7 +2,9 @@ import os
 import sys
 import importlib
 import bpy
+import statistics
 from . import utility
+from . import utility_print as Util
 
 ###############################
 ####PRESET SETUP GENERATORS####
@@ -13,6 +15,7 @@ def AddSetup(self,context,presettag):
     node_tree = context.space_data.node_tree
     
     presetdict = None
+    # setups = GetSetupDefinitions()
     for preset in GetSetupDefinitions():
         if preset.get("tag") == presettag:
             presetdict = preset
@@ -44,7 +47,10 @@ def AddSetup(self,context,presettag):
 def GetSetups(self,context):
     items = []
     
-    for dicty in GetSetupDefinitions():
+    setups = GetSetupDefinitions()
+    
+    for i in range(len(setups)):
+        dicty = setups[i]
         items.append((dicty.get("tag"),dicty.get("name"),dicty.get("desc")))
     
     return items
@@ -80,10 +86,108 @@ def GetSetupsFromDir(folder):
         returnpresets.append(module.preset)
     
     return returnpresets
+
+# Create custom preset file from current setup
+def FormatSetupTag(string):
+    tag = string.strip()
+    
+    tag = "".join(filter(str.isalnum, tag))
+    
+    return tag
+
+def FormatSetup(context):
+    
+    nodeTree = context.space_data.node_tree
+    
+    # starting values
+    tag = FormatSetupTag(context.scene.modelCfgEditorPresetTag)
+    name = context.scene.modelCfgEditorPresetName
+    desc = context.scene.modelCfgEditorPresetDesc
+    nodes = []
+    x = []
+    y = []
+    settings = []
+    links = []
+    
+    if name == "":
+        utility.ShowInfoBox("Cannot create preset without name","Error",'ERROR')
+        return ""
+    
+    # populate nodes, x, y and settings
+    for node in nodeTree.nodes:
+        nodes.append(node.bl_idname)
+        x.append(node.location[0])
+        y.append(node.location[1])
+        
+        nodesettings = node.presetsettings()
+        if len(nodesettings) != 0:
+            for setting in nodesettings:
+                settings.append([len(nodes) -1] + setting)
+    
+    # populate links
+    for link in nodeTree.links:
+        nodeout = nodeTree.nodes.values().index(link.from_node)
+        nodein = nodeTree.nodes.values().index(link.to_node)
+        socketout = link.from_node.outputs.values().index(link.from_socket)
+        socketin = link.to_node.inputs.values().index(link.to_socket)
+        
+        links.append([nodeout,nodein,socketout,socketin])
+    
+    # make the average location 0,0
+    meanX = statistics.mean(x)
+    meanY = statistics.mean(y)
+    for i in range(len(nodes)):
+        x[i] = int(round(x[i] - meanX,-1))
+        y[i] = int(round(y[i] - meanY,-1))
+    
+    # .py formatting
+    printOutput = ""
+    printOutput += Util.PresetFormatter.PresetOpen()
+    
+    printOutput += Util.PresetFormatter.Key("tag",tag.upper())
+    printOutput += Util.PresetFormatter.Key("name",name)
+    printOutput += Util.PresetFormatter.Key("desc",desc)
+    printOutput += Util.PresetFormatter.Key("nodes",nodes)
+    printOutput += Util.PresetFormatter.Key("x",x,False,True)
+    printOutput += Util.PresetFormatter.Key("y",y,False,True)
+    printOutput += Util.PresetFormatter.Key("settings",settings)
+    printOutput += Util.PresetFormatter.Key("links",links,True)
+    
+    printOutput += Util.PresetFormatter.PresetClose()
+    
+    return printOutput
+    
+def CreateSetup(self,context):
+    filepath = bpy.context.preferences.addons[__package__].preferences.customSetupPresets
+    identifier = FormatSetupTag(context.scene.modelCfgEditorPresetTag)
+    
+    if identifier == "":
+        utility.ShowInfoBox("Cannot create preset without identifier","Error",'ERROR')
+        return
+    
+    existingSetups = GetSetupDefinitions()
+    usedtags = []
+    for setup in existingSetups:
+        usedtags.append(setup.get("tag"))
+    
+    if identifier.upper() in usedtags:
+        print("Used identifiers: " + ",".join(usedtags))
+        reportFinal = "Check systemlog for used identifiers,"
+        reportFinal += "|" + "conflicting identifier".upper()
+        bpy.ops.mcfg.reportbox('INVOKE_DEFAULT',report=reportFinal)
+        return
+    
+    newSetup = FormatSetup(context)
+    if newSetup == "":
+        return
+        
+    outputfile = open(os.path.join(filepath,identifier + ".py"),"w")
+    print(newSetup,file=outputfile)
+    outputfile.close()
     
 # Preset dictionaries
 generic = {
-    "tag" : 'GENERIC',
+    "tag" : 'GENERIC', # deprecated
     "name" : "Generic",
     "desc" : "Skeleton, bones list, model, sections list",
     "nodes" : ["MCFG_N_Skeleton","MCFG_N_Model","MCFG_N_BoneList","MCFG_N_Bone","MCFG_N_SectionList"],

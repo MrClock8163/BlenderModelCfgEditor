@@ -81,3 +81,9 @@ class MCFG_N_AnimationPresetMagazineHide(Node, n_tree.MCFG_N_Base):
     def inspect(self):
         data = self.process()
         print(data.Print())
+            
+    def presetsettings(self):
+        settings = []
+        if self.animScope != 'ALL':
+            settings.append(["animScope",self.animScope])
+        return settings

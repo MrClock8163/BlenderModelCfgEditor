@@ -67,9 +67,9 @@ class MCFG_N_BoneListPresetReplace(Node, n_tree.MCFG_N_Base):
         box.label(text="Name: search and replace")
         box.prop(self, "searchFor")
         box.prop(self, "replaceWith")
-        box.prop(self, "result")
+        box.prop(self, "result",icon='FILTER')
         if self.result == 'FULL':
-            box.prop(self, "operation")
+            box.prop(self, "operation",icon='COPYDOWN')
         
     # Custom functions
     def getBoneList(self):
@@ -89,3 +89,14 @@ class MCFG_N_BoneListPresetReplace(Node, n_tree.MCFG_N_Base):
     def inspect(self):
         for bone in self.process():
             print(bone)
+            
+    def presetsettings(self):
+        settings = []
+        
+        if self.result != 'FULL':
+            settings.append(["result",self.result])
+            
+            if self.operation != 'COPY':
+                settings.append(["operation",self.operation])
+        
+        return settings

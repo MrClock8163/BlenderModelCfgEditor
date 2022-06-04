@@ -109,3 +109,11 @@ class MCFG_N_BoneListPresetGenerate(Node, n_tree.MCFG_N_Base):
     def inspect(self):
         for bone in self.process():
             print(bone)
+            
+    def presetsettings(self):
+        settings = []
+        
+        if self.baseBone != 'YES':
+            settings.append(["baseBone",self.baseBone])
+            
+        return settings

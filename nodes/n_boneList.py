@@ -63,3 +63,9 @@ class MCFG_N_BoneList(Node, n_tree.MCFG_N_Base):
         
         for bone in data:
             print(bone)
+            
+    def presetsettings(self):
+        settings = []
+        if self.boneCount > 1:
+            settings.append(["boneCount",self.boneCount])
+        return settings

@@ -150,6 +150,87 @@ class ConfigFormatter:
                 propValuePrint += (listItems + cls.Endl() + cls.ArrayClose(tabs))
         return propValuePrint
 
+class PresetFormatter:
+    @classmethod
+    def Quote(cls,string):
+        return ("\"" + string + "\"")
+        
+    @classmethod 
+    def Endl(cls):
+        return "\n"
+        
+    @classmethod
+    def TAB(cls,tabs = 0):
+        return ("\t" * tabs)
+    
+    @classmethod
+    def Comment(cls,text,tabs = 0):
+        if text == "":
+            return ""
+        return (("\t" * tabs) + " # " + text)
+        
+    @classmethod
+    def PresetOpen(cls):
+        return ("preset = {" + cls.Endl())
+        
+    @classmethod
+    def PresetClose(cls):
+        return "}"
+        
+    @classmethod
+    def List(cls,valuelist,inline = False,tabs = 0):
+        printOutput = ""
+        
+        printOutput += "["
+        
+        if len(valuelist) == 0:
+            printOutput += "]"
+            return printOutput
+        
+        for i in range(len(valuelist)):
+            value = valuelist[i]
+            if not inline:
+                printOutput += cls.Endl() + cls.TAB(tabs + 2)
+            
+            if type(value) in [float,int]:
+                printOutput += str(value)
+                
+            elif type(value) is str:
+                printOutput += cls.Quote(value)
+                
+            elif type(value) is list:
+                printOutput += cls.List(value,True,tabs + 1)
+            
+            if i < (len(valuelist)-1):
+                printOutput += ","
+                
+        if not inline:
+            printOutput += cls.Endl() + cls.TAB(tabs + 1)
+            
+        printOutput += "]"
+        
+        return printOutput
+        
+    @classmethod
+    def Key(cls,name,value,last = False,inline = False):
+        propValuePrint = ""
+        
+        propValuePrint += (cls.TAB(1) + cls.Quote(name) + " : ")
+        
+        if type(value) in [float,int]:
+            propValuePrint += str(value)
+            
+        elif type(value) is str:
+            propValuePrint += cls.Quote(value)
+            
+        elif type(value) is list:
+            propValuePrint += cls.List(value,inline)
+        
+        if not last:
+            propValuePrint += ","
+        
+        return propValuePrint + cls.Endl()
+
 class ConfigWriter:
     
     outputDirectory = ""

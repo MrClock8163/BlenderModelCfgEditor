@@ -158,7 +158,7 @@ class MCFG_Panel_Validate(bpy.types.Operator):
     def execute(self,context):
         utility.ExportFile(self,context,False)
         return {'FINISHED'}
-        
+
 class MCFG_Panel_AddPreset(bpy.types.Operator):
     # Description string
     """Insert node setup preset into current node tree"""
@@ -175,6 +175,47 @@ class MCFG_Panel_AddPreset(bpy.types.Operator):
     def execute(self,context):
         Presets.AddSetup(self,context,context.scene.modelCfgEditorSetupPresets)
         return {'FINISHED'}
+
+class MCFG_Panel_CreatePreset(bpy.types.Operator):
+    # Description string
+    """Create node setup preset from current node tree"""
+    
+    # Mandatory variables
+    bl_idname = "mcfg.createpreset"
+    bl_label = "New custom preset"
+    
+    # Standard functions
+    @classmethod
+    def poll(cls, context):
+        return context.space_data.type == "NODE_EDITOR" and context.space_data.tree_type == "MCFG_N_Tree"
+    
+    def draw(self,context):
+        layout = self.layout
+        layout.prop(context.scene,"modelCfgEditorPresetName")
+        layout.prop(context.scene,"modelCfgEditorPresetDesc")
+        layout.prop(context.scene,"modelCfgEditorPresetTag")
+    
+    def execute(self,context):
+        
+        Presets.CreateSetup(self,context)
+        return {'FINISHED'}
+        
+    def invoke(self,context,event):
+        
+        context.scene.modelCfgEditorPresetName = "Untitled preset"
+        context.scene.modelCfgEditorPresetDesc = ""
+        context.scene.modelCfgEditorPresetTag = ""
+        
+        if len(context.space_data.node_tree.nodes) == 0:
+            utility.ShowInfoBox("There are no nodes in the tree","Info",'INFO')
+            return {'FINISHED'}
+        
+        for link in context.space_data.node_tree.links:
+            if not link.is_valid:
+                utility.ShowInfoBox("There are invalid links in the tree","Error",'ERROR')
+                return {'FINISHED'}
+
+        return context.window_manager.invoke_props_dialog(self)
 
 class MCFG_Panel_Inspect(bpy.types.Operator):
     # Description string
@@ -243,7 +284,7 @@ class MCFG_PT_Panel_Export(bpy.types.Panel):
         
         if tree:
             layout = self.layout
-            layout.operator('mcfg.validate', icon = 'FILE_REFRESH')
+            layout.operator('mcfg.validate', icon = 'CHECKMARK')
             layout.separator()
             box = layout.box()
             box.label(text="Export configuration")
@@ -274,8 +315,11 @@ class MCFG_PT_Panel_Presets(bpy.types.Panel):
             layout = self.layout
             box = layout.box()
             box.label(text="Node presets")
-            box.prop(context.scene,"modelCfgEditorSetupPresets",text="")
-            box.operator('mcfg.addpreset', icon = 'ADD')
+            box.prop(context.scene,"modelCfgEditorSetupPresets",text="",icon='PRESET')
+            box.operator('mcfg.addpreset', icon = 'NODE_INSERT_OFF')
+            if os.path.isdir(bpy.context.preferences.addons[__package__].preferences.customSetupPresets):
+                box.separator()
+                box.operator('mcfg.createpreset',icon = 'PRESET_NEW')
 
 class MCFG_PT_Panel_Docs(bpy.types.Panel):
     # Description string
@@ -320,6 +364,6 @@ def draw_header(self,context):
     if context.space_data.type == 'NODE_EDITOR' and context.space_data.tree_type == 'MCFG_N_Tree' and context.space_data.node_tree is not None:
         layout = self.layout
         layout.separator()        
-        layout.operator('mcfg.validate', icon = 'FILE_REFRESH', text = "")
+        layout.operator('mcfg.validate', icon = 'CHECKMARK', text = "")
         layout.prop(context.scene,"modelCfgExportDir",text = "")
         layout.operator('mcfg.export', icon = 'EXPORT', text = "")

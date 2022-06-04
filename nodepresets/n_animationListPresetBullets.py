@@ -115,3 +115,9 @@ class MCFG_N_AnimationListPresetBulletsHide(Node, n_tree.MCFG_N_Base):
     def inspect(self):
         for anim in self.process():
             print(anim.Print())
+            
+    def presetsettings(self):
+        settings = []
+        if self.animScope != 'ALL':
+            settings.append(["animScope",self.animScope])
+        return settings

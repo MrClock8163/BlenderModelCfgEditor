@@ -67,3 +67,9 @@ class MCFG_N_AnimationList(Node, n_tree.MCFG_N_Base):
         
         for anim in data:
             print(anim.Print())
+            
+    def presetsettings(self):
+        settings = []
+        if self.animCount > 1:
+            settings.append(["animCount",self.animCount])
+        return settings

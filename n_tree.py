@@ -52,7 +52,10 @@ class MCFG_N_Base:
             else:
                 cColor = (0.2,0.2,0.2)
             self.color = cColor
-            
+    
+    def presetsettings(self):
+        return []
+    
     def process(self):
         print("Process function is not defined for: " + str(self))
         return None

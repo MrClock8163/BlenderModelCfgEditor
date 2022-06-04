@@ -67,3 +67,9 @@ class MCFG_N_MathBasic(Node, n_tree.MCFG_N_Base):
             
     def inspect(self):
         print(self.process())
+            
+    def presetsettings(self):
+        settings = []
+        if self.operation != 'ADD':
+            settings.append(["operation",self.operation])
+        return settings

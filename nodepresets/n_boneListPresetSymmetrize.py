@@ -18,14 +18,14 @@ class MCFG_N_BoneListPresetSymmetrize(Node, n_tree.MCFG_N_Base):
     
     # Node properties
     stringLeft: bpy.props.StringProperty(
-        default="_left",
+        default="left",
         name="Left",
-        description = "Suffix to add to left side bones"
+        description = "Indentifier to add to left side bones"
     )
     stringRight: bpy.props.StringProperty(
-        default = "_right",
+        default = "right",
         name = "Right",
-        description = "Suffix to add to right side bones"
+        description = "Indentifier to add to right side bones"
     )
     
     def update(self):

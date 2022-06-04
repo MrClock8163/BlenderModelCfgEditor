@@ -68,3 +68,9 @@ class MCFG_N_JoinList(Node, n_tree.MCFG_N_Base):
         
     def inspect(self):
         print("Join list nodes cannot be inspected due to the uncertain nature of their returned data")
+            
+    def presetsettings(self):
+        settings = []
+        if self.listCount > 1:
+            settings.append(["listCount",self.listCount])
+        return settings

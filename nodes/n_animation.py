@@ -286,12 +286,12 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
     def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
 
     def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
         boxBounding = layout.box()
         boxBounding.label(text="Override parent:")
         box = boxBounding.box()
@@ -451,6 +451,12 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
         data = self.process()
         
         print(data.Print())
+            
+    def presetsettings(self):
+        settings = []
+        if self.axisType != 'AXIS':
+            settings.append(["axisType",self.axisType])
+        return settings
         
 class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -735,12 +741,12 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
     def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
 
     def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
         boxBounding = layout.box()
         boxBounding.label(text="Override parent:")
         box = boxBounding.box()
@@ -899,6 +905,12 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         data = self.process()
         
         print(data.Print())
+            
+    def presetsettings(self):
+        settings = []
+        if self.axisType != 'AXIS':
+            settings.append(["axisType",self.axisType])
+        return settings
         
 class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -1183,12 +1195,12 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
     def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
 
     def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
         boxBounding = layout.box()
         boxBounding.label(text="Override parent:")
         box = boxBounding.box()
@@ -1347,6 +1359,12 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         data = self.process()
         
         print(data.Print())
+            
+    def presetsettings(self):
+        settings = []
+        if self.axisType != 'AXIS':
+            settings.append(["axisType",self.axisType])
+        return settings
                 
 class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -1631,12 +1649,12 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
     def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
 
     def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
         boxBounding = layout.box()
         boxBounding.label(text="Override parent:")
         box = boxBounding.box()
@@ -1796,6 +1814,12 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         data = self.process()
         
         print(data.Print())
+            
+    def presetsettings(self):
+        settings = []
+        if self.axisType != 'AXIS':
+            settings.append(["axisType",self.axisType])
+        return settings
 
 class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -2089,14 +2113,14 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
     def draw_buttons(self, context, layout):
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
-        box.prop(self, "angleType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
+        box.prop(self, "angleType",icon='DRIVER_ROTATIONAL_DIFFERENCE')
 
     def draw_buttons_ext(self, context, layout):
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
-        box.prop(self, "angleType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
+        box.prop(self, "angleType",icon='DRIVER_ROTATIONAL_DIFFERENCE')
         boxBounding = layout.box()
         boxBounding.label(text="Override parent:")
         box = boxBounding.box()
@@ -2268,6 +2292,14 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         data = self.process()
         
         print(data.Print())
+            
+    def presetsettings(self):
+        settings = []
+        if self.axisType != 'AXIS':
+            settings.append(["axisType",self.axisType])
+        if self.angleType != 'DEG':
+            settings.append(["angleType",self.angleType])
+        return settings
 
 class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -2561,14 +2593,14 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
     def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
-        box.prop(self, "angleType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
+        box.prop(self, "angleType",icon='DRIVER_ROTATIONAL_DIFFERENCE')
 
     def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
-        box.prop(self, "angleType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
+        box.prop(self, "angleType",icon='DRIVER_ROTATIONAL_DIFFERENCE')
         boxBounding = layout.box()
         boxBounding.label(text="Override parent:")
         box = boxBounding.box()
@@ -2739,6 +2771,14 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
         data = self.process()
         
         print(data.Print())
+            
+    def presetsettings(self):
+        settings = []
+        if self.axisType != 'AXIS':
+            settings.append(["axisType",self.axisType])
+        if self.angleType != 'DEG':
+            settings.append(["angleType",self.angleType])
+        return settings
         
 class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -3032,14 +3072,14 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
     def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
-        box.prop(self, "angleType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
+        box.prop(self, "angleType",icon='DRIVER_ROTATIONAL_DIFFERENCE')
 
     def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
-        box.prop(self, "angleType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
+        box.prop(self, "angleType",icon='DRIVER_ROTATIONAL_DIFFERENCE')
         boxBounding = layout.box()
         boxBounding.label(text="Override parent:")
         box = boxBounding.box()
@@ -3220,6 +3260,14 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         data = self.process()
         
         print(data.Print())
+            
+    def presetsettings(self):
+        settings = []
+        if self.axisType != 'AXIS':
+            settings.append(["axisType",self.axisType])
+        if self.angleType != 'DEG':
+            settings.append(["angleType",self.angleType])
+        return settings
                 
 class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -3513,14 +3561,14 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
     def draw_buttons(self, context, layout): # Node properties
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
-        box.prop(self, "angleType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
+        box.prop(self, "angleType",icon='DRIVER_ROTATIONAL_DIFFERENCE')
 
     def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
-        box.prop(self, "axisType")
-        box.prop(self, "angleType")
+        box.prop(self, "axisType",icon='EMPTY_AXIS')
+        box.prop(self, "angleType",icon='DRIVER_ROTATIONAL_DIFFERENCE')
         boxBounding = layout.box()
         boxBounding.label(text="Override parent:")
         box = boxBounding.box()
@@ -3691,6 +3739,14 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
         data = self.process()
         
         print(data.Print())
+            
+    def presetsettings(self):
+        settings = []
+        if self.axisType != 'AXIS':
+            settings.append(["axisType",self.axisType])
+        if self.angleType != 'DEG':
+            settings.append(["angleType",self.angleType])
+        return settings
         
 class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -3981,7 +4037,7 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
     def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
-        # box.prop(self, "axisType")
+        # box.prop(self, "axisType",icon='EMPTY_AXIS')
         boxBounding = layout.box()
         boxBounding.label(text="Override parent:")
         box = boxBounding.box()

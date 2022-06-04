@@ -66,3 +66,9 @@ class MCFG_N_SectionList(Node, n_tree.MCFG_N_Base):
     def inspect(self):
         for section in self.process():
             print(section)
+            
+    def presetsettings(self):
+        settings = []
+        if self.sectionCount > 1:
+            settings.append(["sectionCount",self.sectionCount])
+        return settings
