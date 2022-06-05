@@ -226,3 +226,14 @@ class MCFG_N_Model(Node, n_tree.MCFG_N_Base):
     def inspect(self):
         data = self.process()
         print(data.Print())
+        
+    def presetpostsettings(self):
+        settings = []
+        
+        settings.append(["exportClass",self.exportClass])
+        settings.append(["overrideInheritSections",self.overrideInheritSections])
+        settings.append(["overrideSkeleton",self.overrideSkeleton])
+        settings.append(["overrideSections",self.overrideSections])
+        settings.append(["overrideAnimations",self.overrideAnimations])
+        
+        return settings

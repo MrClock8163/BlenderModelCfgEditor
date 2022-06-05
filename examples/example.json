@@ -1,0 +1,55 @@
+{
+	"custom": true,
+    "tag": "EXAMPLE",
+    "name": "Example",
+    "desc": "Example preset JSON file",
+    "nodes": [
+        "MCFG_N_Skeleton",
+        "MCFG_N_Model",
+        "MCFG_N_BoneList",
+        "MCFG_N_Bone",
+        "MCFG_N_SectionList"
+    ],
+    "x": [
+        40,
+        340,
+        -160,
+        -360,
+        140
+    ],
+    "y": [
+        80,
+        80,
+        -20,
+        -20,
+        -120
+    ],
+    "settings": [],
+    "links": [
+        [
+            0,
+            1,
+            0,
+            2
+        ],
+        [
+            2,
+            0,
+            0,
+            3
+        ],
+        [
+            3,
+            2,
+            0,
+            0
+        ],
+        [
+            4,
+            1,
+            0,
+            3
+        ]
+    ],
+    "postsettings": []
+}

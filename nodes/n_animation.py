@@ -458,6 +458,23 @@ class MCFG_N_AnimationTranslation(Node, n_tree.MCFG_N_Base):
             settings.append(["axisType",self.axisType])
         return settings
         
+    def presetpostsettings(self):
+        settings = []
+        
+        settings.append(["overrideSource",self.overrideSource])
+        settings.append(["overrideSourceAddress",self.overrideSourceAddress])
+        settings.append(["overrideSelection",self.overrideSelection])
+        settings.append(["overrideMemory",self.overrideMemory])
+        settings.append(["overrideAxis",self.overrideAxis])
+        settings.append(["overrideBegin",self.overrideBegin])
+        settings.append(["overrideEnd",self.overrideEnd])
+        settings.append(["overrideMinValue",self.overrideMinValue])
+        settings.append(["overrideMaxValue",self.overrideMaxValue])
+        settings.append(["overrideTypeMinValue",self.overrideTypeMinValue])
+        settings.append(["overrideTypeMaxValue",self.overrideTypeMaxValue])
+        
+        return settings
+        
 class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
     # Description string
     '''Animation item node'''
@@ -910,6 +927,23 @@ class MCFG_N_AnimationTranslationX(Node, n_tree.MCFG_N_Base):
         settings = []
         if self.axisType != 'AXIS':
             settings.append(["axisType",self.axisType])
+        return settings
+        
+    def presetpostsettings(self):
+        settings = []
+        
+        settings.append(["overrideSource",self.overrideSource])
+        settings.append(["overrideSourceAddress",self.overrideSourceAddress])
+        settings.append(["overrideSelection",self.overrideSelection])
+        settings.append(["overrideMemory",self.overrideMemory])
+        settings.append(["overrideAxis",self.overrideAxis])
+        settings.append(["overrideBegin",self.overrideBegin])
+        settings.append(["overrideEnd",self.overrideEnd])
+        settings.append(["overrideMinValue",self.overrideMinValue])
+        settings.append(["overrideMaxValue",self.overrideMaxValue])
+        settings.append(["overrideTypeMinValue",self.overrideTypeMinValue])
+        settings.append(["overrideTypeMaxValue",self.overrideTypeMaxValue])
+        
         return settings
         
 class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
@@ -1365,6 +1399,23 @@ class MCFG_N_AnimationTranslationY(Node, n_tree.MCFG_N_Base):
         if self.axisType != 'AXIS':
             settings.append(["axisType",self.axisType])
         return settings
+        
+    def presetpostsettings(self):
+        settings = []
+        
+        settings.append(["overrideSource",self.overrideSource])
+        settings.append(["overrideSourceAddress",self.overrideSourceAddress])
+        settings.append(["overrideSelection",self.overrideSelection])
+        settings.append(["overrideMemory",self.overrideMemory])
+        settings.append(["overrideAxis",self.overrideAxis])
+        settings.append(["overrideBegin",self.overrideBegin])
+        settings.append(["overrideEnd",self.overrideEnd])
+        settings.append(["overrideMinValue",self.overrideMinValue])
+        settings.append(["overrideMaxValue",self.overrideMaxValue])
+        settings.append(["overrideTypeMinValue",self.overrideTypeMinValue])
+        settings.append(["overrideTypeMaxValue",self.overrideTypeMaxValue])
+        
+        return settings
                 
 class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -1819,6 +1870,23 @@ class MCFG_N_AnimationTranslationZ(Node, n_tree.MCFG_N_Base):
         settings = []
         if self.axisType != 'AXIS':
             settings.append(["axisType",self.axisType])
+        return settings
+        
+    def presetpostsettings(self):
+        settings = []
+        
+        settings.append(["overrideSource",self.overrideSource])
+        settings.append(["overrideSourceAddress",self.overrideSourceAddress])
+        settings.append(["overrideSelection",self.overrideSelection])
+        settings.append(["overrideMemory",self.overrideMemory])
+        settings.append(["overrideAxis",self.overrideAxis])
+        settings.append(["overrideBegin",self.overrideBegin])
+        settings.append(["overrideEnd",self.overrideEnd])
+        settings.append(["overrideMinValue",self.overrideMinValue])
+        settings.append(["overrideMaxValue",self.overrideMaxValue])
+        settings.append(["overrideTypeMinValue",self.overrideTypeMinValue])
+        settings.append(["overrideTypeMaxValue",self.overrideTypeMaxValue])
+        
         return settings
 
 class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
@@ -2300,6 +2368,23 @@ class MCFG_N_AnimationRotation(Node, n_tree.MCFG_N_Base):
         if self.angleType != 'DEG':
             settings.append(["angleType",self.angleType])
         return settings
+        
+    def presetpostsettings(self):
+        settings = []
+        
+        settings.append(["overrideSource",self.overrideSource])
+        settings.append(["overrideSourceAddress",self.overrideSourceAddress])
+        settings.append(["overrideSelection",self.overrideSelection])
+        settings.append(["overrideMemory",self.overrideMemory])
+        settings.append(["overrideAxis",self.overrideAxis])
+        settings.append(["overrideBegin",self.overrideBegin])
+        settings.append(["overrideEnd",self.overrideEnd])
+        settings.append(["overrideMinValue",self.overrideMinValue])
+        settings.append(["overrideMaxValue",self.overrideMaxValue])
+        settings.append(["overrideTypeMinValue",self.overrideTypeMinValue])
+        settings.append(["overrideTypeMaxValue",self.overrideTypeMaxValue])
+        
+        return settings
 
 class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -2778,6 +2863,23 @@ class MCFG_N_AnimationRotationX(Node, n_tree.MCFG_N_Base):
             settings.append(["axisType",self.axisType])
         if self.angleType != 'DEG':
             settings.append(["angleType",self.angleType])
+        return settings
+        
+    def presetpostsettings(self):
+        settings = []
+        
+        settings.append(["overrideSource",self.overrideSource])
+        settings.append(["overrideSourceAddress",self.overrideSourceAddress])
+        settings.append(["overrideSelection",self.overrideSelection])
+        settings.append(["overrideMemory",self.overrideMemory])
+        settings.append(["overrideAxis",self.overrideAxis])
+        settings.append(["overrideBegin",self.overrideBegin])
+        settings.append(["overrideEnd",self.overrideEnd])
+        settings.append(["overrideMinValue",self.overrideMinValue])
+        settings.append(["overrideMaxValue",self.overrideMaxValue])
+        settings.append(["overrideTypeMinValue",self.overrideTypeMinValue])
+        settings.append(["overrideTypeMaxValue",self.overrideTypeMaxValue])
+        
         return settings
         
 class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
@@ -3268,6 +3370,23 @@ class MCFG_N_AnimationRotationY(Node, n_tree.MCFG_N_Base):
         if self.angleType != 'DEG':
             settings.append(["angleType",self.angleType])
         return settings
+        
+    def presetpostsettings(self):
+        settings = []
+        
+        settings.append(["overrideSource",self.overrideSource])
+        settings.append(["overrideSourceAddress",self.overrideSourceAddress])
+        settings.append(["overrideSelection",self.overrideSelection])
+        settings.append(["overrideMemory",self.overrideMemory])
+        settings.append(["overrideAxis",self.overrideAxis])
+        settings.append(["overrideBegin",self.overrideBegin])
+        settings.append(["overrideEnd",self.overrideEnd])
+        settings.append(["overrideMinValue",self.overrideMinValue])
+        settings.append(["overrideMaxValue",self.overrideMaxValue])
+        settings.append(["overrideTypeMinValue",self.overrideTypeMinValue])
+        settings.append(["overrideTypeMaxValue",self.overrideTypeMaxValue])
+        
+        return settings
                 
 class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
     # Description string
@@ -3748,6 +3867,23 @@ class MCFG_N_AnimationRotationZ(Node, n_tree.MCFG_N_Base):
             settings.append(["angleType",self.angleType])
         return settings
         
+    def presetpostsettings(self):
+        settings = []
+        
+        settings.append(["overrideSource",self.overrideSource])
+        settings.append(["overrideSourceAddress",self.overrideSourceAddress])
+        settings.append(["overrideSelection",self.overrideSelection])
+        settings.append(["overrideMemory",self.overrideMemory])
+        settings.append(["overrideAxis",self.overrideAxis])
+        settings.append(["overrideBegin",self.overrideBegin])
+        settings.append(["overrideEnd",self.overrideEnd])
+        settings.append(["overrideMinValue",self.overrideMinValue])
+        settings.append(["overrideMaxValue",self.overrideMaxValue])
+        settings.append(["overrideTypeMinValue",self.overrideTypeMinValue])
+        settings.append(["overrideTypeMaxValue",self.overrideTypeMaxValue])
+        
+        return settings
+        
 class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
     # Description string
     '''Animation item node'''
@@ -3764,37 +3900,11 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
     incompatible_nodes = ["MCFG_N_AnimationRotation","MCFG_N_AnimationRotationX","MCFG_N_AnimationRotationY","MCFG_N_AnimationRotationZ","MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationY","MCFG_N_AnimationTranslationZ"]
     doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-class:-hide"
     
-    # Node properties
-    def updateAxisType(self, context):
-        if len(self.inputs) != 12:
-            return
-        
-        if self.axisType == 'AXIS':
-            self.inputs[5].enabled = self.overrideAxis
-            self.inputs[6].reset()
-            self.inputs[6].enabled = False
-            self.inputs[7].reset()
-            self.inputs[7].enabled = False
-        else:
-            self.inputs[5].reset()
-            self.inputs[5].enabled = False
-            self.inputs[6].enabled = self.overrideBegin
-            self.inputs[7].enabled = self.overrideEnd
-    
+    # Node properties    
     animName: bpy.props.StringProperty(
         default="Animation",
         name="Name",
         description = "Name of the animation\nNaming rules:\n-must be unique\n-must start with letter\n-no speical characters\n-no whitespaces"
-    )
-    axisType: bpy.props.EnumProperty(
-        name = "Axis",
-        default = 'AXIS',
-        items = (
-            ('AXIS',"Axis","The axis of transformation is set to be an axis selection"),
-            ('POINTS',"Two points","The axis of transformation is defined by two points")
-        ),
-        update = updateAxisType,
-        description = "Options to set how the transformation axis is defined in the model's memory LOD"
     )
     
     # Side panel properties
@@ -3830,53 +3940,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
             
         if len(self.inputs[0].links) == 0 and not self.overrideSelection:
             self.overrideSelection = True
-    
-    def updateOverrideMemory(self, context):
-        if len(self.inputs) != 12:
-            return
-        self.inputs[4].enabled = self.overrideMemory
-        
-        if (not self.overrideMemory) and len(self.inputs[4].links) != 0:
-            self.inputs[4].id_data.links.remove(self.inputs[4].links[0])
-            
-        if len(self.inputs[0].links) == 0 and not self.overrideMemory:
-            self.overrideMemory = True
-    
-    def updateOverrideAxis(self, context):
-        if len(self.inputs) != 12:
-            return
-        
-        self.inputs[5].enabled = self.overrideAxis and self.axisType == 'AXIS'
-        
-        if (not self.overrideAxis) and len(self.inputs[5].links) != 0:
-            self.inputs[5].id_data.links.remove(self.inputs[5].links[0])
-            
-        if len(self.inputs[0].links) == 0 and not self.overrideAxis:
-            self.overrideAxis = True
-    
-    def updateOverrideBegin(self, context):
-        if len(self.inputs) != 12:
-            return
-            
-        self.inputs[6].enabled = self.overrideBegin and self.axisType == 'POINTS'
-        
-        if (not self.overrideBegin) and len(self.inputs[6].links) != 0:
-            self.inputs[6].id_data.links.remove(self.inputs[6].links[0])
-            
-        if len(self.inputs[0].links) == 0 and not self.overrideBegin:
-            self.overrideBegin = True
-    
-    def updateOverrideEnd(self, context):
-        if len(self.inputs) != 12:
-            return
-            
-        self.inputs[7].enabled = self.overrideEnd and self.axisType == 'POINTS'
-        
-        if (not self.overrideEnd) and len(self.inputs[7].links) != 0:
-            self.inputs[7].id_data.links.remove(self.inputs[7].links[0])
-            
-        if len(self.inputs[0].links) == 0 and not self.overrideEnd:
-            self.overrideEnd = True
     
     def updateOverrideMinValue(self, context):
         if len(self.inputs) != 12:
@@ -3940,30 +4003,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         update = updateOverrideSelection,
         description = "Override the value from the parent class (only allowed if parent class is specified)"
     )
-    overrideMemory: bpy.props.BoolProperty(
-        default = False,
-        name = "Memory",
-        update = updateOverrideMemory,
-        description = "Override the value from the parent class (only allowed if parent class is specified)"
-    )
-    overrideAxis: bpy.props.BoolProperty(
-        default = False,
-        name = "Axis",
-        update = updateOverrideAxis,
-        description = "Override the value from the parent class (only allowed if parent class is specified)"
-    )
-    overrideBegin: bpy.props.BoolProperty(
-        default = False,
-        name = "Begin",
-        update = updateOverrideBegin,
-        description = "Override the value from the parent class (only allowed if parent class is specified)"
-    )
-    overrideEnd: bpy.props.BoolProperty(
-        default = False,
-        name = "End",
-        update = updateOverrideEnd,
-        description = "Override the value from the parent class (only allowed if parent class is specified)"
-    )
     overrideMinValue: bpy.props.BoolProperty(
         default = False,
         name = "Min value",
@@ -3999,10 +4038,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
             self.overrideSource = True
             self.overrideSourceAddress = True
             self.overrideSelection = True
-            # self.overrideMemory = True
-            # self.overrideAxis = True
-            # self.overrideBegin = True
-            # self.overrideEnd = True
             self.overrideMinValue = True
             self.overrideMaxValue = True
             self.overrideTypeMinValue = True
@@ -4044,10 +4079,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         box.prop(self, "overrideSource")
         box.prop(self, "overrideSourceAddress")
         box.prop(self, "overrideSelection")
-        # box.prop(self, "overrideMemory")
-        # box.prop(self, "overrideAxis")
-        # box.prop(self, "overrideBegin")
-        # box.prop(self, "overrideEnd")
         box.prop(self, "overrideMinValue")
         box.prop(self, "overrideMaxValue")
         box.prop(self, "overrideTypeMinValue",text=self.animation_type_min_value)
@@ -4100,40 +4131,6 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
             selection = selection.name
         
         return selection
-        
-    def getMemory(self):
-        if not self.overrideMemory:
-            return '_HIDE_'
-    
-        if len(self.inputs[4].links) == 0:
-            return self.inputs[4].getValue()
-            
-        return self.inputs[4].links[0].from_node.process()
-        
-    def getAxis(self):
-        axisValue = '_HIDE_'
-        beginValue = '_HIDE_'
-        endValue = '_HIDE_'
-        
-        if self.inputs[5].enabled:
-            if len(self.inputs[5].links) == 0:
-                axisValue = self.inputs[5].stringValue.strip()
-            else:
-                axisValue = self.inputs[5].links[0].from_node.process()
-        
-        if self.inputs[6].enabled:
-            if len(self.inputs[6].links) == 0:
-                beginValue = self.inputs[6].stringValue.strip()
-            else:
-                beginValue = self.inputs[6].links[0].from_node.process()
-        
-        if self.inputs[7].enabled:
-            if len(self.inputs[7].links) == 0:
-                endValue = self.inputs[7].stringValue.strip()
-            else:
-                endValue = self.inputs[7].links[0].from_node.process()
-            
-        return [axisValue,beginValue,endValue]
         
     def getMinValue(self):
         if not self.overrideMinValue:
@@ -4195,3 +4192,16 @@ class MCFG_N_AnimationHide(Node, n_tree.MCFG_N_Base):
         data = self.process()
         
         print(data.Print())
+        
+    def presetpostsettings(self):
+        settings = []
+        
+        settings.append(["overrideSource",self.overrideSource])
+        settings.append(["overrideSourceAddress",self.overrideSourceAddress])
+        settings.append(["overrideSelection",self.overrideSelection])
+        settings.append(["overrideMinValue",self.overrideMinValue])
+        settings.append(["overrideMaxValue",self.overrideMaxValue])
+        settings.append(["overrideTypeMinValue",self.overrideTypeMinValue])
+        settings.append(["overrideTypeMaxValue",self.overrideTypeMaxValue])
+        
+        return settings

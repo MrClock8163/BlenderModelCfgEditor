@@ -188,3 +188,13 @@ class MCFG_N_Skeleton(Node, n_tree.MCFG_N_Base):
     def inspect(self):
         data = self.process()
         print(data.Print())
+        
+    def presetpostsettings(self):
+        settings = []
+        
+        settings.append(["exportClass",self.exportClass])
+        settings.append(["overrideBones",self.overrideBones])
+        settings.append(["overrideIsDiscrete",self.overrideIsDiscrete])
+        settings.append(["overrideInheritBones",self.overrideInheritBones])
+        
+        return settings

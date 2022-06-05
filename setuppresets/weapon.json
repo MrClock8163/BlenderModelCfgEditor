@@ -1,0 +1,129 @@
+{
+	"custom": false,
+    "tag": "WEAPON",
+    "name": "Weapon",
+    "desc": "Skeleton, common weapon bones, model, common weapon animations",
+    "nodes": [
+        "MCFG_N_Skeleton",
+        "MCFG_N_JoinList",
+        "MCFG_N_BoneList",
+        "MCFG_N_Bone",
+        "MCFG_N_BoneListPresetStandardWeapon",
+        "MCFG_N_Model",
+        "MCFG_N_SectionList",
+        "MCFG_N_AnimationList",
+        "MCFG_N_AnimationPresetMuzzleflashRot",
+        "MCFG_N_AnimationPresetSelectorRot",
+        "MCFG_N_AnimationPresetTriggerRot",
+        "MCFG_N_AnimationPresetMagazineHide"
+    ],
+    "x": [
+        0,
+        -200,
+        -400,
+        -600,
+        -400,
+        300,
+        0,
+        0,
+        -400,
+        -400,
+        -200,
+        -200
+    ],
+    "y": [
+        0,
+        -100,
+        0,
+        0,
+        -200,
+        -100,
+        -200,
+        -400,
+        -400,
+        -600,
+        -500,
+        -700
+    ],
+    "settings": [
+        [
+            1,
+            "listCount",
+            2
+        ],
+        [
+            7,
+            "animCount",
+            4
+        ]
+    ],
+    "links": [
+        [
+            0,
+            5,
+            0,
+            2
+        ],
+        [
+            1,
+            0,
+            0,
+            3
+        ],
+        [
+            2,
+            1,
+            0,
+            0
+        ],
+        [
+            3,
+            2,
+            0,
+            0
+        ],
+        [
+            4,
+            1,
+            0,
+            1
+        ],
+        [
+            6,
+            5,
+            0,
+            3
+        ],
+        [
+            7,
+            5,
+            0,
+            4
+        ],
+        [
+            8,
+            7,
+            0,
+            0
+        ],
+        [
+            9,
+            7,
+            0,
+            1
+        ],
+        [
+            10,
+            7,
+            0,
+            2
+        ],
+        [
+            11,
+            7,
+            0,
+            3
+        ]
+    ],
+    "postsettings": []
+}

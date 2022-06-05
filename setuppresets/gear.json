@@ -1,0 +1,46 @@
+{
+	"custom": false,
+    "tag": "GEAR",
+    "name": "Character gear",
+    "desc": "OFP2_ManSkeleton, ArmaMan, extra sections, copy model",
+    "nodes": [
+        "MCFG_N_SkeletonPresetArmaman",
+        "MCFG_N_ModelPresetArmaman",
+        "MCFG_N_SectionList",
+        "MCFG_N_ModelPresetCopy"
+    ],
+    "x": [
+        0,
+        200,
+        0,
+        400
+    ],
+    "y": [
+        0,
+        0,
+        -100,
+        0
+    ],
+    "settings": [],
+    "links": [
+        [
+            0,
+            1,
+            0,
+            0
+        ],
+        [
+            2,
+            1,
+            0,
+            1
+        ],
+        [
+            1,
+            3,
+            0,
+            0
+        ]
+    ],
+    "postsettings": []
+}

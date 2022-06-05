@@ -1,0 +1,55 @@
+{
+	"custom": false,
+    "tag": "GENERIC",
+    "name": "Generic",
+    "desc": "Skeleton, bones list, model, sections list",
+    "nodes": [
+        "MCFG_N_Skeleton",
+        "MCFG_N_Model",
+        "MCFG_N_BoneList",
+        "MCFG_N_Bone",
+        "MCFG_N_SectionList"
+    ],
+    "x": [
+        0,
+        300,
+        -200,
+        -400,
+        100
+    ],
+    "y": [
+        0,
+        0,
+        -100,
+        -100,
+        -200
+    ],
+    "settings": [],
+    "links": [
+        [
+            0,
+            1,
+            0,
+            2
+        ],
+        [
+            2,
+            0,
+            0,
+            3
+        ],
+        [
+            3,
+            2,
+            0,
+            0
+        ],
+        [
+            4,
+            1,
+            0,
+            3
+        ]
+    ],
+    "postsettings": []
+}

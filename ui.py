@@ -21,6 +21,32 @@ class MCFG_ModelSelectionItem(bpy.types.PropertyGroup):
         default = False
     )
 
+class MCFG_NodeSetupPresetItem(bpy.types.PropertyGroup):
+    # Description string
+    '''Setup preset list item'''
+    
+    # Properties
+    name: bpy.props.StringProperty(
+        name = "Name",
+        description = "Name of the preset",
+        default = "Untitled preset"
+    )
+    desc: bpy.props.StringProperty(
+        name = "Description",
+        description = "Description of the preset",
+        default = ""
+    )
+    custom: bpy.props.BoolProperty(
+        name = "Custom",
+        description = "Whether the preset is custom or built-in",
+        default = False
+    )
+    path: bpy.props.StringProperty(
+        name = "Path",
+        description = "Path to preset file",
+        default = ""
+    )
+
 class MCFG_UL_ModelSelectionList(bpy.types.UIList):
     # Description string
     '''Model selection list'''
@@ -35,6 +61,22 @@ class MCFG_UL_ModelSelectionList(bpy.types.UIList):
             layout.alignment = 'CENTER'
             layout.prop(item,"include",text = "")
             layout.label(text=item.name)
+
+class MCFG_UL_NodeSetupPresetList(bpy.types.UIList):
+    # Description string
+    '''Node setup preset list'''
+    
+    # Standard functions
+    def draw_item(self,context,layout,data,item,icon,active_data,active_propname,index):
+        icon = 'OUTLINER_OB_GROUP_INSTANCE'
+        if item.custom:
+            icon = 'FILE_FOLDER'
+        if self.layout_type in {'DEFAULT','COMPACT'}:
+            layout.label(text=item.name,icon=icon)
+        
+        elif self.layout_type in {'GRID'}:
+            layout.alignment = 'CENTER'
+            layout.label(text=item.name,icon=icon)
 
 class MCFG_BonesFromModel(bpy.types.Operator):
     # Description string
@@ -59,6 +101,7 @@ class MCFG_BonesFromModel(bpy.types.Operator):
         
         bpy.context.scene.ModelSelectionList.clear()
         
+        # populate list with vertex groups from selected mesh
         for group in selectedObject.vertex_groups:
             newItem = bpy.context.scene.ModelSelectionList.add()
             newItem.name = group.name
@@ -87,6 +130,7 @@ class MCFG_SectionsFromModel(bpy.types.Operator):
         
         bpy.context.scene.ModelSelectionList.clear()
         
+        # populate list with vertex groups from selected mesh
         for group in selectedObject.vertex_groups:
             newItem = bpy.context.scene.ModelSelectionList.add()
             newItem.name = group.name
@@ -159,7 +203,24 @@ class MCFG_Panel_Validate(bpy.types.Operator):
         utility.ExportFile(self,context,False)
         return {'FINISHED'}
 
-class MCFG_Panel_AddPreset(bpy.types.Operator):
+class MCFG_Panel_LoadPresets(bpy.types.Operator):
+    # Description string
+    """Load node setup presets"""
+    
+    # Mandatory variables
+    bl_idname = "mcfg.loadpresets"
+    bl_label = "Load/Reload presets"
+    
+    # Standard functions
+    @classmethod
+    def poll(cls, context):
+        return context.space_data.type == "NODE_EDITOR" and context.space_data.tree_type == "MCFG_N_Tree"
+        
+    def execute(self,context):
+        Presets.ReloadPresets()
+        return {'FINISHED'}
+
+class MCFG_Panel_InsertPreset(bpy.types.Operator):
     # Description string
     """Insert node setup preset into current node tree"""
     
@@ -173,7 +234,19 @@ class MCFG_Panel_AddPreset(bpy.types.Operator):
         return context.space_data.type == "NODE_EDITOR" and context.space_data.tree_type == "MCFG_N_Tree"
         
     def execute(self,context):
-        Presets.AddSetup(self,context,context.scene.modelCfgEditorSetupPresets)
+        Presets.ReloadPresets()
+        
+        if context.scene.NodeSetupPresetListIndex not in range(len(context.scene.NodeSetupPresetList)):
+            return {'FINISHED'}
+        
+        preset = context.scene.NodeSetupPresetList[context.scene.NodeSetupPresetListIndex]
+        
+        if not os.path.isfile(preset.get("path")):
+            utility.ShowInfoBox("Preset not found","Error",'ERROR')
+            return {'FINISHED'}
+        
+        Presets.InsertPreset(self,context,preset.get("path"))
+        
         return {'FINISHED'}
 
 class MCFG_Panel_CreatePreset(bpy.types.Operator):
@@ -187,7 +260,9 @@ class MCFG_Panel_CreatePreset(bpy.types.Operator):
     # Standard functions
     @classmethod
     def poll(cls, context):
-        return context.space_data.type == "NODE_EDITOR" and context.space_data.tree_type == "MCFG_N_Tree"
+        isNodeTree = context.space_data.type == "NODE_EDITOR" and context.space_data.tree_type == "MCFG_N_Tree"
+        hasFolder = os.path.isdir(bpy.context.preferences.addons[__package__].preferences.customSetupPresets)
+        return (isNodeTree and hasFolder)
     
     def draw(self,context):
         layout = self.layout
@@ -196,11 +271,17 @@ class MCFG_Panel_CreatePreset(bpy.types.Operator):
         layout.prop(context.scene,"modelCfgEditorPresetTag")
     
     def execute(self,context):
-        
-        Presets.CreateSetup(self,context)
+        Presets.CreatePreset(self,context)
+        Presets.ReloadPresets()
         return {'FINISHED'}
         
-    def invoke(self,context,event):
+    def invoke(self,context,event):    
+        Presets.ReloadPresets()
+        
+        # check is moved to the poll function
+        # if not os.path.isdir(bpy.context.preferences.addons[__package__].preferences.customSetupPresets):
+            # utility.ShowInfoBox("No folder is set for custom presets","Info",'INFO')
+            # return {'FINISHED'}
         
         context.scene.modelCfgEditorPresetName = "Untitled preset"
         context.scene.modelCfgEditorPresetDesc = ""
@@ -214,6 +295,61 @@ class MCFG_Panel_CreatePreset(bpy.types.Operator):
             if not link.is_valid:
                 utility.ShowInfoBox("There are invalid links in the tree","Error",'ERROR')
                 return {'FINISHED'}
+
+        return context.window_manager.invoke_props_dialog(self)
+        
+class MCFG_Panel_DeletePreset(bpy.types.Operator):
+    # Description string
+    """Delete selected preset"""
+    
+    # Mandatory variables
+    bl_idname = "mcfg.deletepreset"
+    bl_label = "Delete custom preset"
+    
+    # Standard functions
+    @classmethod
+    def poll(cls, context):
+        return context.space_data.type == "NODE_EDITOR" and context.space_data.tree_type == "MCFG_N_Tree"
+    
+    preset: bpy.props.StringProperty(
+        name = "Preset",
+        description = "",
+        default = ""
+    )
+    
+    def draw(self,context):
+        layout = self.layout
+        layout.label(text="Are you sure you want to delete this preset?")
+        layout.label(text=self.preset)
+    
+    def execute(self,context):
+        
+        path = context.scene.NodeSetupPresetList[context.scene.NodeSetupPresetListIndex].path
+        Presets.DeletePreset(path)
+        
+        return {'FINISHED'}
+        
+    def invoke(self,context,event):
+        Presets.ReloadPresets()
+        
+        
+        selectionIndex = context.scene.NodeSetupPresetListIndex
+        if selectionIndex not in range(len(context.scene.NodeSetupPresetList)):
+            return {'FINISHED'}
+        
+        path = context.scene.NodeSetupPresetList[selectionIndex].path
+        
+        if not os.path.isfile(path):
+            utility.ShowInfoBox("Preset not found","Error",'ERROR')
+            return {'FINISHED'}
+        
+        preset = Presets.ReadPresetFile(path)
+        
+        if not preset.get("custom"):
+            utility.ShowInfoBox("Built-in presets cannot be deleted","Info",'INFO')
+            return {'FINISHED'}
+
+        self.preset = "Name: " + preset.get("name")
 
         return context.window_manager.invoke_props_dialog(self)
 
@@ -313,13 +449,21 @@ class MCFG_PT_Panel_Presets(bpy.types.Panel):
         
         if tree:
             layout = self.layout
-            box = layout.box()
-            box.label(text="Node presets")
-            box.prop(context.scene,"modelCfgEditorSetupPresets",text="",icon='PRESET')
-            box.operator('mcfg.addpreset', icon = 'NODE_INSERT_OFF')
-            if os.path.isdir(bpy.context.preferences.addons[__package__].preferences.customSetupPresets):
-                box.separator()
-                box.operator('mcfg.createpreset',icon = 'PRESET_NEW')
+            layout.template_list("MCFG_UL_NodeSetupPresetList","NodePresetList",context.scene,"NodeSetupPresetList",context.scene,"NodeSetupPresetListIndex")
+            column_flow = layout.column_flow(columns = 4,align=True)
+            column_flow.operator('mcfg.addpreset', icon = 'PASTEDOWN',text = "")
+            column_flow.operator('mcfg.loadpresets', icon = 'FILE_REFRESH',text = "")
+            column_flow.operator('mcfg.createpreset', icon = 'ADD',text = "")
+            column_flow.operator('mcfg.deletepreset', icon = 'REMOVE',text = "")
+            
+            selectionIndex = context.scene.NodeSetupPresetListIndex
+            if selectionIndex in range(len(context.scene.NodeSetupPresetList)):
+                row = layout.row()
+                item = context.scene.NodeSetupPresetList[selectionIndex]
+                row.prop(item,"desc",text="")
+                row.enabled = False
+            
+            return
 
 class MCFG_PT_Panel_Docs(bpy.types.Panel):
     # Description string

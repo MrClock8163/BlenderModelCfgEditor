@@ -145,6 +145,10 @@ else:
 import bpy
 import os
 
+# Addon preferences update handlers
+def updateCustomSetupPresets(self,context):
+    utility_presets_setup.ReloadPresets()
+
 # Addon preferences
 class MCFG_Preferences(bpy.types.AddonPreferences):
     bl_idname = __name__
@@ -225,7 +229,8 @@ class MCFG_Preferences(bpy.types.AddonPreferences):
         name="Custom setup presets", 
         description="Folder that contains the .py files describing custom setup presets", 
         subtype='DIR_PATH',
-        default=""
+        default="",
+        update=updateCustomSetupPresets
     )
     
     def draw(self,context):
@@ -406,14 +411,18 @@ classes = (
     n_tree.MCFG_N_Tree,
     n_tree.MCFG_N_Frame,
     ui.MCFG_ModelSelectionItem,
+    ui.MCFG_NodeSetupPresetItem,
     ui.MCFG_UL_ModelSelectionList,
+    ui.MCFG_UL_NodeSetupPresetList,
     ui.MCFG_BonesFromModel,
     ui.MCFG_SectionsFromModel,
     ui.MCFG_ReportBox,
     ui.MCFG_Panel_Export,
     ui.MCFG_Panel_Validate,
-    ui.MCFG_Panel_AddPreset,
+    ui.MCFG_Panel_LoadPresets,
+    ui.MCFG_Panel_InsertPreset,
     ui.MCFG_Panel_CreatePreset,
+    ui.MCFG_Panel_DeletePreset,
     ui.MCFG_Panel_Inspect,
     ui.MCFG_PT_Panel_Tools,
     ui.MCFG_PT_Panel_Export,
@@ -437,12 +446,6 @@ def register():
         description = "Directory to save file to",
         default = "",
         subtype = 'DIR_PATH'
-    )
-    bpy.types.Scene.modelCfgEditorSetupPresets = bpy.props.EnumProperty (
-        name = "Presets",
-        description = "Node setup presets",
-        default = None,
-        items = utility_presets_setup.GetSetups
     )
     bpy.types.Scene.modelCfgEditorIgnoreErrors = bpy.props.BoolProperty (
         name = "Ignore errors",
@@ -475,6 +478,9 @@ def register():
     bpy.types.Scene.ModelSelectionListIndex = bpy.props.IntProperty(name = "Selection index",default = 0)
     bpy.types.Scene.ModelSelectionListListNode = bpy.props.BoolProperty(name = "Create list node",default = False)
     
+    bpy.types.Scene.NodeSetupPresetList = bpy.props.CollectionProperty(type=ui.MCFG_NodeSetupPresetItem)
+    bpy.types.Scene.NodeSetupPresetListIndex = bpy.props.IntProperty(name = "Selection index",default = 0)
+    
     bpy.types.NODE_MT_editor_menus.append(ui.draw_header)
     
     print("Register done")
@@ -487,7 +493,6 @@ def unregister():
         unregister_class(cls)
         
     del bpy.types.Scene.modelCfgExportDir
-    del bpy.types.Scene.modelCfgEditorSetupPresets
     del bpy.types.Scene.modelCfgEditorIgnoreErrors
     del bpy.types.Scene.modelCfgEditorOpenNotepad
     del bpy.types.Scene.modelCfgEditorPresetName
@@ -496,6 +501,8 @@ def unregister():
     del bpy.types.Scene.ModelSelectionList
     del bpy.types.Scene.ModelSelectionListIndex
     del bpy.types.Scene.ModelSelectionListListNode
+    del bpy.types.Scene.NodeSetupPresetList
+    del bpy.types.Scene.NodeSetupPresetListIndex
 
     bpy.types.NODE_MT_editor_menus.remove(ui.draw_header)
 

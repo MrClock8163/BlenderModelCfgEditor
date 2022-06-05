@@ -3,6 +3,7 @@ from bpy.types import NodeTree, NodeSocket
 import nodeitems_utils
 from nodeitems_utils import NodeCategory
 
+# Node editor space
 class MCFG_N_Tree(NodeTree):
     # Description string
     '''Arma 3 model config editor'''
@@ -11,6 +12,7 @@ class MCFG_N_Tree(NodeTree):
     bl_label = "Model config editor"
     bl_icon = 'MESH_CUBE'
 
+# Mix-in node base class
 class MCFG_N_Base:
     
     # Custom variables
@@ -55,6 +57,9 @@ class MCFG_N_Base:
     
     def presetsettings(self):
         return []
+        
+    def presetpostsettings(self):
+        return []
     
     def process(self):
         print("Process function is not defined for: " + str(self))
@@ -73,8 +78,8 @@ class MCFG_N_Base:
 
     def free(self):
         print("Removing node ", self, ", Goodbye!")
-        
-        
+
+# Frame node compatible with the editor
 class MCFG_N_Frame(bpy.types.NodeFrame):
     
     # Mandatory variables
@@ -83,7 +88,6 @@ class MCFG_N_Frame(bpy.types.NodeFrame):
     @classmethod
     def poll(cls, ntree):
         return ntree.bl_idname == 'MCFG_N_Tree'
-        
 
 class MCFG_N_Category(NodeCategory):
     @classmethod

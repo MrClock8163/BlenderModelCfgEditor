@@ -1,106 +1,115 @@
 import os
 import sys
-import importlib
 import bpy
 import statistics
+import json
 from . import utility
-from . import utility_print as Util
 
 ###############################
 ####PRESET SETUP GENERATORS####
 ###############################
 
-def AddSetup(self,context,presettag):
+# Read and desirialize JSON file
+def ReadPresetFile(path):
+
+    jsonfile = open(path)
+    preset = json.load(jsonfile)
+    preset["path"] = path
+    jsonfile.close()
+    
+    return preset
+
+# Insert preset from given file
+def InsertPreset(self,context,path):
     
     node_tree = context.space_data.node_tree
-    
-    presetdict = None
-    # setups = GetSetupDefinitions()
-    for preset in GetSetupDefinitions():
-        if preset.get("tag") == presettag:
-            presetdict = preset
-    
-    if presetdict is None:
-        utility.ShowInfoBox("Preset not found","Error",'ERROR')
-        return
+    preset = ReadPresetFile(path)
     
     # create nodes and set locations
     newNodeList = []
-    for i in range(len(presetdict.get("nodes"))):
-        newNode = node_tree.nodes.new(presetdict.get("nodes")[i])
-        newNode.location = [presetdict.get("x")[i],presetdict.get("y")[i]]
+    for i in range(len(preset.get("nodes"))):
+        newNode = node_tree.nodes.new(preset.get("nodes")[i])
+        newNode.location = [preset.get("x")[i],preset.get("y")[i]]
         newNodeList.append(newNode)
     
     if len(newNodeList) == 0:
         return
     
     # process settings before trying to create links (important for list type nodes)
-    for setting in presetdict.get("settings"):
+    for setting in preset.get("settings"):
         setattr(newNodeList[setting[0]],setting[1],setting[2])
     
     # create links
-    for link in presetdict.get("links"):
+    for link in preset.get("links"):
         node_tree.links.new(newNodeList[link[0]].outputs[link[2]],newNodeList[link[1]].inputs[link[3]])
+    
+    # post settings after link creation (like inheritance properties)
+    for setting in preset.get("postsettings"):
+        setattr(newNodeList[setting[0]],setting[1],setting[2])
+        
     return
 
-# Enum property items function
-def GetSetups(self,context):
-    items = []
-    
-    setups = GetSetupDefinitions()
-    
-    for i in range(len(setups)):
-        dicty = setups[i]
-        items.append((dicty.get("tag"),dicty.get("name"),dicty.get("desc")))
-    
-    return items
-
 # Get setup presets both built-in and custom
-def GetSetupDefinitions():
-    returnpresets = []
+def PresetDefinitions():
     
     addonPrefs = bpy.context.preferences.addons[__package__].preferences
     dir_custom = addonPrefs.customSetupPresets
+    dir_addon = os.path.join(os.path.dirname(os.path.realpath(__file__)),"setuppresets")
     
-    returnpresets += presets
-    returnpresets += GetSetupsFromDir(dir_custom)
-    
-    return returnpresets
-
-# Read custom presetes from external files
-def GetSetupsFromDir(folder):
+    # gather built-in files
     files = []
     
-    if not os.path.isdir(folder):
-        return []
+    for item in os.listdir(dir_addon):
+        path = os.path.join(dir_addon,item)
+        if os.path.isfile(path):
+            if os.path.splitext(path)[1] == ".json":
+                files.append(path)
     
-    for item in os.listdir(folder):
-        if os.path.isfile(os.path.join(folder,item)):
-            if os.path.splitext(item)[1] == ".py":
-                files.append(item)
+    # gather external files
+    if os.path.isdir(dir_custom):
+        for item in os.listdir(dir_custom):
+            path = os.path.join(dir_custom,item)
+            if os.path.isfile(path):
+                if os.path.splitext(path)[1] == ".json":
+                    files.append(path)
     
-    sys.path.append(folder)
+    # read files
     returnpresets = []
     for file in files:
-        module = importlib.import_module(file.split(".")[0])
-        returnpresets.append(module.preset)
+        returnpresets.append(ReadPresetFile(file))
     
     return returnpresets
 
+# Load presets into UI list data
+def ReloadPresets():
+    RawSetups = PresetDefinitions()
+    
+    bpy.context.scene.NodeSetupPresetList.clear()
+    
+    for setup in RawSetups:
+        newItem = bpy.context.scene.NodeSetupPresetList.add()
+        newItem.name = setup.get("name")
+        newItem.desc = setup.get("desc")
+        newItem.custom = setup.get("custom")
+        newItem.path = setup.get("path")
+    
+    return
+
 # Create custom preset file from current setup
-def FormatSetupTag(string):
+def PresetTag(string):
     tag = string.strip()
     
     tag = "".join(filter(str.isalnum, tag))
     
     return tag
 
-def FormatSetup(context):
+# Generate preset in dictionary format
+def FormatPreset(context):
     
     nodeTree = context.space_data.node_tree
     
     # starting values
-    tag = FormatSetupTag(context.scene.modelCfgEditorPresetTag)
+    tag = PresetTag(context.scene.modelCfgEditorPresetTag)
     name = context.scene.modelCfgEditorPresetName
     desc = context.scene.modelCfgEditorPresetDesc
     nodes = []
@@ -108,6 +117,7 @@ def FormatSetup(context):
     y = []
     settings = []
     links = []
+    postsettings = []
     
     if name == "":
         utility.ShowInfoBox("Cannot create preset without name","Error",'ERROR')
@@ -123,6 +133,11 @@ def FormatSetup(context):
         if len(nodesettings) != 0:
             for setting in nodesettings:
                 settings.append([len(nodes) -1] + setting)
+                
+        nodesettingspost = node.presetpostsettings()
+        if len(nodesettingspost) != 0:
+            for setting in nodesettingspost:
+                postsettings.append([len(nodes) -1] + setting)
     
     # populate links
     for link in nodeTree.links:
@@ -140,32 +155,32 @@ def FormatSetup(context):
         x[i] = int(round(x[i] - meanX,-1))
         y[i] = int(round(y[i] - meanY,-1))
     
-    # .py formatting
-    printOutput = ""
-    printOutput += Util.PresetFormatter.PresetOpen()
+    # creating dictionary
+    preset = dict()
+    preset["custom"] = True
+    preset["tag"] = tag.upper()
+    preset["name"] = name
+    preset["desc"] = desc
+    preset["nodes"] = nodes
+    preset["x"] = x
+    preset["y"] = y
+    preset["settings"] = settings
+    preset["links"] = links
+    preset["postsettings"] = postsettings
     
-    printOutput += Util.PresetFormatter.Key("tag",tag.upper())
-    printOutput += Util.PresetFormatter.Key("name",name)
-    printOutput += Util.PresetFormatter.Key("desc",desc)
-    printOutput += Util.PresetFormatter.Key("nodes",nodes)
-    printOutput += Util.PresetFormatter.Key("x",x,False,True)
-    printOutput += Util.PresetFormatter.Key("y",y,False,True)
-    printOutput += Util.PresetFormatter.Key("settings",settings)
-    printOutput += Util.PresetFormatter.Key("links",links,True)
-    
-    printOutput += Util.PresetFormatter.PresetClose()
-    
-    return printOutput
-    
-def CreateSetup(self,context):
+    return preset
+
+# Create setup preset from node tree
+def CreatePreset(self,context):
     filepath = bpy.context.preferences.addons[__package__].preferences.customSetupPresets
-    identifier = FormatSetupTag(context.scene.modelCfgEditorPresetTag)
+    identifier = PresetTag(context.scene.modelCfgEditorPresetTag)
     
+    # safety checks
     if identifier == "":
         utility.ShowInfoBox("Cannot create preset without identifier","Error",'ERROR')
         return
     
-    existingSetups = GetSetupDefinitions()
+    existingSetups = PresetDefinitions()
     usedtags = []
     for setup in existingSetups:
         usedtags.append(setup.get("tag"))
@@ -177,102 +192,17 @@ def CreateSetup(self,context):
         bpy.ops.mcfg.reportbox('INVOKE_DEFAULT',report=reportFinal)
         return
     
-    newSetup = FormatSetup(context)
+    # creating preset dictionary
+    newSetup = FormatPreset(context)
     if newSetup == "":
         return
         
-    outputfile = open(os.path.join(filepath,identifier + ".py"),"w")
-    print(newSetup,file=outputfile)
+    # dumping to JSON
+    outputfile = open(os.path.join(filepath,identifier + ".json"),"w")
+    outputfile.write(json.dumps(newSetup,indent = 4))
     outputfile.close()
-    
-# Preset dictionaries
-generic = {
-    "tag" : 'GENERIC', # deprecated
-    "name" : "Generic",
-    "desc" : "Skeleton, bones list, model, sections list",
-    "nodes" : ["MCFG_N_Skeleton","MCFG_N_Model","MCFG_N_BoneList","MCFG_N_Bone","MCFG_N_SectionList"],
-    "x" : [0,300,-200,-400,100],
-    "y" : [0,0,-100,-100,-200],
-    "settings" : [],
-    "links" : [[0,1,0,2],[2,0,0,3],[3,2,0,0],[4,1,0,3]] # [node of output, node of input, output index, input index]
-}
 
-gear = {
-    "tag" : 'GEAR',
-    "name" : "Character gear",
-    "desc" : "OFP2_ManSkeleton, ArmaMan, extra sections, copy model",
-    "nodes" : ["MCFG_N_SkeletonPresetArmaman","MCFG_N_ModelPresetArmaman","MCFG_N_SectionList","MCFG_N_ModelPresetCopy"],
-    "x" : [0,200,0,400],
-    "y" : [0,0,-100,0],
-    "settings" : [],
-    "links" : [[0,1,0,0],[2,1,0,1],[1,3,0,0]]
-}
-
-weapon = {
-    "tag" : 'WEAPON',
-    "name" : "Weapon",
-    "desc" : "Skeleton, common weapon bones, model, common weapon animations",
-    "nodes" : [
-        "MCFG_N_Skeleton",
-        "MCFG_N_JoinList",
-        "MCFG_N_BoneList",
-        "MCFG_N_Bone",
-        "MCFG_N_BoneListPresetStandardWeapon",
-        "MCFG_N_Model",
-        "MCFG_N_SectionList",
-        "MCFG_N_AnimationList",
-        "MCFG_N_AnimationPresetMuzzleflashRot",
-        "MCFG_N_AnimationPresetSelectorRot",
-        "MCFG_N_AnimationPresetTriggerRot",
-        "MCFG_N_AnimationPresetMagazineHide"
-    ],
-    "x" : [0,-200,-400,-600,-400,300,0,0,-400,-400,-200,-200],
-    "y" : [0,-100,0,0,-200,-100,-200,-400,-400,-600,-500,-700],
-    "settings" : [
-        [1,"listCount",2],
-        [7,"animCount",4]
-    ],
-    "links" : [
-        [0,5,0,2],
-        [1,0,0,3],
-        [2,1,0,0],
-        [3,2,0,0],
-        [4,1,0,1],
-        [6,5,0,3],
-        [7,5,0,4],
-        [8,7,0,0],
-        [9,7,0,1],
-        [10,7,0,2],
-        [11,7,0,3]
-    ]
-}
-
-house = {
-    "tag" : 'HOUSE',
-    "name" : "House",
-    "desc" : "Skeleton, preset bones list, model, sections list, preset animations",
-    "nodes" : [
-        "MCFG_N_Skeleton",
-        "MCFG_N_Model",
-        "MCFG_N_BoneListPresetHouse",
-        "MCFG_N_JoinList",
-        "MCFG_N_AnimationListPresetDoorsRot",
-        "MCFG_N_AnimationListPresetGlasses",
-        "MCFG_N_SectionList"
-    ],
-    "x" : [0,300,-200,100,-300,-100,-500],
-    "y" : [0,-100,0,-300,-300,-400,-200],
-    "settings" : [
-        [3,"listCount",2]
-    ],
-    "links" : [
-        [0,1,0,2],
-        [2,0,0,3],
-        [3,1,0,4],
-        [4,3,0,0],
-        [5,3,0,1],
-        [6,1,0,3]
-    ]
-}
-
-presets = [generic,gear,weapon,house]
+# Delete preset file
+def DeletePreset(path):
+    os.remove(path)
+    ReloadPresets()
