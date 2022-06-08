@@ -87,6 +87,12 @@ class MCFG_BonesFromModel(bpy.types.Operator):
     bl_idname = "mcfg.bonesfrommodel"
     
     # Standard functions
+    @classmethod
+    def poll(cls, context):
+        isNodeTree = context.space_data.type == "NODE_EDITOR" and context.space_data.tree_type == "MCFG_N_Tree"
+        hasSelected = len(bpy.context.selected_objects) == 1 and bpy.context.selected_objects[0].type == 'MESH'
+        return (isNodeTree and hasSelected)
+        
     def draw(self,context):
         layout = self.layout
         layout.template_list("MCFG_UL_ModelSelectionList","SelectionList",context.scene,"ModelSelectionList",context.scene,"ModelSelectionListIndex")
@@ -117,6 +123,12 @@ class MCFG_SectionsFromModel(bpy.types.Operator):
     bl_idname = "mcfg.sectionsfrommodel"
     
     # Standard functions
+    @classmethod
+    def poll(cls, context):
+        isNodeTree = context.space_data.type == "NODE_EDITOR" and context.space_data.tree_type == "MCFG_N_Tree"
+        hasSelected = len(bpy.context.selected_objects) == 1 and bpy.context.selected_objects[0].type == 'MESH'
+        return (isNodeTree and hasSelected)
+        
     def draw(self,context):
         layout = self.layout
         layout.template_list("MCFG_UL_ModelSelectionList","SelectionList",context.scene,"ModelSelectionList",context.scene,"ModelSelectionListIndex")
@@ -278,11 +290,6 @@ class MCFG_Panel_CreatePreset(bpy.types.Operator):
     def invoke(self,context,event):    
         Presets.ReloadPresets()
         
-        # check is moved to the poll function
-        # if not os.path.isdir(bpy.context.preferences.addons[__package__].preferences.customSetupPresets):
-            # utility.ShowInfoBox("No folder is set for custom presets","Info",'INFO')
-            # return {'FINISHED'}
-        
         context.scene.modelCfgEditorPresetName = "Untitled preset"
         context.scene.modelCfgEditorPresetDesc = ""
         context.scene.modelCfgEditorPresetTag = ""
@@ -309,7 +316,9 @@ class MCFG_Panel_DeletePreset(bpy.types.Operator):
     # Standard functions
     @classmethod
     def poll(cls, context):
-        return context.space_data.type == "NODE_EDITOR" and context.space_data.tree_type == "MCFG_N_Tree"
+        isNodeTree = context.space_data.type == "NODE_EDITOR" and context.space_data.tree_type == "MCFG_N_Tree"
+        hasFolder = os.path.isdir(bpy.context.preferences.addons[__package__].preferences.customSetupPresets)
+        return (isNodeTree and hasFolder)
     
     preset: bpy.props.StringProperty(
         name = "Preset",
@@ -394,7 +403,6 @@ class MCFG_PT_Panel_Tools(bpy.types.Panel):
             box.label(text="Mesh:")
             box.operator('mcfg.bonesfrommodel', icon = 'BONE_DATA',text="Bones from model")
             box.operator('mcfg.sectionsfrommodel', icon = 'MESH_DATA',text="Sections from model")
-            box.enabled = len(bpy.context.selected_objects) == 1 and bpy.context.selected_objects[0].type == 'MESH'
             layout.separator()
             box = layout.box()
             box.label(text="Inspection:")

@@ -444,7 +444,7 @@ def BulletHide(baseName,muzzleindex,fieldsize,capacity,interval):
         newAnim.Set("axis",'_HIDE_')
         newAnim.Set("minValue",'_HIDE_')
         newAnim.Set("maxValue",'_HIDE_')
-        hideValue = (((i)/capacity) + 0.00001)
+        hideValue = (((i-0.5)/capacity))
         newAnim.Set("typeMinValue",round(hideValue,6))
         newAnim.Set("typeMaxValue",'_HIDE_')
         
