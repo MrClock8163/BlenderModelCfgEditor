@@ -198,7 +198,7 @@ def CreatePreset(self,context):
         return
         
     # dumping to JSON
-    outputfile = open(os.path.join(filepath,identifier + ".json"),"w")
+    outputfile = open(os.path.join(filepath,identifier.lower() + ".json"),"w")
     outputfile.write(json.dumps(newSetup,indent = 4))
     outputfile.close()
 
