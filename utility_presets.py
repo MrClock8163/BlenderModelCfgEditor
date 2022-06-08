@@ -6,30 +6,28 @@ from .utility_data import Bone, Skeleton, Model, Animation
 
 # Bones
 
-def BoneGenerator(baseName,parent,baseBone,fieldsize,interval):
+def BoneGenerator(names,parentBase,makeBaseBone,fieldsize,interval):
     newBoneList = []
     interval.sort()
     
     fieldsize = max(fieldsize,len(str(interval[1])))
     
-    if baseBone == 'YES':
-        name = baseName.replace("%","base")
-        if name == baseName:
-            name += "_base"
-        baseBone = Bone(name,parent)
-        newBoneList.append(baseBone)
-        parent = baseBone.name
-    
-    for i in range(interval[0],interval[1] + 1):
-        idfield = str(i).zfill(fieldsize)
-        name = baseName.replace("%",idfield)
-        if name == baseName:
-            name += "_" + idfield
-        newBone = Bone(name,parent)
-        newBoneList.append(newBone)
+    for baseName in names.split(","):
+        if makeBaseBone == 'YES':
+            name = baseName.replace("%","base")
+            if name == baseName:
+                name += "_base"
+            baseBone = Bone(name,parentBase)
+            newBoneList.append(baseBone)
+            parent = baseBone.name
         
-    for boney in newBoneList:
-        print(boney.name + "," + boney.parent)
+        for i in range(interval[0],interval[1] + 1):
+            idfield = str(i).zfill(fieldsize)
+            name = baseName.replace("%",idfield)
+            if name == baseName:
+                name += "_" + idfield
+            newBone = Bone(name,parent)
+            newBoneList.append(newBone)
     
     return newBoneList
 
