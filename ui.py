@@ -1,5 +1,4 @@
 import os
-import webbrowser
 import bpy
 from . import utility
 from . import utility_presets_setup as Presets
