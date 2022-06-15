@@ -20,6 +20,8 @@ def BoneGenerator(names,parentBase,makeBaseBone,fieldsize,interval):
             baseBone = Bone(name,parentBase)
             newBoneList.append(baseBone)
             parent = baseBone.name
+        else:
+            parent = parentBase
         
         for i in range(interval[0],interval[1] + 1):
             idfield = str(i).zfill(fieldsize)
@@ -89,34 +91,24 @@ def BoneStandardTank(wheelsFix,wheelsDamp):
         
     return newBoneList
 
-def BoneStandardTurret(turretCount,hasCommander):
+def BoneStandardTurret(identifier,parent):
     newBoneList = []
     
-    if turretCount == 1:
-        newBoneList.append(Bone("turret",""))
-        newBoneList.append(Bone("gun","turret"))
-        newBoneList.append(Bone("gun_recoil","gun"))
-        newBoneList.append(Bone("gunnerview","gun"))
-        
-        if hasCommander:
-            newBoneList.append(Bone("commander","turret"))
+    turretName = "turret"
+    gunName = "gun"
+    viewName = "gunnerview"
     
-    else:
-        for i in range(turretCount):
-            if i == 0:
-                newBoneList.append(Bone("turret_main",""))
-                newBoneList.append(Bone("gun_main","turret_main"))
-                newBoneList.append(Bone("gun_main_recoil","gun_main"))
-                newBoneList.append(Bone("gunnerview_main","gun_main"))
-            else:
-                index = str(i)
-                newBoneList.append(Bone("turret_%".replace("%",index),""))
-                newBoneList.append(Bone("gun_%".replace("%",index),"turret_%".replace("%",index)))
-                newBoneList.append(Bone("gun_%_recoil".replace("%",index),"gun_%".replace("%",index)))
-                newBoneList.append(Bone("gunnerview_%".replace("%",index),"gun_%".replace("%",index)))
-                
-        if hasCommander:
-            newBoneList.append(Bone("commander","turret_main"))
+    if identifier != "":
+        turretName += "_" + identifier
+        gunName += "_" + identifier
+        viewName += "_" + identifier
+        
+    recoilName = gunName + "_recoil"
+    
+    newBoneList.append(Bone(turretName,parent))
+    newBoneList.append(Bone(gunName,turretName))
+    newBoneList.append(Bone(viewName,gunName))
+    newBoneList.append(Bone(recoilName,gunName))
     
     return newBoneList
 
@@ -379,7 +371,7 @@ def SelectorRot(name,selection,axis,angle):
 
 def SightHide(name,selection):
     newAnim = Animation(name,"hide","")
-    newAnim.Set("source","hasOptic")
+    newAnim.Set("source","hasOptics")
     newAnim.Set("selection",selection)
     newAnim.Set("typeMinValue",0.5)
     newAnim.Set("typeMaxValue",-2)
@@ -611,6 +603,16 @@ def TankWheels(wheelsFix,wheelsDamp,damping):
         newAnim.Set("typeMaxValue",damping[1])
         newAnimList.append(newAnim)
         
+        newAnim = Animation("wheel_hide_damage","hide","")
+        newAnim.Set("source","damage")
+        newAnim.Set("sourceAddress",'_HIDE_')
+        newAnim.Set("selection","empty")
+        newAnim.Set("memory",'_HIDE_')
+        newAnim.Set("axis",'_HIDE_')
+        newAnim.Set("typeMinValue",1)
+        newAnim.Set("typeMaxValue",'_HIDE_')
+        newAnimList.append(newAnim)
+        
     for i in range(wheelsDamp):
         index = str(i + 1)
         axisindex = str(wheelsFix + i + 1)
@@ -665,4 +667,93 @@ def TankWheels(wheelsFix,wheelsDamp,damping):
         newAnim.Set("typeMaxValue",'_HIDE_')
         newAnimList.append(newAnim)
         
+        # Damage hiding
+        newAnim = Animation("podkolol%_hide_damage".replace("%",index),"hide","wheel_hide_damage")
+        newAnim.Set("source",'_HIDE_')
+        newAnim.Set("sourceAddress",'_HIDE_')
+        newAnim.Set("selection","podkolol%_hide".replace("%",index))
+        newAnim.Set("memory",'_HIDE_')
+        newAnim.Set("axis",'_HIDE_')
+        newAnim.Set("minValue",'_HIDE_')
+        newAnim.Set("maxValue",'_HIDE_')
+        newAnim.Set("typeMinValue",'_HIDE_')
+        newAnim.Set("typeMaxValue",'_HIDE_')
+        newAnimList.append(newAnim)
+        
+        newAnim = Animation("podkolop%_hide_damage".replace("%",index),"hide","wheel_hide_damage")
+        newAnim.Set("source",'_HIDE_')
+        newAnim.Set("sourceAddress",'_HIDE_')
+        newAnim.Set("selection","podkolop%_hide".replace("%",index))
+        newAnim.Set("memory",'_HIDE_')
+        newAnim.Set("axis",'_HIDE_')
+        newAnim.Set("minValue",'_HIDE_')
+        newAnim.Set("maxValue",'_HIDE_')
+        newAnim.Set("typeMinValue",'_HIDE_')
+        newAnim.Set("typeMaxValue",'_HIDE_')
+        newAnimList.append(newAnim)
+        
+    return newAnimList
+
+def TurretRot(identifier,isMain,recoilOffset):
+    newAnimList = []
+    
+    # Turret rotation
+    nameTurretRot = "mainturret"
+    selectionTurret = "turret"
+    if identifier != "":
+        selectionTurret += "_" + identifier
+        
+    if not isMain:
+        nameTurretRot = selectionTurret + "_rot"
+        
+    turretRot = Animation(nameTurretRot,"rotation","")
+    turretRot.Set("source",nameTurretRot)
+    turretRot.Set("sourceAddress",'_HIDE_')
+    turretRot.Set("selection",selectionTurret)
+    turretRot.Set("axis",selectionTurret + "_axis")
+    turretRot.Set("minValue",-360 * (3.141592653589793/180))
+    turretRot.Set("maxValue",360 * (3.141592653589793/180))
+    turretRot.Set("typeMinValue",-360 * (3.141592653589793/180))
+    turretRot.Set("typeMaxValue",360 * (3.141592653589793/180))
+    
+    newAnimList.append(turretRot)
+    
+    # Gun elevation
+    nameGunRot = "maingun"
+    selectionGun = "gun"
+    if identifier != "":
+        selectionGun += "_" + identifier
+        
+    if not isMain:
+        nameGunRot = selectionGun + "_rot"
+        
+    gunRot = Animation(nameGunRot,"rotation",nameTurretRot)
+    gunRot.Set("source",nameGunRot)
+    gunRot.Set("sourceAddress",'_HIDE_')
+    gunRot.Set("selection",selectionGun)
+    gunRot.Set("memory",'_HIDE_')
+    gunRot.Set("axis",selectionGun + "_axis")
+    gunRot.Set("minValue",'_HIDE_')
+    gunRot.Set("maxValue",'_HIDE_')
+    gunRot.Set("typeMinValue",'_HIDE_')
+    gunRot.Set("typeMaxValue",'_HIDE_')
+    
+    newAnimList.append(gunRot)
+    
+    if recoilOffset == 0:
+        return newAnimList
+        
+    # Gun recoil
+    selectionRecoil = selectionGun + "_recoil"
+    
+    recoilMove = Animation(selectionRecoil,"translation","")
+    recoilMove.Set("source",selectionRecoil + "_source")
+    recoilMove.Set("selection",selectionRecoil)
+    recoilMove.Set("axis",selectionRecoil + "_axis")
+    recoilMove.Set("minValue",0.5)
+    recoilMove.Set("typeMaxValue",recoilOffset)
+    
+    newAnimList.append(recoilMove)
+    
+    
     return newAnimList
