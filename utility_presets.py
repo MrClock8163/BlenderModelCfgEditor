@@ -90,6 +90,27 @@ def BoneStandardTank(wheelsFix,wheelsDamp):
         newBoneList.append(Bone("kolop%".replace("%",index),"podkolop%".replace("%",index)))
         
     return newBoneList
+    
+def BoneStandardCar(wheels):
+    newBoneList = []
+    
+    for i in range(wheels):
+        index = str(i + 1)
+        newBoneList.append(Bone("wheel_1_%_damper_land".replace("%",index),""))
+        newBoneList.append(Bone("wheel_1_%_damper".replace("%",index),"wheel_1_%_damper_land".replace("%",index)))
+        newBoneList.append(Bone("wheel_1_%_steering".replace("%",index),"wheel_1_%_damper".replace("%",index)))
+        newBoneList.append(Bone("wheel_1_%".replace("%",index),"wheel_1_%_steering".replace("%",index)))
+        newBoneList.append(Bone("wheel_1_%_unhide".replace("%",index),"wheel_1_%".replace("%",index)))
+        newBoneList.append(Bone("wheel_1_%_hide".replace("%",index),"wheel_1_%".replace("%",index)))
+        
+        newBoneList.append(Bone("wheel_2_%_damper_land".replace("%",index),""))
+        newBoneList.append(Bone("wheel_2_%_damper".replace("%",index),"wheel_2_%_damper_land".replace("%",index)))
+        newBoneList.append(Bone("wheel_2_%_steering".replace("%",index),"wheel_2_%_damper".replace("%",index)))
+        newBoneList.append(Bone("wheel_2_%".replace("%",index),"wheel_2_%_steering".replace("%",index)))
+        newBoneList.append(Bone("wheel_2_%_unhide".replace("%",index),"wheel_2_%".replace("%",index)))
+        newBoneList.append(Bone("wheel_2_%_hide".replace("%",index),"wheel_2_%".replace("%",index)))
+        
+    return newBoneList
 
 def BoneStandardTurret(identifier,parent):
     newBoneList = []

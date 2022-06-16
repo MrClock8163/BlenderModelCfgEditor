@@ -42,6 +42,7 @@ if "bpy" in locals():
     importlib.reload(nodepresets.n_animationPresetSelector)
     importlib.reload(nodepresets.n_animationPresetSight)
     importlib.reload(nodepresets.n_animationPresetTrigger)
+    importlib.reload(nodepresets.n_boneListPresetCar)
     importlib.reload(nodepresets.n_boneListPresetGenerate)
     importlib.reload(nodepresets.n_boneListPresetHouse)
     importlib.reload(nodepresets.n_boneListPresetReplace)
@@ -107,6 +108,7 @@ else:
     from . nodepresets import n_animationPresetSelector
     from . nodepresets import n_animationPresetSight
     from . nodepresets import n_animationPresetTrigger
+    from . nodepresets import n_boneListPresetCar
     from . nodepresets import n_boneListPresetGenerate
     from . nodepresets import n_boneListPresetHouse
     from . nodepresets import n_boneListPresetReplace
@@ -293,6 +295,7 @@ node_categories = [
         NodeItem("MCFG_N_BoneListPresetReplace"),
         NodeItem("MCFG_N_BoneListPresetSymmetrize"),
         NodeItem("MCFG_N_BoneListPresetTank"),
+        NodeItem("MCFG_N_BoneListPresetCar"),
         NodeItem("MCFG_N_BoneListPresetTurret")
     ]),
     n_tree.MCFG_N_Category('SECTIONNODES', "Section", items=[
@@ -381,6 +384,7 @@ classes = (
     nodepresets.n_animationPresetSight.MCFG_N_AnimationPresetSightHide,
     nodepresets.n_animationPresetTrigger.MCFG_N_AnimationPresetTriggerRot,
     nodepresets.n_animationPresetTrigger.MCFG_N_AnimationPresetTriggerMove,
+    nodepresets.n_boneListPresetCar.MCFG_N_BoneListPresetCar,
     nodepresets.n_boneListPresetGenerate.MCFG_N_BoneListPresetGenerate,
     nodepresets.n_boneListPresetHouse.MCFG_N_BoneListPresetHouse,
     nodepresets.n_boneListPresetReplace.MCFG_N_BoneListPresetReplace,
