@@ -1,0 +1,14 @@
+{
+    "example": {
+        "name": "-- Example --",
+        "file": "node_example.py"
+    },
+    "extract_item": {
+        "name": "Extract list item",
+        "file": "node_extract_item.py"
+    },
+    "extract_property": {
+        "name": "Extract class property",
+        "file": "node_extract_property.py"
+    }
+}

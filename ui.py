@@ -1,8 +1,41 @@
 import os
+import json
 import bpy
 from . import utility
 from . import utility_presets_setup as Presets
 from . import bl_info
+
+class MCFG_MT_MenuTemplatesNodeScript(bpy.types.Menu):
+    bl_label = "Custom node script"
+    
+    def draw(self,context):
+        layout = self.layout
+        
+        templateDir = os.path.join(os.path.dirname(os.path.realpath(__file__)),"templates")
+        
+        templatesFile = open(os.path.join(templateDir,"templates.json"),"r")
+        templates = json.load(templatesFile)
+        templatesFile.close()
+        
+        if len(templates) == 0:
+            layout.lable(text="No templates are available")
+            return
+            
+        for key in templates.keys():
+            name = templates.get(key).get("name")
+            path = templates.get(key).get("file")
+            layout.operator('text.open',text=name).filepath = os.path.join(templateDir,path)
+
+class MCFG_MT_MenuTemplatesSetupPresets(bpy.types.Menu):
+    bl_label = "Setup preset"
+    
+    def draw(self,context):
+        layout = self.layout
+        
+        presets = Presets.PresetDefinitions()
+        
+        for preset in presets:
+            layout.operator('text.open',text=preset.get("name")).filepath = preset.get("path")
 
 class MCFG_ModelSelectionItem(bpy.types.PropertyGroup):
     # Description string
@@ -518,3 +551,10 @@ def draw_header(self,context):
         layout.operator('mcfg.validate', icon = 'CHECKMARK', text = "")
         layout.prop(context.scene,"modelCfgExportDir",text = "")
         layout.operator('mcfg.export', icon = 'EXPORT', text = "")
+
+def draw_item(self,context):
+    layout = self.layout
+    layout.separator()
+    layout.label(text="Arma 3 model config editor")
+    layout.menu("MCFG_MT_MenuTemplatesNodeScript")
+    layout.menu("MCFG_MT_MenuTemplatesSetupPresets")

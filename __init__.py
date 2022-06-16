@@ -25,6 +25,7 @@ if "bpy" in locals():
     importlib.reload(nodes.n_joinList)
     importlib.reload(nodes.n_mathBasic)
     importlib.reload(nodes.n_model)
+    importlib.reload(nodes.n_scripted)
     importlib.reload(nodes.n_section)
     importlib.reload(nodes.n_sectionList)
     importlib.reload(nodes.n_skeleton)
@@ -91,6 +92,7 @@ else:
     from . nodes import n_joinList
     from . nodes import n_mathBasic
     from . nodes import n_model
+    from . nodes import n_scripted
     from . nodes import n_section
     from . nodes import n_sectionList
     from . nodes import n_skeleton
@@ -336,6 +338,7 @@ node_categories = [
     ]),
     n_tree.MCFG_N_Category('MISC', "Miscellaneous", items=[
         NodeItem("MCFG_N_Inspect"),
+        NodeItem("MCFG_N_Scripted"),
         NodeItem("MCFG_N_Demostrative")
     ]),
     n_tree.MCFG_N_Category('LAYOUTNODES', "Layout", items=[
@@ -365,6 +368,7 @@ classes = (
     nodes.n_joinList.MCFG_N_JoinList,
     nodes.n_mathBasic.MCFG_N_MathBasic,
     nodes.n_model.MCFG_N_Model,
+    nodes.n_scripted.MCFG_N_Scripted,
     nodes.n_section.MCFG_N_Section,
     nodes.n_sectionList.MCFG_N_SectionList,
     nodes.n_skeleton.MCFG_N_Skeleton,
@@ -418,6 +422,8 @@ classes = (
     MCFG_Preferences,
     n_tree.MCFG_N_Tree,
     n_tree.MCFG_N_Frame,
+    ui.MCFG_MT_MenuTemplatesNodeScript,
+    ui.MCFG_MT_MenuTemplatesSetupPresets,
     ui.MCFG_ModelSelectionItem,
     ui.MCFG_NodeSetupPresetItem,
     ui.MCFG_UL_ModelSelectionList,
@@ -490,6 +496,7 @@ def register():
     bpy.types.Scene.NodeSetupPresetListIndex = bpy.props.IntProperty(name = "Selection index",default = 0)
     
     bpy.types.NODE_MT_editor_menus.append(ui.draw_header)
+    bpy.types.TEXT_MT_templates.append(ui.draw_item)
     
     print("Register done")
 
@@ -513,6 +520,7 @@ def unregister():
     del bpy.types.Scene.NodeSetupPresetListIndex
 
     bpy.types.NODE_MT_editor_menus.remove(ui.draw_header)
+    bpy.types.TEXT_MT_templates.remove(ui.draw_item)
 
 if __name__ == "__main__":
     register()
