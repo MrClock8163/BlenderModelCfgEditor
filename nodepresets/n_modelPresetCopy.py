@@ -13,7 +13,7 @@ class MCFG_N_ModelPresetCopy(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "model"
-    export_type = "model"
+    process_type = "model"
     doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Model-class:-copy"
     
     # Node properties

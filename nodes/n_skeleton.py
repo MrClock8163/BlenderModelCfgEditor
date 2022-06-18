@@ -13,7 +13,7 @@ class MCFG_N_Skeleton(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "skeleton"
-    export_type = "skeleton"
+    process_type = "skeleton"
     doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Skeleton-class"
     
     # Node properties
@@ -152,7 +152,7 @@ class MCFG_N_Skeleton(Node, n_tree.MCFG_N_Base):
         if len(self.inputs[2].links) == 0:
             return self.inputs[2].getValue()
         
-        return self.inputs[2].links[0].getValue()
+        return self.inputs[2].links[0].from_node.process()
     
     def getInheritBones(self):
         if not self.overrideInheritBones:

@@ -13,6 +13,7 @@ class MCFG_N_Inspect(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "operator"
+    process_type = "inspector"
     doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Data-inspector"
     
     # Node properties

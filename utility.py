@@ -20,12 +20,12 @@ def ProcessNodeTree(context):
     nodeTree = context.space_data.node_tree
     
     for node in nodeTree.nodes:
-        if node.export_type == "skeleton" and node.exportClass:
+        if node.process_type == "skeleton" and node.exportClass:
             newSkeleton = node.process()
             
             CfgSkelly.AddSkeleton(newSkeleton)
         
-        if node.export_type == "model" and node.exportClass:
+        if node.process_type == "model" and node.exportClass:
             newModel = node.process()
             CfgMesh.AddModel(newModel)
 
@@ -139,7 +139,7 @@ def InspectData(self,context):
     
     inspectors = 0
     for node in nodeTree.nodes:
-        if node.bl_idname == "MCFG_N_Inspect" and node.active:
+        if node.process_type == "inspector" and node.active:
             inspectors += 1
             node.inspect()
             

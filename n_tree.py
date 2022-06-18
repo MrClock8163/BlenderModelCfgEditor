@@ -18,7 +18,7 @@ class MCFG_N_Base:
     # Custom variables
     node_group = "default"
     incompatible_nodes = []
-    export_type = ""
+    process_type = ""
     doc_url = ""
     
     def unlinkInvalidSockets(self):

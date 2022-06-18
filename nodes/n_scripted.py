@@ -12,7 +12,8 @@ class MCFG_N_Scripted(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "operator"
-    doc_url = ""
+    process_type = "scripted"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Custom-script"
     
     # Node properties
     def updateInputCount(self,context):
