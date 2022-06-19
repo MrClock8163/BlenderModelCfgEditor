@@ -3,7 +3,7 @@
 #    This is a sample script to demostrate the use of the Custom script node.
 #    The code shows the use of inputs, outputs and custom data operations.
 #    The result is similar to that of the Bone list - generator node. The script generates a list of bone items with the given parent and base name.
-#    For more information on the topic, visit the addon wiki site.
+#    For more information on the topic, visit the addon wiki site https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Custom-script.
 #    
 #    ---------------------------------------- HEADER ----------------------------------------
 #    
