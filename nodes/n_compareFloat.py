@@ -21,6 +21,7 @@ class MCFG_N_CompareFloat(Node, n_tree.MCFG_N_Base):
         default = 'EQUAL',
         items = (
             ('EQUAL',"A = B",""),
+            ('NOTEQUAL',"A != B",""),
             ('GREATER',"A > B",""),
             ('GREATEREQUAL',"A >= B",""),
             ('LESS',"A < B",""),
@@ -57,6 +58,8 @@ class MCFG_N_CompareFloat(Node, n_tree.MCFG_N_Base):
     def process(self):
         if self.comparison == 'EQUAL':
             return (self.getValueA() == self.getValueB())
+        elif self.comparison == 'NOTEQUAL':
+            return (self.getValueA() != self.getValueB())
         elif self.comparison == 'GREATER':
             return (self.getValueA() > self.getValueB())
         elif self.comparison == 'GREATEREQUAL':
