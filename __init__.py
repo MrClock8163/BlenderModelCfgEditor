@@ -20,6 +20,7 @@ if "bpy" in locals():
     importlib.reload(nodes.n_animationList)
     importlib.reload(nodes.n_bone)
     importlib.reload(nodes.n_boneList)
+    importlib.reload(nodes.n_compareFloat)
     importlib.reload(nodes.n_demostrative)
     importlib.reload(nodes.n_inspect)
     importlib.reload(nodes.n_joinList)
@@ -87,6 +88,7 @@ else:
     from . nodes import n_animationList
     from . nodes import n_bone
     from . nodes import n_boneList
+    from . nodes import n_compareFloat
     from . nodes import n_demostrative
     from . nodes import n_inspect
     from . nodes import n_joinList
@@ -333,6 +335,7 @@ node_categories = [
     n_tree.MCFG_N_Category('OPERATORS', "Operator", items=[
         NodeItem("MCFG_N_JoinList"),
         NodeItem("MCFG_N_ValueFloat"),
+        NodeItem("MCFG_N_CompareFloat"),
         NodeItem("MCFG_N_ValueString"),
         NodeItem("MCFG_N_MathBasic")
     ]),
@@ -363,6 +366,7 @@ classes = (
     nodes.n_animationList.MCFG_N_AnimationList,
     nodes.n_bone.MCFG_N_Bone,
     nodes.n_boneList.MCFG_N_BoneList,
+    nodes.n_compareFloat.MCFG_N_CompareFloat,
     nodes.n_demostrative.MCFG_N_Demostrative,
     nodes.n_inspect.MCFG_N_Inspect,
     nodes.n_joinList.MCFG_N_JoinList,
