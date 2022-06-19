@@ -6,7 +6,7 @@ bl_info = {
     "location": "Model config editor",
     "description": "Node tree based tool for creating model configuration files",
     # "warning": "Work in progress",
-    # "tracket_url": "",
+    # "tracker_url": "",
     # "support": "TESTING",
     "doc_url": "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki",
     "category": "Node"

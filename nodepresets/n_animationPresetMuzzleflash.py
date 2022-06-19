@@ -13,10 +13,6 @@ class MCFG_N_AnimationPresetMuzzleflashRot(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "animation"
-    animation_type = "translation"
-    animation_type_min_value = "Offset0"
-    animation_type_max_value = "Offset1"
-    incompatible_nodes = ["MCFG_N_AnimationTranslation","MCFG_N_AnimationTranslationX","MCFG_N_AnimationTranslationnY","MCFG_N_AnimationTranslationZ","MCFG_N_AnimationHide"]
     doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-class:-rotate-muzzle-flash"
     
     # Node properties
