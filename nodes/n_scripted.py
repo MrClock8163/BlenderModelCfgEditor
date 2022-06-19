@@ -75,3 +75,9 @@ class MCFG_N_Scripted(Node, n_tree.MCFG_N_Base):
             
     def inspect(self):
         print(self.process())
+    
+    def presetsettings(self):
+        settings = []
+        if self.inputCount != 0:
+            settings.append(["inputCount",self.inputCount])
+        return settings
