@@ -174,7 +174,6 @@ class Bone(ClassBase):
             validator.NewErr(self.name,"invalid bone name (" + self.name + ")")
         
         return validator
-        
 
 class Skeleton(ClassBase):
     # Class variables
@@ -284,7 +283,7 @@ class Skeleton(ClassBase):
                 validator = bone.Validate(validator,self.name)
         
         return validator
-    
+
 class Animation(ClassBase):
     # Class variables
     animType = "translation"
@@ -441,7 +440,7 @@ class Animation(ClassBase):
         # TO DO LATER
         
         return validator
-    
+
 class Animations(ClassBase):
     # Class variables
     animList = []
@@ -496,7 +495,7 @@ class Animations(ClassBase):
             validator = anim.Validate(validator,modelname)
         
         return validator
-    
+
 class Model(ClassBase):
     # Class variables
     skeletonName = ""

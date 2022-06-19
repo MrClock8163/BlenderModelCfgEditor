@@ -57,6 +57,7 @@ class MCFG_N_Scripted(Node, n_tree.MCFG_N_Base):
             return None
         
         returnValue = ""
+        globvars = {}
         locvars = {}
         
         for i in range(len(self.inputs)):
@@ -65,7 +66,7 @@ class MCFG_N_Scripted(Node, n_tree.MCFG_N_Base):
                 locvars["input_" + str(i)] = self.inputs[i].links[0].from_node.process()
         
         script = compile(self.script.as_string(),self.script.name,'exec')
-        exec(script,{},locvars)
+        exec(script,globvars,locvars)
         
         if "result" in locvars.keys():
             returnValue = locvars.get("result")

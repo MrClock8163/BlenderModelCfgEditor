@@ -21,5 +21,4 @@ result = ""
 input_0 = input_0.strip()
 
 if input_0 != "":
-    
     result = input_1.Get(input_0)
