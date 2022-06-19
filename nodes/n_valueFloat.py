@@ -37,7 +37,7 @@ class MCFG_N_ValueFloat(Node, n_tree.MCFG_N_Base):
         
     # Custom functions
     def process(self):
-        return self.floatProperty
+        return round(self.floatProperty,6)
         
     def inspect(self):
         print(self.process())
