@@ -1,5 +1,4 @@
 import os
-import sys
 import bpy
 import statistics
 import json
