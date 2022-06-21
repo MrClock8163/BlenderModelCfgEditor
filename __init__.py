@@ -5,7 +5,7 @@ bl_info = {
     "blender": (2, 83, 0),
     "location": "Model config editor",
     "description": "Node tree based tool for creating model configuration files",
-    # "warning": "Work in progress",
+    "warning": "Not a release (work in progress)",
     # "tracker_url": "",
     # "support": "TESTING",
     "doc_url": "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki",
