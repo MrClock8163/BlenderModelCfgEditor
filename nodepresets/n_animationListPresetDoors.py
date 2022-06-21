@@ -13,7 +13,7 @@ class MCFG_N_AnimationListPresetDoorsRot(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "animation"
-    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/None:-Animation-list:-rotate-doors"
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Animation-list:-rotate-doors"
     
     # Node properties
     doorFirst: bpy.props.IntProperty(
