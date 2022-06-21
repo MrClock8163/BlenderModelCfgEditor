@@ -28,9 +28,9 @@ class MCFG_N_Scripted(Node, n_tree.MCFG_N_Base):
                 self.inputs.new('MCFG_S_Universal',"Input")
                 self.inputs[len(self.inputs)-1].hide_value = True
                 
-    script = bpy.props.PointerProperty(type=bpy.types.Text)
+    script: bpy.props.PointerProperty(type=bpy.types.Text)
     
-    inputCount = bpy.props.IntProperty(
+    inputCount: bpy.props.IntProperty(
         name = "Inputs",
         description = "Number of script inputs",
         default = 0,
