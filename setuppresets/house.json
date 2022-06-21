@@ -1,6 +1,5 @@
 {
-	"custom": false,
-    "tag": "HOUSE",
+    "custom": false,
     "name": "House",
     "desc": "Skeleton, preset bones list, model, sections list, preset animations",
     "nodes": [

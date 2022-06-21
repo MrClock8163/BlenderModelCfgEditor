@@ -1,6 +1,5 @@
 {
-	"custom": false,
-    "tag": "GENERIC",
+    "custom": false,
     "name": "Generic",
     "desc": "Skeleton, bones list, model, sections list",
     "nodes": [

@@ -1,6 +1,5 @@
 {
-	"custom": true,
-    "tag": "EXAMPLE",
+    "custom": true,
     "name": "Example",
     "desc": "Example preset JSON file",
     "nodes": [

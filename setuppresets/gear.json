@@ -1,6 +1,5 @@
 {
-	"custom": false,
-    "tag": "GEAR",
+    "custom": false,
     "name": "Character gear",
     "desc": "OFP2_ManSkeleton, ArmaMan, extra sections, copy model",
     "nodes": [

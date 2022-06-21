@@ -312,7 +312,7 @@ class MCFG_Panel_CreatePreset(bpy.types.Operator):
         layout = self.layout
         layout.prop(context.scene,"modelCfgEditorPresetName")
         layout.prop(context.scene,"modelCfgEditorPresetDesc")
-        layout.prop(context.scene,"modelCfgEditorPresetTag")
+        # layout.prop(context.scene,"modelCfgEditorPresetTag")
     
     def execute(self,context):
         Presets.CreatePreset(self,context)
@@ -324,7 +324,7 @@ class MCFG_Panel_CreatePreset(bpy.types.Operator):
         
         context.scene.modelCfgEditorPresetName = "Untitled preset"
         context.scene.modelCfgEditorPresetDesc = ""
-        context.scene.modelCfgEditorPresetTag = ""
+        # context.scene.modelCfgEditorPresetTag = ""
         
         if len(context.space_data.node_tree.nodes) == 0:
             utility.ShowInfoBox("There are no nodes in the tree","Info",'INFO')

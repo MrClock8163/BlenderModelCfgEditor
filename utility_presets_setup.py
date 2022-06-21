@@ -1,12 +1,13 @@
 import os
 import bpy
 import statistics
+from datetime import datetime
 import json
 from . import utility
 
-###############################
-####PRESET SETUP GENERATORS####
-###############################
+#########################
+#### LOAD AND INSERT ####
+#########################
 
 # Read and desirialize JSON file
 def ReadPresetFile(path):
@@ -94,21 +95,20 @@ def ReloadPresets():
     
     return
 
-# Create custom preset file from current setup
-def PresetTag(string):
-    tag = string.strip()
-    
-    tag = "".join(filter(str.isalnum, tag))
-    
-    return tag
+# Delete preset file
+def DeletePreset(path):
+    os.remove(path)
+    ReloadPresets()
+
+##################
+#### Generate ####
+##################
 
 # Generate preset in dictionary format
 def FormatPreset(context):
-    
     nodeTree = context.space_data.node_tree
     
     # starting values
-    tag = PresetTag(context.scene.modelCfgEditorPresetTag)
     name = context.scene.modelCfgEditorPresetName
     desc = context.scene.modelCfgEditorPresetDesc
     nodes = []
@@ -157,7 +157,6 @@ def FormatPreset(context):
     # creating dictionary
     preset = dict()
     preset["custom"] = True
-    preset["tag"] = tag.upper()
     preset["name"] = name
     preset["desc"] = desc
     preset["nodes"] = nodes
@@ -169,26 +168,22 @@ def FormatPreset(context):
     
     return preset
 
+# Generate preset file name
+def FormatPresetFileName():
+    name = "setuppreset"
+    stamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    
+    return (name + "_" + stamp)
+
 # Create setup preset from node tree
 def CreatePreset(self,context):
-    filepath = bpy.context.preferences.addons[__package__].preferences.customSetupPresets
-    identifier = PresetTag(context.scene.modelCfgEditorPresetTag)
+    addonPrefs = bpy.context.preferences.addons[__package__].preferences
+    folderpath = addonPrefs.customSetupPresets
+    filepath = os.path.join(folderpath,FormatPresetFileName() + ".json")
     
-    # safety checks
-    if identifier == "":
-        utility.ShowInfoBox("Cannot create preset without identifier","Error",'ERROR')
-        return
-    
-    existingSetups = PresetDefinitions()
-    usedtags = []
-    for setup in existingSetups:
-        usedtags.append(setup.get("tag"))
-    
-    if identifier.upper() in usedtags:
-        print("Used identifiers: " + ",".join(usedtags))
-        reportFinal = "Check systemlog for used identifiers,"
-        reportFinal += "|" + "conflicting identifier".upper()
-        bpy.ops.mcfg.reportbox('INVOKE_DEFAULT',report=reportFinal)
+    # file name conflict handling
+    if os.path.isfile(filepath) and not addonPrefs.customSetupPresetsReplace:
+        utility.ShowInfoBox("File name conflict occured","Error",'ERROR')
         return
     
     # creating preset dictionary
@@ -196,12 +191,6 @@ def CreatePreset(self,context):
     if newSetup == "":
         return
         
-    # dumping to JSON
-    outputfile = open(os.path.join(filepath,identifier.lower() + ".json"),"w")
+    outputfile = open(filepath,"w")
     outputfile.write(json.dumps(newSetup,indent = 4))
     outputfile.close()
-
-# Delete preset file
-def DeletePreset(path):
-    os.remove(path)
-    ReloadPresets()

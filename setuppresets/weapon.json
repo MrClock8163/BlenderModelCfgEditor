@@ -1,6 +1,5 @@
 {
-	"custom": false,
-    "tag": "WEAPON",
+    "custom": false,
     "name": "Weapon",
     "desc": "Skeleton, common weapon bones, model, common weapon animations",
     "nodes": [

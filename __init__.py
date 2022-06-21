@@ -242,6 +242,11 @@ class MCFG_Preferences(bpy.types.AddonPreferences):
         default="",
         update=updateCustomSetupPresets
     )
+    customSetupPresetsReplace: bpy.props.BoolProperty(
+        name="Replace old",
+        description="Replace the old preset file with the new one if name conflict occurs during generation (the probability is practically zero, but the possibility cannot be ruled out)",
+        default=True
+    )
     
     def draw(self,context):
         layout = self.layout
@@ -269,6 +274,7 @@ class MCFG_Preferences(bpy.types.AddonPreferences):
         box = layout.box()
         box.label(text="Preset settings")
         box.prop(self,"customSetupPresets",icon='PRESET')
+        box.prop(self,"customSetupPresetsReplace")
         
 import nodeitems_utils
 from nodeitems_utils import NodeItem
@@ -489,11 +495,6 @@ def register():
         description = "Description of the preset to be created",
         default = ""
     )
-    bpy.types.Scene.modelCfgEditorPresetTag = bpy.props.StringProperty (
-        name = "Indentifier",
-        description = "Short identifier for preset (no special characters, no whitespaces)",
-        default = ""
-    )
     
     # Helper properties
     bpy.types.Scene.ModelSelectionList = bpy.props.CollectionProperty(type=ui.MCFG_ModelSelectionItem)
@@ -520,7 +521,6 @@ def unregister():
     del bpy.types.Scene.modelCfgEditorOpenNotepad
     del bpy.types.Scene.modelCfgEditorPresetName
     del bpy.types.Scene.modelCfgEditorPresetDesc
-    del bpy.types.Scene.modelCfgEditorPresetTag
     del bpy.types.Scene.ModelSelectionList
     del bpy.types.Scene.ModelSelectionListIndex
     del bpy.types.Scene.ModelSelectionListListNode

@@ -1,6 +1,5 @@
 {
     "custom": false,
-    "tag": "TANK",
     "name": "Tank",
     "desc": "Basic tank setup with track wheels and one turret",
     "nodes": [
