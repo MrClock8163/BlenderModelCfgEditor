@@ -84,10 +84,10 @@ def PresetDefinitions():
 def ReloadPresets():
     RawSetups = PresetDefinitions()
     
-    bpy.context.scene.NodeSetupPresetList.clear()
+    bpy.context.scene.MCFG_SP_PresetList.clear()
     
     for setup in RawSetups:
-        newItem = bpy.context.scene.NodeSetupPresetList.add()
+        newItem = bpy.context.scene.MCFG_SP_PresetList.add()
         newItem.name = setup.get("name")
         newItem.desc = setup.get("desc")
         newItem.custom = setup.get("custom")
@@ -109,8 +109,8 @@ def FormatPreset(context):
     nodeTree = context.space_data.node_tree
     
     # starting values
-    name = context.scene.modelCfgEditorPresetName
-    desc = context.scene.modelCfgEditorPresetDesc
+    name = context.scene.MCFG_SP_PresetName
+    desc = context.scene.MCFG_SP_PresetDesc
     nodes = []
     x = []
     y = []

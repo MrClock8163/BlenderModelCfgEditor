@@ -160,7 +160,7 @@ def updateCustomSetupPresets(self,context):
     utility_presets_setup.ReloadPresets()
 
 # Addon preferences
-class MCFG_Preferences(bpy.types.AddonPreferences):
+class MCFG_AT_Preferences(bpy.types.AddonPreferences):
     bl_idname = __name__
     
     # Color settings
@@ -340,7 +340,7 @@ node_categories = [
         NodeItem("MCFG_N_AnimationListPresetTank"),
         NodeItem("MCFG_N_AnimationListPresetTurret")
     ]),
-    n_tree.MCFG_N_Category('OPERATORS', "Operator", items=[
+    n_tree.MCFG_N_Category('OPERATORNODES', "Operator", items=[
         NodeItem("MCFG_N_JoinList"),
         NodeItem("MCFG_N_ValueFloat"),
         NodeItem("MCFG_N_CompareFloat"),
@@ -348,7 +348,7 @@ node_categories = [
         NodeItem("MCFG_N_MathBasic"),
         NodeItem("MCFG_N_LogicBasic")
     ]),
-    n_tree.MCFG_N_Category('MISC', "Miscellaneous", items=[
+    n_tree.MCFG_N_Category('MISCNODES', "Miscellaneous", items=[
         NodeItem("MCFG_N_Inspect"),
         NodeItem("MCFG_N_Scripted"),
         NodeItem("MCFG_N_Demostrative")
@@ -360,9 +360,8 @@ node_categories = [
 
 # Registration
 
-classes = (
-    
-    # Nodes
+# Nodes
+classes_node = (
     nodes.n_animation.MCFG_N_AnimationTranslation,
     nodes.n_animation.MCFG_N_AnimationTranslationX,
     nodes.n_animation.MCFG_N_AnimationTranslationY,
@@ -387,9 +386,10 @@ classes = (
     nodes.n_sectionList.MCFG_N_SectionList,
     nodes.n_skeleton.MCFG_N_Skeleton,
     nodes.n_valueFloat.MCFG_N_ValueFloat,
-    nodes.n_valueString.MCFG_N_ValueString,
-    
-    # Node presets
+    nodes.n_valueString.MCFG_N_ValueString
+)
+# Node presets
+classes_presetnode = (
     nodepresets.n_animationListPresetBullets.MCFG_N_AnimationListPresetBulletsHide,
     nodepresets.n_animationListPresetDoors.MCFG_N_AnimationListPresetDoorsRot,
     nodepresets.n_animationListPresetDoors.MCFG_N_AnimationListPresetDoorsMove,
@@ -414,9 +414,10 @@ classes = (
     nodepresets.n_modelPresetCopy.MCFG_N_ModelPresetCopy,
     nodepresets.n_modelPresetDefault.MCFG_N_ModelPresetDefault,
     nodepresets.n_skeletonPresetArmaman.MCFG_N_SkeletonPresetArmaman,
-    nodepresets.n_skeletonPresetDefault.MCFG_N_SkeletonPresetDefault,
-    
-    # Sockets
+    nodepresets.n_skeletonPresetDefault.MCFG_N_SkeletonPresetDefault
+)
+# Sockets
+classes_socket = (
     sockets.s_list.MCFG_S_List,
     sockets.s_modelAnimation.MCFG_S_ModelAnimation,
     sockets.s_modelAnimationList.MCFG_S_ModelAnimationList,
@@ -430,105 +431,143 @@ classes = (
     sockets.s_universal.MCFG_S_Universal,
     sockets.s_valueBool.MCFG_S_ValueBool,
     sockets.s_valueFloat.MCFG_S_ValueFloat,
-    sockets.s_valueString.MCFG_S_ValueString,
-    
-    # Misc
-    MCFG_Preferences,
+    sockets.s_valueString.MCFG_S_ValueString
+)
+# Misc
+classes_misc = (
+    MCFG_AT_Preferences,
     n_tree.MCFG_N_Tree,
     n_tree.MCFG_N_Frame,
-    ui.MCFG_MT_MenuTemplatesNodeScript,
-    ui.MCFG_MT_MenuTemplatesSetupPresets,
-    ui.MCFG_ModelSelectionItem,
-    ui.MCFG_NodeSetupPresetItem,
+    ui.MCFG_MT_TemplatesNodeScript,
+    ui.MCFG_MT_TemplatesSetupPresets,
+    ui.MCFG_GT_ModelSelectionItem,
+    ui.MCFG_GT_NodeSetupPresetItem,
     ui.MCFG_UL_ModelSelectionList,
     ui.MCFG_UL_NodeSetupPresetList,
-    ui.MCFG_BonesFromModel,
-    ui.MCFG_SectionsFromModel,
-    ui.MCFG_ReportBox,
-    ui.MCFG_Panel_Export,
-    ui.MCFG_Panel_Validate,
-    ui.MCFG_Panel_LoadPresets,
-    ui.MCFG_Panel_InsertPreset,
-    ui.MCFG_Panel_CreatePreset,
-    ui.MCFG_Panel_DeletePreset,
-    ui.MCFG_Panel_Inspect,
-    ui.MCFG_PT_Panel_Tools,
-    ui.MCFG_PT_Panel_Export,
-    ui.MCFG_PT_Panel_Presets,
-    ui.MCFG_PT_Panel_Docs
+    ui.MCFG_OT_BonesFromModel,
+    ui.MCFG_OT_SectionsFromModel,
+    ui.MCFG_OT_ReportBox,
+    ui.MCFG_OT_Export,
+    ui.MCFG_OT_Validate,
+    ui.MCFG_OT_LoadPresets,
+    ui.MCFG_OT_InsertPreset,
+    ui.MCFG_OT_CreatePreset,
+    ui.MCFG_OT_DeletePreset,
+    ui.MCFG_OT_Inspect,
+    ui.MCFG_PT_Tools,
+    ui.MCFG_PT_Export,
+    ui.MCFG_PT_Presets,
+    ui.MCFG_PT_Docs
 )
 
 def register():
-    print("Model Cfg editor registering")
-    print(__name__)
     from bpy.utils import register_class
-    for cls in classes:
-        print(cls)
-        register_class(cls)
+    
+    print("Registering Model Cfg editor ( '" + __name__ + "' )")
 
-    nodeitems_utils.register_node_categories('MODELCFG_NODES', node_categories)
+    for cls in classes_node:
+        register_class(cls)
+    print("\tnode\t\t" + str(len(classes_node)))
+
+    for cls in classes_presetnode:
+        register_class(cls)
+    print("\tpreset node\t" + str(len(classes_presetnode)))
+
+    for cls in classes_socket:
+        register_class(cls)
+    print("\tsocket\t\t" + str(len(classes_socket)))
+
+    for cls in classes_misc:
+        register_class(cls)
+    print("\tmisc\t\t" + str(len(classes_misc)))
+
+    nodeitems_utils.register_node_categories('MCFG_NODES', node_categories)
+    
+    print("\tproperties")
     
     # Panel settings
-    bpy.types.Scene.modelCfgExportDir = bpy.props.StringProperty (
+    bpy.types.Scene.MCFG_SP_ExportDir = bpy.props.StringProperty (
         name = "Directory",
         description = "Directory to save file to",
         default = "",
         subtype = 'DIR_PATH'
     )
-    bpy.types.Scene.modelCfgEditorIgnoreErrors = bpy.props.BoolProperty (
+    bpy.types.Scene.MCFG_SP_IgnoreErrors = bpy.props.BoolProperty (
         name = "Ignore errors",
         description = "(NOT RECOMMENDED) Export setup regardless of whether or not the validation succeeds",
         default = False
     )
-    bpy.types.Scene.modelCfgEditorOpenNotepad = bpy.props.BoolProperty (
+    bpy.types.Scene.MCFG_SP_OpenFile = bpy.props.BoolProperty (
         name = "Open file",
         description = "Open the model.cfg file after export in default text editor",
         default = False
     )
-    bpy.types.Scene.modelCfgEditorPresetName = bpy.props.StringProperty (
+    bpy.types.Scene.MCFG_SP_PresetName = bpy.props.StringProperty (
         name = "Name",
         description = "Name of the preset to be created",
         default = "Untitled preset"
     )
-    bpy.types.Scene.modelCfgEditorPresetDesc = bpy.props.StringProperty (
+    bpy.types.Scene.MCFG_SP_PresetDesc = bpy.props.StringProperty (
         name = "Description",
         description = "Description of the preset to be created",
         default = ""
     )
     
-    # Helper properties
-    bpy.types.Scene.ModelSelectionList = bpy.props.CollectionProperty(type=ui.MCFG_ModelSelectionItem)
-    bpy.types.Scene.ModelSelectionListIndex = bpy.props.IntProperty(name = "Selection index",default = 0)
-    bpy.types.Scene.ModelSelectionListListNode = bpy.props.BoolProperty(name = "Create list node",default = False)
+    # Container properties
+    bpy.types.Scene.MCFG_SP_ModelSelectionList = bpy.props.CollectionProperty(type=ui.MCFG_GT_ModelSelectionItem)
+    bpy.types.Scene.MCFG_SP_ModelSelectionListIndex = bpy.props.IntProperty(name = "Selection index",default = 0)
+    bpy.types.Scene.MCFG_SP_ModelSelectionListListNode = bpy.props.BoolProperty(name = "Create list node",default = False)
+    bpy.types.Scene.MCFG_SP_PresetList = bpy.props.CollectionProperty(type=ui.MCFG_GT_NodeSetupPresetItem)
+    bpy.types.Scene.MCFG_SP_PresetListIndex = bpy.props.IntProperty(name = "Selection index",default = 0)
     
-    bpy.types.Scene.NodeSetupPresetList = bpy.props.CollectionProperty(type=ui.MCFG_NodeSetupPresetItem)
-    bpy.types.Scene.NodeSetupPresetListIndex = bpy.props.IntProperty(name = "Selection index",default = 0)
+    print("\tmenus")
     
+    # Menus
     bpy.types.NODE_MT_editor_menus.append(ui.draw_header)
-    bpy.types.TEXT_MT_templates.append(ui.draw_item)
+    bpy.types.TEXT_MT_templates.append(ui.draw_menu)
     
     print("Register done")
 
 def unregister():
-    nodeitems_utils.unregister_node_categories('MODELCFG_NODES')
-
     from bpy.utils import unregister_class
-    for cls in reversed(classes):
-        unregister_class(cls)
-        
-    del bpy.types.Scene.modelCfgExportDir
-    del bpy.types.Scene.modelCfgEditorIgnoreErrors
-    del bpy.types.Scene.modelCfgEditorOpenNotepad
-    del bpy.types.Scene.modelCfgEditorPresetName
-    del bpy.types.Scene.modelCfgEditorPresetDesc
-    del bpy.types.Scene.ModelSelectionList
-    del bpy.types.Scene.ModelSelectionListIndex
-    del bpy.types.Scene.ModelSelectionListListNode
-    del bpy.types.Scene.NodeSetupPresetList
-    del bpy.types.Scene.NodeSetupPresetListIndex
+    
+    print("Unregistering Model Cfg editor ( '" + __name__ + "' )")
+    
+    nodeitems_utils.unregister_node_categories('MCFG_NODES')
 
+    for cls in reversed(classes_misc):
+        unregister_class(cls)
+    print("\tmisc\t\t" + str(len(classes_misc)))
+
+    for cls in reversed(classes_socket):
+        unregister_class(cls)
+    print("\tsocket\t\t" + str(len(classes_socket)))
+
+    for cls in reversed(classes_presetnode):
+        unregister_class(cls)
+    print("\tpreset node\t" + str(len(classes_presetnode)))
+
+    for cls in reversed(classes_node):
+        unregister_class(cls)
+    print("\tnode\t\t" + str(len(classes_node)))
+        
+    print("\tproperties")
+    del bpy.types.Scene.MCFG_SP_ExportDir
+    del bpy.types.Scene.MCFG_SP_IgnoreErrors
+    del bpy.types.Scene.MCFG_SP_OpenFile
+    del bpy.types.Scene.MCFG_SP_PresetName
+    del bpy.types.Scene.MCFG_SP_PresetDesc
+    del bpy.types.Scene.MCFG_SP_ModelSelectionList
+    del bpy.types.Scene.MCFG_SP_ModelSelectionListIndex
+    del bpy.types.Scene.MCFG_SP_ModelSelectionListListNode
+    del bpy.types.Scene.MCFG_SP_PresetList
+    del bpy.types.Scene.MCFG_SP_PresetListIndex
+
+    print("\tmenus")
     bpy.types.NODE_MT_editor_menus.remove(ui.draw_header)
-    bpy.types.TEXT_MT_templates.remove(ui.draw_item)
+    bpy.types.TEXT_MT_templates.remove(ui.draw_menu)
+    
+    print("Unregister done")
 
 if __name__ == "__main__":
     register()

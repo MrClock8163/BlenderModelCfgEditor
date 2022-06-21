@@ -39,7 +39,7 @@ def ValidateClassStructure(CfgSkeletons,CfgModels):
     logFile = None
     
     if addonPrefs.validationOutput == 'FILE':
-        logFile = open(bpy.context.scene.modelCfgExportDir + "model.cfg.log","w")
+        logFile = open(bpy.context.scene.MCFG_SP_ExportDir + "model.cfg.log","w")
 
     isValid = True
     
@@ -99,7 +99,7 @@ def ExportFile(self,context,export = True):
     
     # Validation
     [isValidData,counts] = ValidateClassStructure(CfgSkelly,CfgMesh)
-    if not isValidData and not context.scene.modelCfgEditorIgnoreErrors:
+    if not isValidData and not context.scene.MCFG_SP_IgnoreErrors:
         verdict = ["Validation failed","Export failed"]
     else:
         verdict = ["Validation successful","Export successful"]
@@ -114,24 +114,24 @@ def ExportFile(self,context,export = True):
     
     bpy.ops.mcfg.reportbox('INVOKE_DEFAULT',report=reportFinal)
     
-    if (not isValidData and not context.scene.modelCfgEditorIgnoreErrors) or not export:
+    if (not isValidData and not context.scene.MCFG_SP_IgnoreErrors) or not export:
         return
     
     # Export
-    if not os.path.exists(context.scene.modelCfgExportDir) and export:
+    if not os.path.exists(context.scene.MCFG_SP_ExportDir) and export:
         ShowInfoBox("No valid file location was specified","Error",'ERROR')
         self.report({'ERROR'},"No valid output location was given for model.cfg export")
         return
         
-    exportFile = open(context.scene.modelCfgExportDir + "model.cfg","w")
+    exportFile = open(context.scene.MCFG_SP_ExportDir + "model.cfg","w")
     
     print(CfgSkelly.Print(),file=exportFile)
     print(CfgMesh.Print(),file=exportFile)
     
     exportFile.close()
     
-    if context.scene.modelCfgEditorOpenNotepad:
-        webbrowser.open(context.scene.modelCfgExportDir + "model.cfg")
+    if context.scene.MCFG_SP_OpenFile:
+        webbrowser.open(context.scene.MCFG_SP_ExportDir + "model.cfg")
     
 # Print inspected data
 def InspectData(self,context):
@@ -166,7 +166,7 @@ def CreateBoneNodes(self,context):
             boneCount += 1
     
     # create list node if desired
-    if context.scene.ModelSelectionListListNode and len(nodeList) > 0:
+    if context.scene.MCFG_SP_ModelSelectionListListNode and len(nodeList) > 0:
         listNode = nodeTree.nodes.new("MCFG_N_BoneList")
         listNode.location = [200,0]
         listNode.boneCount = len(nodeList)
@@ -174,7 +174,7 @@ def CreateBoneNodes(self,context):
         for i in range(len(nodeList)):
             nodeTree.links.new(nodeList[i].outputs[0],listNode.inputs[i])
         
-        context.scene.ModelSelectionListListNode = False
+        context.scene.MCFG_SP_ModelSelectionListListNode = False
 
 # Create section list node from the selected selections of the active model
 def CreateSectionNodes(self,context):
