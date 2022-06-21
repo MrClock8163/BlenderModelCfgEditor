@@ -437,7 +437,6 @@ classes_socket = (
 classes_misc = (
     MCFG_AT_Preferences,
     n_tree.MCFG_N_Tree,
-    n_tree.MCFG_N_Frame,
     ui.MCFG_MT_TemplatesNodeScript,
     ui.MCFG_MT_TemplatesSetupPresets,
     ui.MCFG_GT_ModelSelectionItem,
@@ -520,6 +519,10 @@ def register():
     bpy.types.Scene.MCFG_SP_PresetList = bpy.props.CollectionProperty(type=ui.MCFG_GT_NodeSetupPresetItem)
     bpy.types.Scene.MCFG_SP_PresetListIndex = bpy.props.IntProperty(name = "Selection index",default = 0)
     
+    # Node properties
+    bpy.types.NodeFrame.process_type = ""
+    bpy.types.NodeFrame.doc_url = ""
+    
     print("\tmenus")
     
     # Menus
@@ -562,6 +565,9 @@ def unregister():
     del bpy.types.Scene.MCFG_SP_ModelSelectionListListNode
     del bpy.types.Scene.MCFG_SP_PresetList
     del bpy.types.Scene.MCFG_SP_PresetListIndex
+    
+    del bpy.types.NodeFrame.process_type
+    del bpy.types.NodeFrame.doc_url
 
     print("\tmenus")
     bpy.types.NODE_MT_editor_menus.remove(ui.draw_header)

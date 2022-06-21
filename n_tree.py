@@ -79,17 +79,8 @@ class MCFG_N_Base:
     def free(self):
         print("Removing node ", self, ", Goodbye!")
 
-# Frame node compatible with the editor
-class MCFG_N_Frame(bpy.types.NodeFrame):
-    
-    # Mandatory variables
-    bl_label = "Frame"
-
-    @classmethod
-    def poll(cls, ntree):
-        return ntree.bl_idname == 'MCFG_N_Tree'
-
 class MCFG_N_Category(NodeCategory):
+    # Standard functions
     @classmethod
     def poll(cls, context):
         return context.space_data.tree_type == 'MCFG_N_Tree'
