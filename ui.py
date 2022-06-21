@@ -560,6 +560,7 @@ def draw_header(self,context):
         layout.prop(context.scene,"MCFG_SP_ExportDir",text = "")
         layout.operator('mcfg.export', icon = 'EXPORT', text = "")
 
+# Add addon related templates to the script templates menu
 def draw_menu(self,context):
     layout = self.layout
     layout.separator()
