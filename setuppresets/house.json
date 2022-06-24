@@ -1,7 +1,7 @@
 {
     "custom": false,
     "name": "House",
-    "desc": "Skeleton, preset bones list, model, sections list, preset animations",
+    "desc": "Basic house with preset doors, window glasses and damage selections",
     "nodes": [
         "MCFG_N_Skeleton",
         "MCFG_N_Model",

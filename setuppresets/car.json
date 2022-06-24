@@ -1,7 +1,7 @@
 {
     "custom": false,
     "name": "Car",
-    "desc": "Generic car with 4 wheels, 2 wheels steering",
+    "desc": "Basic car with 4 wheels total, 2 steering wheels",
     "nodes": [
         "MCFG_N_Skeleton",
         "MCFG_N_Model",

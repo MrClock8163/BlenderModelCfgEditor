@@ -1,7 +1,7 @@
 {
     "custom": false,
     "name": "Weapon",
-    "desc": "Skeleton, common weapon bones, model, common weapon animations",
+    "desc": "Basic weapon with preset bones, animated muzzle flash, selector, trigger and magazine hiding",
     "nodes": [
         "MCFG_N_Skeleton",
         "MCFG_N_JoinList",

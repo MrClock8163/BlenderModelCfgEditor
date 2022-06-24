@@ -1,7 +1,7 @@
 {
     "custom": false,
     "name": "Generic",
-    "desc": "Skeleton, bones list, model, sections list",
+    "desc": "Generic setup with basic skeleton and model",
     "nodes": [
         "MCFG_N_Skeleton",
         "MCFG_N_Model",

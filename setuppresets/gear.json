@@ -1,7 +1,7 @@
 {
     "custom": false,
     "name": "Character gear",
-    "desc": "OFP2_ManSkeleton, ArmaMan, extra sections, copy model",
+    "desc": "Basic character gear with standard skeleton and model",
     "nodes": [
         "MCFG_N_SkeletonPresetArmaman",
         "MCFG_N_ModelPresetArmaman",
