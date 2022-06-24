@@ -36,6 +36,7 @@ if "bpy" in locals():
     
     # Node presets
     importlib.reload(nodepresets.n_animationListPresetBullets)
+    importlib.reload(nodepresets.n_animationListPresetCar)
     importlib.reload(nodepresets.n_animationListPresetDoors)
     importlib.reload(nodepresets.n_animationListPresetGlasses)
     importlib.reload(nodepresets.n_animationListPresetTank)
@@ -105,6 +106,7 @@ else:
     
     # Node presets
     from . nodepresets import n_animationListPresetBullets
+    from . nodepresets import n_animationListPresetCar
     from . nodepresets import n_animationListPresetDoors
     from . nodepresets import n_animationListPresetGlasses
     from . nodepresets import n_animationListPresetTank
@@ -338,6 +340,8 @@ node_categories = [
         NodeItem("MCFG_N_AnimationListPresetDoorsMove"),
         NodeItem("MCFG_N_AnimationListPresetGlasses"),
         NodeItem("MCFG_N_AnimationListPresetTank"),
+        NodeItem("MCFG_N_AnimationListPresetCarWheels"),
+        NodeItem("MCFG_N_AnimationListPresetCarWheelsSteer"),
         NodeItem("MCFG_N_AnimationListPresetTurret")
     ]),
     n_tree.MCFG_N_Category('OPERATORNODES', "Operator", items=[
@@ -391,6 +395,8 @@ classes_node = (
 # Node presets
 classes_presetnode = (
     nodepresets.n_animationListPresetBullets.MCFG_N_AnimationListPresetBulletsHide,
+    nodepresets.n_animationListPresetCar.MCFG_N_AnimationListPresetCarWheels,
+    nodepresets.n_animationListPresetCar.MCFG_N_AnimationListPresetCarWheelsSteer,
     nodepresets.n_animationListPresetDoors.MCFG_N_AnimationListPresetDoorsRot,
     nodepresets.n_animationListPresetDoors.MCFG_N_AnimationListPresetDoorsMove,
     nodepresets.n_animationListPresetGlasses.MCFG_N_AnimationListPresetGlasses,

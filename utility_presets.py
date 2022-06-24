@@ -1,5 +1,8 @@
 from .utility_data import Bone, Skeleton, Model, Animation
 
+def Rad(angle):
+    return angle * (3.141592653589793/180)
+
 ##############################
 ####PRESET DATA GENERATORS####
 ##############################
@@ -713,6 +716,159 @@ def TankWheels(wheelsFix,wheelsDamp,damping):
         newAnim.Set("typeMaxValue",'_HIDE_')
         newAnimList.append(newAnim)
         
+    return newAnimList
+
+def CarWheels(wheels,damping,deflation):
+    newAnimList = []
+    
+    baseDestruct = Animation("wheel_base_destruct","hide","")
+    baseDestruct.Set("selection","empty")
+    baseDestruct.Set("source","empty")
+    baseDestruct.Set("sourceAddress",'_HIDE_')
+    baseDestruct.Set("typeMinValue",0.99999)
+    newAnimList.append(baseDestruct)
+    
+    baseDestructUnhide = Animation("wheel_base_destruct_unhide","hide","")
+    baseDestructUnhide.Set("selection","empty")
+    baseDestructUnhide.Set("source","empty")
+    baseDestructUnhide.Set("sourceAddress",'_HIDE_')
+    baseDestructUnhide.Set("typeMinValue",0)
+    baseDestructUnhide.Set("typeMaxValue",1)
+    newAnimList.append(baseDestructUnhide)
+    
+    baseDamage = Animation("wheel_base_damage","translation","")
+    baseDamage.Set("selection","empty")
+    baseDamage.Set("source","empty")
+    baseDamage.Set("sourceAddress",'_HIDE_')
+    baseDamage.Set("axis","damper_axis")
+    baseDamage.Set("typeMaxValue",deflation)
+    newAnimList.append(baseDamage)
+    
+    baseDamageBackanim = Animation("wheel_base_damage_backanim","translation","wheel_base_damage")
+    baseDamageBackanim.Set("selection",'_HIDE_')
+    baseDamageBackanim.Set("source",'_HIDE_')
+    baseDamageBackanim.Set("sourceAddress",'_HIDE_')
+    baseDamageBackanim.Set("memory",'_HIDE_')
+    baseDamageBackanim.Set("axis",'_HIDE_')
+    baseDamageBackanim.Set("minValue",'_HIDE_')
+    baseDamageBackanim.Set("maxValue",'_HIDE_')
+    baseDamageBackanim.Set("typeMinValue",'_HIDE_')
+    baseDamageBackanim.Set("typeMaxValue",-1.2*deflation)
+    newAnimList.append(baseDamageBackanim)
+    
+    baseRotation = Animation("wheel_base_rotation","rotationX","")
+    baseRotation.Set("selection","empty")
+    baseRotation.Set("source","wheel")
+    baseRotation.Set("sourceAddress","loop")
+    baseRotation.Set("axis","empty")
+    baseRotation.Set("typeMaxValue",Rad(-360))
+    newAnimList.append(baseRotation)
+    
+    baseDamper = Animation("wheel_base_damp","translation","")
+    baseDamper.Set("source","damper")
+    baseDamper.Set("sourceAddress",'_HIDE_')
+    baseDamper.Set("selection","empty")
+    baseDamper.Set("axis","damper_axis")
+    baseDamper.Set("typeMinValue",damping[0])
+    baseDamper.Set("typeMaxValue",damping[1])
+    newAnimList.append(baseDamper)
+    
+    for i in range(2):
+        sideIndex = str(i + 1)
+        
+        for j in range(wheels):
+            index = str(j + 1)
+            
+            destruct = Animation("wheel_{}_{}_destruct".format(sideIndex,index),"hide","wheel_base_destruct")
+            destruct.Set("selection","wheel_{}_{}_hide".format(sideIndex,index))
+            destruct.Set("source","Hit{}{}Wheel".format(sideIndex,index))
+            destruct.Set("sourceAddress",'_HIDE_')
+            destruct.Set("minValue",'_HIDE_')
+            destruct.Set("maxValue",'_HIDE_')
+            destruct.Set("typeMinValue",'_HIDE_')
+            newAnimList.append(destruct)
+            
+            destructUnhide = Animation("wheel_{}_{}_destruct_unhide".format(sideIndex,index),"hide","wheel_base_destruct_unhide")
+            destructUnhide.Set("selection","wheel_{}_{}_unhide".format(sideIndex,index))
+            destructUnhide.Set("source","Hit{}{}Wheel".format(sideIndex,index))
+            destructUnhide.Set("sourceAddress",'_HIDE_')
+            destructUnhide.Set("minValue",'_HIDE_')
+            destructUnhide.Set("maxValue",'_HIDE_')
+            destructUnhide.Set("typeMinValue",'_HIDE_')
+            newAnimList.append(destructUnhide)
+            
+            damage = Animation("wheel_{}_{}_damage".format(sideIndex,index),"translation","wheel_base_damage")
+            damage.Set("selection","wheel_{}_{}_damper".format(sideIndex,index))
+            damage.Set("source","Hit{}{}Wheel".format(sideIndex,index))
+            damage.Set("sourceAddress",'_HIDE_')
+            damage.Set("memory",'_HIDE_')
+            damage.Set("axis",'_HIDE_')
+            damage.Set("minValue",'_HIDE_')
+            damage.Set("maxValue",'_HIDE_')
+            damage.Set("typeMinValue",'_HIDE_')
+            damage.Set("typeMaxValue",'_HIDE_')
+            newAnimList.append(damage)
+            
+            damageBackanim = Animation("wheel_{}_{}_damper_damage_backanim".format(sideIndex,index),"translation","wheel_base_damage_backanim")
+            damageBackanim.Set("selection","wheel_{}_{}_damper".format(sideIndex,index))
+            damageBackanim.Set("source","Hit{}{}Wheel".format(sideIndex,index))
+            damageBackanim.Set("sourceAddress",'_HIDE_')
+            damageBackanim.Set("memory",'_HIDE_')
+            damageBackanim.Set("axis",'_HIDE_')
+            damageBackanim.Set("minValue",'_HIDE_')
+            damageBackanim.Set("maxValue",'_HIDE_')
+            damageBackanim.Set("typeMinValue",'_HIDE_')
+            damageBackanim.Set("typeMaxValue",'_HIDE_')
+            newAnimList.append(damageBackanim)
+            
+            rotation = Animation("wheel_{}_{}".format(sideIndex,index),"rotationX","wheel_base_rotation")
+            rotation.Set("selection","wheel_{}_{}".format(sideIndex,index))
+            rotation.Set("source",'_HIDE_')
+            rotation.Set("sourceAddress",'_HIDE_')
+            rotation.Set("memory",'_HIDE_')
+            rotation.Set("axis","wheel_{}_{}_axis".format(sideIndex,index))
+            rotation.Set("minValue",'_HIDE_')
+            rotation.Set("maxValue",'_HIDE_')
+            rotation.Set("typeMinValue",'_HIDE_')
+            rotation.Set("typeMaxValue",'_HIDE_')
+            newAnimList.append(rotation)
+            
+            damper = Animation("wheel_{}_{}_damper".format(sideIndex,index),"translation","wheel_base_damp")
+            damper.Set("selection","wheel_{}_{}_damper_land".format(sideIndex,index))
+            damper.Set("source",'_HIDE_')
+            damper.Set("sourceAddress",'_HIDE_')
+            damper.Set("memory",'_HIDE_')
+            damper.Set("axis",'_HIDE_')
+            damper.Set("minValue",'_HIDE_')
+            damper.Set("maxValue",'_HIDE_')
+            damper.Set("typeMinValue",'_HIDE_')
+            damper.Set("typeMaxValue",'_HIDE_')
+            newAnimList.append(damper)
+        
+        
+    return newAnimList
+
+def CarWheelsSteer(wheelRange,angle):
+    newAnimList = []
+    angle = Rad(angle)    
+    
+    for i in range(2):
+        sideIndex = str(i + 1)
+        
+        for i in range(wheelRange[0],wheelRange[1] + 1):
+            index = str(i)
+            
+            steer = Animation("steering_{}_{}".format(sideIndex,index),"rotationY","")
+            steer.Set("source","drivingWheel")
+            steer.Set("sourceAddress",'_HIDE_')
+            steer.Set("selection","wheel_{}_{}_steering".format(sideIndex,index))
+            steer.Set("axis","wheel_{}_{}_steering_axis".format(sideIndex,index))
+            steer.Set("minValue",-1)
+            steer.Set("maxValue",1)
+            steer.Set("typeMinValue",angle)
+            steer.Set("typeMaxValue",-angle)
+            newAnimList.append(steer)
+    
     return newAnimList
 
 def TurretRot(identifier,isMain,recoilOffset):

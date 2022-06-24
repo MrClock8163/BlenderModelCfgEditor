@@ -33,16 +33,16 @@ class MCFG_N_AnimationListPresetTank(Node, n_tree.MCFG_N_Base):
         soft_max = 10
     )
     dampMin: bpy.props.FloatProperty(
-        name = "Compress",
-        description = "Maximal damper compression offset from startion position",
+        name = "Compression",
+        description = "Maximal damper compression offset from startion position (absolute value)",
         default = 0.2,
         min = 0,
         max = 100,
         soft_max = 1
     )
     dampMax: bpy.props.FloatProperty(
-        name = "Expand",
-        description = "Maximal damper expansion offset from startion position",
+        name = "Expansion",
+        description = "Maximal damper expansion offset from startion position (absolute value)",
         default = 0.2,
         min = 0,
         max = 100,

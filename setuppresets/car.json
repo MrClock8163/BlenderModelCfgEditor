@@ -1,0 +1,124 @@
+{
+    "custom": false,
+    "name": "Car",
+    "desc": "Generic car with 4 wheels, 2 wheels steering",
+    "nodes": [
+        "MCFG_N_Skeleton",
+        "MCFG_N_Model",
+        "MCFG_N_SectionList",
+        "MCFG_N_BoneListPresetCar",
+        "MCFG_N_JoinList",
+        "MCFG_N_AnimationListPresetCarWheels",
+        "MCFG_N_AnimationListPresetCarWheelsSteer"
+    ],
+    "x": [
+        0,
+        300,
+        0,
+        -200,
+        0,
+        -400,
+        -200
+    ],
+    "y": [
+        0,
+        0,
+        -200,
+        -100,
+        -350,
+        -300,
+        -500
+    ],
+    "settings": [
+        [
+            4,
+            "listCount",
+            2
+        ]
+    ],
+    "links": [
+        [
+            0,
+            1,
+            0,
+            2
+        ],
+        [
+            2,
+            1,
+            0,
+            3
+        ],
+        [
+            3,
+            0,
+            0,
+            3
+        ],
+        [
+            4,
+            1,
+            0,
+            4
+        ],
+        [
+            5,
+            4,
+            0,
+            0
+        ],
+        [
+            6,
+            4,
+            0,
+            1
+        ]
+    ],
+    "postsettings": [
+        [
+            0,
+            "exportClass",
+            true
+        ],
+        [
+            0,
+            "overrideBones",
+            true
+        ],
+        [
+            0,
+            "overrideIsDiscrete",
+            true
+        ],
+        [
+            0,
+            "overrideInheritBones",
+            true
+        ],
+        [
+            1,
+            "exportClass",
+            true
+        ],
+        [
+            1,
+            "overrideInheritSections",
+            true
+        ],
+        [
+            1,
+            "overrideSkeleton",
+            true
+        ],
+        [
+            1,
+            "overrideSections",
+            true
+        ],
+        [
+            1,
+            "overrideAnimations",
+            false
+        ]
+    ]
+}

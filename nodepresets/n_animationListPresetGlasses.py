@@ -18,7 +18,7 @@ class MCFG_N_AnimationListPresetGlasses(Node, n_tree.MCFG_N_Base):
     # Node properties
     glassCount: bpy.props.IntProperty(
         name = "Glasses",
-        description = "Nummber glasses to be animated",
+        description = "Number glasses to be animated",
         default = 1,
         min = 1,
         max = 100,
