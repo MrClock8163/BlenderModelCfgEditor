@@ -1,9 +1,5 @@
 # Arma 3 model.cfg editor for Blender
 
-<p align="center">
-    <img src="https://user-images.githubusercontent.com/48679831/174893537-f5ff49de-2058-43af-86f6-4a888ad16f82.png" width="200">
-</p>
-
 The goal of this project is to provide a visual and intuitive way to create the required model.cfg files for models intended for import to the Arma 3 game.
 The project is still heavily in development, new features are still to be added.
 
