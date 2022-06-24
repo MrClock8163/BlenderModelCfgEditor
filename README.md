@@ -44,7 +44,7 @@ The programming of this addon is most likely not the best, or most efficient, bu
 The addon is most useful in Blender based workflows, and used in conjunction with Alwarren's [Arma Toolbox](https://github.com/AlwarrenSidh/ArmAToolbox) specifically, thus allowing to have the entire process from modelling to importing be done entirely in Blender.
 
 ### Documentation
-The documentation of this addon is still underway, it will be available in the wiki section of the GitHub repository.
+The documentation of this addon is still underway, it will be available in the [wiki](https://github.com/MrClock8163/BlenderModelCfgEditor/wiki) section of the GitHub repository.
 
 ## Requirements
 This Blender addon requires v2.83.0 of Blender or higher, as previous versions do not support custom node editor workspaces.
