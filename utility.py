@@ -151,7 +151,7 @@ def InspectData(self,context):
 # Create bone nodes from the selected selections of the active model
 def CreateBoneNodes(self,context):
     nodeTree = context.space_data.node_tree
-    selections = bpy.context.scene.ModelSelectionList
+    selections = bpy.context.scene.MCFG_SP_ModelSelectionList
     
     boneCount = 0
     nodeList = []
@@ -179,7 +179,7 @@ def CreateBoneNodes(self,context):
 # Create section list node from the selected selections of the active model
 def CreateSectionNodes(self,context):
     nodeTree = context.space_data.node_tree
-    selections = bpy.context.scene.ModelSelectionList
+    selections = bpy.context.scene.MCFG_SP_ModelSelectionList
     
     newSections = []
     for i in range(len(selections)):
