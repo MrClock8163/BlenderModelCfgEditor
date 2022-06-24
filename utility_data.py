@@ -305,6 +305,11 @@ class Animation(ClassBase):
         self.parent = parentName
         self.animType = selftype
         self.iscopy = False
+        
+        if selftype == "hide":
+            self.memory = '_HIDE_'
+            self.axis = '_HIDE_'
+            self.typeMaxValue = '_HIDE_'
     
     # Type comparer
     def __eq__(self,other):
