@@ -64,6 +64,7 @@ class MCFG_N_Scripted(Node, n_tree.MCFG_N_Base):
             locvars["input_" + str(i)] = ""
             if len(self.inputs[i].links) != 0:
                 locvars["input_" + str(i)] = self.inputs[i].links[0].from_node.process()
+                locvars["input_node_" + str(i)] = self.inputs[i].links[0].from_node
         
         script = compile(self.script.as_string(),self.script.name,'exec')
         exec(script,globvars,locvars)

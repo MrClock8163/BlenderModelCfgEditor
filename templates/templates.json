@@ -10,5 +10,9 @@
     "extract_property": {
         "name": "Extract class property",
         "file": "node_extract_property.py"
+    },
+    "extract_property_compiled": {
+        "name": "Extract compiled class property",
+        "file": "node_extract_property_compiled.py"
     }
 }
