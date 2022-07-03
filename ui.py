@@ -529,27 +529,24 @@ class MCFG_PT_Docs(bpy.types.Panel):
         return context.space_data.type == 'NODE_EDITOR' and context.space_data.tree_type == 'MCFG_N_Tree'
     
     def draw(self, context):
-        tree = context.space_data.node_tree
+        layout = self.layout
+        wiki = layout.operator('wm.url_open', text = "Open addon wiki",icon='URL')
+        wiki.url = bl_info.get("doc_url")
+        layout.separator()
+        box = layout.box()
+        box.label(text="Node documentation")
+        op = box.operator('wm.url_open', text = "Open",icon='HELP')
         
-        if tree:
-            layout = self.layout
-            wiki = layout.operator('wm.url_open', text = "Open addon wiki",icon='URL')
-            wiki.url = bl_info.get("doc_url")
-            layout.separator()
-            box = layout.box()
-            box.label(text="Node documentation")
-            op = box.operator('wm.url_open', text = "Open",icon='HELP')
-            
-            if len(context.selected_nodes) != 1:
+        if len(context.selected_nodes) != 1:
+            box.enabled = False
+            return
+        else:
+            doc_url = context.selected_nodes[0].doc_url
+            if doc_url == "":
                 box.enabled = False
                 return
             else:
-                doc_url = context.selected_nodes[0].doc_url
-                if doc_url == "":
-                    box.enabled = False
-                    return
-                else:
-                    op.url = doc_url
+                op.url = doc_url
 
 # Replace node editor header to include custom operators
 def draw_header(self,context):
