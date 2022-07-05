@@ -317,15 +317,15 @@ node_categories = [
         NodeItem("MCFG_N_SectionList")
     ]),
     n_tree.MCFG_N_Category('ANIMATIONNODES', "Animation", items=[
-        NodeItem("MCFG_N_AnimationTranslation"),
-        NodeItem("MCFG_N_AnimationTranslationX"),
-        NodeItem("MCFG_N_AnimationTranslationY"),
-        NodeItem("MCFG_N_AnimationTranslationZ"),
-        NodeItem("MCFG_N_AnimationRotation"),
-        NodeItem("MCFG_N_AnimationRotationX"),
-        NodeItem("MCFG_N_AnimationRotationY"),
-        NodeItem("MCFG_N_AnimationRotationZ"),
-        NodeItem("MCFG_N_AnimationHide"),
+        NodeItem("MCFG_N_Animation", label = "Animation class - translation", settings = {"animType": repr("translation")}),
+        NodeItem("MCFG_N_Animation", label = "Animation class - translation X", settings = {"animType": repr("translationX")}),
+        NodeItem("MCFG_N_Animation", label = "Animation class - translation Y", settings = {"animType": repr("translationY")}),
+        NodeItem("MCFG_N_Animation", label = "Animation class - translation Z", settings = {"animType": repr("translationZ")}),
+        NodeItem("MCFG_N_Animation", label = "Animation class - rotation", settings = {"animType": repr("rotation")}),
+        NodeItem("MCFG_N_Animation", label = "Animation class - rotation X", settings = {"animType": repr("rotationX")}),
+        NodeItem("MCFG_N_Animation", label = "Animation class - rotation Y", settings = {"animType": repr("rotationY")}),
+        NodeItem("MCFG_N_Animation", label = "Animation class - rotation Z", settings = {"animType": repr("rotationZ")}),
+        NodeItem("MCFG_N_Animation", label = "Animation class - hide", settings = {"animType": repr("hide")}),
         NodeItem("MCFG_N_AnimationList")
     ]),
     n_tree.MCFG_N_Category('ANIMATIONPRESETNODES', "Animation preset", items=[
@@ -366,15 +366,7 @@ node_categories = [
 
 # Nodes
 classes_node = (
-    nodes.n_animation.MCFG_N_AnimationTranslation,
-    nodes.n_animation.MCFG_N_AnimationTranslationX,
-    nodes.n_animation.MCFG_N_AnimationTranslationY,
-    nodes.n_animation.MCFG_N_AnimationTranslationZ,
-    nodes.n_animation.MCFG_N_AnimationRotation,
-    nodes.n_animation.MCFG_N_AnimationRotationX,
-    nodes.n_animation.MCFG_N_AnimationRotationY,
-    nodes.n_animation.MCFG_N_AnimationRotationZ,
-    nodes.n_animation.MCFG_N_AnimationHide,
+    nodes.n_animation.MCFG_N_Animation,
     nodes.n_animationList.MCFG_N_AnimationList,
     nodes.n_bone.MCFG_N_Bone,
     nodes.n_boneList.MCFG_N_BoneList,
