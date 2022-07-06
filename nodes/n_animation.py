@@ -36,7 +36,7 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
         if len(self.inputs) != 12:
             return
             
-        if self.animType == 'hide':
+        if self.animType == 'HIDE':
             self.inputs[4].enabled = False
             self.inputs[5].enabled = False
             self.inputs[6].enabled = False
@@ -51,10 +51,10 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
             self.inputs[7].enabled = True
             self.updateAxisType(context)
             
-            if self.animType in ['translation','translationX','translationY','translationZ']:
+            if self.animType in ['TRANSLATION','TRANSLATIONX','TRANSLATIONY','TRANSLATIONZ']:
                 self.inputs[10].name = "Starting offset"
                 self.inputs[11].name = "Target offset"
-            elif self.animType in ['rotation','rotationX','rotationY','rotationZ']:
+            elif self.animType in ['ROTATION','ROTATIONX','ROTATIONY','ROTATIONZ']:
                 self.inputs[10].name = "Starting angle"
                 self.inputs[11].name = "Target angle"
   
@@ -65,17 +65,17 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
     )
     animType: bpy.props.EnumProperty(
         name = "Animation type",
-        default = 'translation',
+        default = 'TRANSLATION',
         items = (
-            ('translation',"Translation","Translation along a generic axis in the model space"),
-            ('translationX',"Translation X","Translation along the X axis in the model space"),
-            ('translationY',"Translation Y","Translation along the Y axis in the model space"),
-            ('translationZ',"Translation Z","Translation along the Z axis in the model space"),
-            ('rotation',"Rotation","Rotation around a generic axis in the model space"),
-            ('rotationX',"Rotation X","Rotation around the X axis in the model space"),
-            ('rotationY',"Rotation Y","Rotation around the Y axis in the model space"),
-            ('rotationZ',"Rotation Z","Rotation around the Z axis in the model space"),
-            ('hide',"Hide","Hide selection")
+            ('TRANSLATION',"Translation","Translation along a generic axis in the model space"),
+            ('TRANSLATIONX',"Translation X","Translation along the X axis in the model space"),
+            ('TRANSLATIONY',"Translation Y","Translation along the Y axis in the model space"),
+            ('TRANSLATIONZ',"Translation Z","Translation along the Z axis in the model space"),
+            ('ROTATION',"Rotation","Rotation around a generic axis in the model space"),
+            ('ROTATIONX',"Rotation X","Rotation around the X axis in the model space"),
+            ('ROTATIONY',"Rotation Y","Rotation around the Y axis in the model space"),
+            ('ROTATIONZ',"Rotation Z","Rotation around the Z axis in the model space"),
+            ('HIDE',"Hide","Hide selection")
         ),
         description = "Type of the animation",
         update = updateAnimType
@@ -286,11 +286,11 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
     # Standard functions
     def draw_label(self):
         
-        if self.animType in ['translation','translationX','translationY','translationZ']:
+        if self.animType in ['TRANSLATION','TRANSLATIONX','TRANSLATIONY','TRANSLATIONZ']:
             return "Translation"
-        elif self.animType in ['rotation','rotationX','rotationY','rotationZ']:
+        elif self.animType in ['ROTATION','ROTATIONX','ROTATIONY','ROTATIONZ']:
             return "Rotation"
-        elif self.animType == 'hide':
+        elif self.animType == 'HIDE':
             return "Hide"
         
     def update(self):
@@ -337,14 +337,14 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "animType",text="Type")
-        if self.animType != 'hide':
+        if self.animType != 'HIDE':
             box.prop(self, "axisType",icon='EMPTY_AXIS')
 
     def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
         box.prop(self, "animName")
         box.prop(self, "animType",text="Type")
-        if self.animType != 'hide':
+        if self.animType != 'HIDE':
             box.prop(self, "axisType",icon='EMPTY_AXIS')
         boxBounding = layout.box()
         boxBounding.label(text="Override parent:")
@@ -352,7 +352,7 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
         box.prop(self, "overrideSource")
         box.prop(self, "overrideSourceAddress")
         box.prop(self, "overrideSelection")
-        if self.animType != 'hide':
+        if self.animType != 'HIDE':
             box.prop(self, "overrideMemory")
             box.prop(self, "overrideAxis")
             box.prop(self, "overrideBegin")
@@ -475,7 +475,7 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
         return self.inputs[11].links[0].from_node.process()
         
     def process(self):
-        animType = self.animType
+        animType = self.animType.lower()
     
         newAnim = Data.Animation(self.getAnimName(),animType,self.getParentName())
         newAnim.Set("source",self.getSource())
@@ -491,9 +491,11 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
         newAnim.Set("typeMinValue",self.getMinTypeValue())
         newAnim.Set("typeMaxValue",self.getMaxTypeValue())
         
-        if animType == 'hide':
+        if animType == 'HIDE':
             newAnim.Set("memory",'_HIDE_')
             newAnim.Set("axis",'_HIDE_')
+            newAnim.Set("begin",'_HIDE_')
+            newAnim.Set("end",'_HIDE_')
         
         return newAnim
         
