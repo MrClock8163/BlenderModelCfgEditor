@@ -798,3 +798,30 @@ class CfgModels(ClassBase):
             validator = mesh.Validate(validator)
             
         return validator
+
+#############################
+####IMPORT DATA STRUCTURE####
+#############################
+
+class ImportClass:
+    # Class variables
+    name = ""
+    parent = ""
+    elements = []
+    
+    # Constructor
+    def __init__(self,classname,classparent):
+        self.name = classname
+        self.parent = classparent
+        self.elements = []
+   
+    # String representation
+    def __repr__(self):
+        parentOut = ""
+        if self.parent != "":
+            parentOut = (": " + self.parent)
+        return ("class " + self.name + parentOut)
+        
+    def AddElement(self,name,value):
+        self.elements.append(name)
+        setattr(self,name,value)
