@@ -251,12 +251,12 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                         animType = modelAnim.type.upper()
                     else:
                         animType = 'TRANSLATION'
-                        parent = newModel.parent
+                        parent = modelAnim.parent
                         
                         while parent != "":
-                            parentClass = allNodes[CfgModels.elements.index(parent)]
+                            parentClass = getattr(modelAnims,parent)
                             if hasattr(parentClass,"type"):
-                                animType = parentClass.type.upper()
+                                animType = getattr(parentClass,"type").upper()
                                 break
                             parent = parentClass.parent
                     
