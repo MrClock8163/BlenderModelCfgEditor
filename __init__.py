@@ -83,6 +83,8 @@ if "bpy" in locals():
     importlib.reload(utility_data)
     importlib.reload(utility_presets)
     importlib.reload(utility_presets_setup)
+    importlib.reload(utility_import)
+    importlib.reload(utility_import_xml)
 
 else:
     # Nodes
@@ -153,6 +155,8 @@ else:
     from . import utility_data
     from . import utility_presets
     from . import utility_presets_setup
+    from . import utility_import
+    from . import utility_import_xml
 
 import bpy
 import os
@@ -164,6 +168,14 @@ def updateCustomSetupPresets(self,context):
 # Addon preferences
 class MCFG_AT_Preferences(bpy.types.AddonPreferences):
     bl_idname = __name__
+    
+    # Arma 3 Tools settings
+    armaToolsFolder: bpy.props.StringProperty(
+        description = "Install directory of the official Arma 3 Tools",
+        name = "Path",
+        default = "",
+        subtype = 'DIR_PATH'
+    )
     
     # Color settings
     useCustomColors: bpy.props.BoolProperty(
@@ -252,6 +264,10 @@ class MCFG_AT_Preferences(bpy.types.AddonPreferences):
     
     def draw(self,context):
         layout = self.layout
+        
+        box = layout.box()
+        box.label(text="Arma 3 Tools")
+        box.prop(self,"armaToolsFolder",icon='TOOL_SETTINGS')
         
         box = layout.box()
         col = box.column(align=True)
@@ -446,6 +462,7 @@ classes_misc = (
     ui.MCFG_OT_BonesFromModel,
     ui.MCFG_OT_SectionsFromModel,
     ui.MCFG_OT_ReportBox,
+    ui.MCFG_OT_Import,
     ui.MCFG_OT_Export,
     ui.MCFG_OT_Validate,
     ui.MCFG_OT_LoadPresets,
@@ -454,6 +471,7 @@ classes_misc = (
     ui.MCFG_OT_DeletePreset,
     ui.MCFG_OT_Inspect,
     ui.MCFG_PT_Tools,
+    ui.MCFG_PT_Import,
     ui.MCFG_PT_Export,
     ui.MCFG_PT_Presets,
     ui.MCFG_PT_Docs
@@ -485,6 +503,26 @@ def register():
     print("\tproperties")
     
     # Panel settings
+    bpy.types.Scene.MCFG_SP_ImportDepth = bpy.props.EnumProperty (
+        name = "Import depth",
+        description = "How deep the import should go",
+        items = (
+            ('SKELETONS',"Only skeletons","Import only the skeletons"),
+            ('MODELS',"Skeletons and models","Import skeletons and models, omit animations"),
+            ('ANIMS',"All","Import all data")
+        ),
+        default = 'ANIMS'
+    )
+    bpy.types.Scene.MCFG_SP_ImportLinkDepth = bpy.props.EnumProperty (
+        name = "Links",
+        description = "What level of node links should be created",
+        items = (
+            ('NONE',"None","Don't create any links between nodes"),
+            ('ESSENTIAL',"Only essentials","Only create essential and unique connections (e.g.: parenting, unique data, but no links to list nodes"),
+            ('ALL',"All","Create all links")
+        ),
+        default = 'ALL'
+    )
     bpy.types.Scene.MCFG_SP_ExportDir = bpy.props.StringProperty (
         name = "Directory",
         description = "Directory to save file to",
@@ -563,6 +601,8 @@ def unregister():
     print("\tnode\t\t" + str(len(classes_node)))
         
     print("\tproperties")
+    del bpy.types.Scene.MCFG_SP_ImportLinkDepth
+    del bpy.types.Scene.MCFG_SP_ImportDepth
     del bpy.types.Scene.MCFG_SP_ExportDir
     del bpy.types.Scene.MCFG_SP_IgnoreErrors
     del bpy.types.Scene.MCFG_SP_OpenFile

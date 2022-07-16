@@ -1,9 +1,11 @@
 import os
 import json
 import bpy
+from bpy_extras.io_utils import ImportHelper
 from . import utility
 from . import utility_presets_setup as Presets
 from . import bl_info
+from . import utility_import
 
 class MCFG_MT_TemplatesNodeScript(bpy.types.Menu):
     # Description string
@@ -221,6 +223,37 @@ class MCFG_OT_ReportBox(bpy.types.Operator):
         
     def invoke(self,context,event):
         return context.window_manager.invoke_props_dialog(self)
+
+class MCFG_OT_Import(bpy.types.Operator,ImportHelper):
+    # Description string
+    """Import model.cfg and create nodes"""
+    
+    # Mandatory variables
+    bl_idname = "mcfg.import"
+    bl_label = "Import config"
+    
+    # Custom properties
+    filter_glob: bpy.props.StringProperty(
+        default = '*.cfg',
+        options = {'HIDDEN'}
+    )
+    
+    # Standard functions
+    @classmethod
+    def poll(cls, context):
+        isNodeTree = context.space_data.type == "NODE_EDITOR" and context.space_data.tree_type == "MCFG_N_Tree"
+        hasArmaTools = os.path.isdir(bpy.context.preferences.addons[__package__].preferences.armaToolsFolder)
+        return isNodeTree and hasArmaTools
+        
+    def execute(self,context):
+              
+        if os.path.split(self.filepath)[1] != "model.cfg":
+            utility.ShowInfoBox("Selected file is not model config","Error",'ERROR')
+            return {'FINISHED'}
+        
+        utility_import.ImportFile(self,context)
+        
+        return {'FINISHED'}
 
 class MCFG_OT_Export(bpy.types.Operator):
     # Description string
@@ -447,6 +480,40 @@ class MCFG_PT_Tools(bpy.types.Panel):
             box = layout.box()
             box.label(text="Inspection:")
             box.operator('mcfg.inspect', icon = 'VIEWZOOM')
+
+class MCFG_PT_Import(bpy.types.Panel):
+    # Description string
+    '''Import panel section'''
+    
+    # Mandatory variables
+    bl_label = "Import"
+    bl_space_type = 'NODE_EDITOR'
+    bl_region_type = 'UI'
+    bl_category = "Model config"
+    
+    # Standard functions
+    @classmethod
+    def poll(cls, context):
+        return context.space_data.type == 'NODE_EDITOR' and context.space_data.tree_type == 'MCFG_N_Tree'
+    
+    def draw_header(self,context):
+        layout = self.layout
+        row = layout.row(align=True)
+        row.operator("wm.url_open", text="", icon='HELP').url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Import"
+    
+    def draw(self, context):
+        layout = self.layout
+        row = layout.row()
+        row.alert = os.path.isdir(bpy.context.preferences.addons[__package__].preferences.armaToolsFolder)
+        row.label(text="Read the documentation",icon='ERROR')
+        box = layout.box()
+        box.label(text="Links:")
+        box.prop(context.scene,"MCFG_SP_ImportLinkDepth",expand=True)
+        box.label(text="Data:")
+        box.prop(context.scene,"MCFG_SP_ImportDepth",expand=True)
+        layout.operator('mcfg.import', icon = 'IMPORT')
+        
+        box.enabled = os.path.isdir(bpy.context.preferences.addons[__package__].preferences.armaToolsFolder)
 
 class MCFG_PT_Export(bpy.types.Panel):
     # Description string
