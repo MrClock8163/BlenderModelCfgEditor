@@ -463,6 +463,11 @@ class MCFG_PT_Export(bpy.types.Panel):
     def poll(cls, context):
         return context.space_data.type == 'NODE_EDITOR' and context.space_data.tree_type == 'MCFG_N_Tree'
     
+    def draw_header(self,context):
+        layout = self.layout
+        row = layout.row(align=True)
+        row.operator("wm.url_open", text="", icon='HELP').url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node-setup-presets"
+    
     def draw(self, context):
         tree = context.space_data.node_tree
         
@@ -500,6 +505,11 @@ class MCFG_PT_Presets(bpy.types.Panel):
     @classmethod
     def poll(cls, context):
         return context.space_data.type == 'NODE_EDITOR' and context.space_data.tree_type == 'MCFG_N_Tree'
+    
+    def draw_header(self,context):
+        layout = self.layout
+        row = layout.row(align=True)
+        row.operator("wm.url_open", text="", icon='HELP').url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Validation-and-export"
     
     def draw(self, context):
         tree = context.space_data.node_tree
