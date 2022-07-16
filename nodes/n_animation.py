@@ -90,6 +90,15 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
         update = updateAxisType,
         description = "Options to set how the transformation axis is defined in the model's memory LOD"
     )
+    angleType: bpy.props.EnumProperty(
+        name = "Angle unit",
+        default = 'DEG',
+        items = (
+            ('DEG',"Degrees","The angles are input in degrees"),
+            ('RAD',"Radians","The angles are input in radians")
+        ),
+        description = "Options to set how to treat the angle values. Since arma expects radians, if the input is in degrees, a necessary transformation is done upon export."
+    )
     
     # Side panel properties
     def updateOverrideSource(self, context):
@@ -128,6 +137,7 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
     def updateOverrideMemory(self, context):
         if len(self.inputs) != 12:
             return
+        
         self.inputs[4].enabled = self.overrideMemory
         
         if (not self.overrideMemory) and len(self.inputs[4].links) != 0:
@@ -299,10 +309,11 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
             self.overrideSource = True
             self.overrideSourceAddress = True
             self.overrideSelection = True
-            self.overrideMemory = True
-            self.overrideAxis = True
-            self.overrideBegin = True
-            self.overrideEnd = True
+            if self.animType != 'HIDE':
+                self.overrideMemory = True
+                self.overrideAxis = True
+                self.overrideBegin = True
+                self.overrideEnd = True
             self.overrideMinValue = True
             self.overrideMaxValue = True
             self.overrideTypeMinValue = True
@@ -339,6 +350,8 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
         box.prop(self, "animType",text="Type")
         if self.animType != 'HIDE':
             box.prop(self, "axisType",icon='EMPTY_AXIS')
+        if self.animType in ['ROTATION','ROTATIONX','ROTATIONY','ROTATIONZ']:
+            box.prop(self, "angleType",icon='DRIVER_ROTATIONAL_DIFFERENCE')
 
     def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
@@ -346,6 +359,8 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
         box.prop(self, "animType",text="Type")
         if self.animType != 'HIDE':
             box.prop(self, "axisType",icon='EMPTY_AXIS')
+        if self.animType in ['ROTATION','ROTATIONX','ROTATIONY','ROTATIONZ']:
+            box.prop(self, "angleType",icon='DRIVER_ROTATIONAL_DIFFERENCE')
         boxBounding = layout.box()
         boxBounding.label(text="Override parent:")
         box = boxBounding.box()
@@ -459,20 +474,34 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
     def getMinTypeValue(self):
         if not self.overrideTypeMinValue:
             return '_HIDE_'
-    
+        
+        returnValue = ""
+        
         if len(self.inputs[10].links) == 0:
-            return round(self.inputs[10].floatValue,6)
+            returnValue = round(self.inputs[10].floatValue,6)
+        else:
+            returnValue = self.inputs[10].links[0].from_node.process()
             
-        return self.inputs[10].links[0].from_node.process()
+        if self.animType in ['ROTATION','ROTATIONX','ROTATIONY','ROTATIONZ'] and self.angleType == 'DEG':
+            returnValue = returnValue * (3.141592653589793/180)
+            
+        return returnValue
         
     def getMaxTypeValue(self):
         if not self.overrideTypeMaxValue:
             return '_HIDE_'
+        
+        returnValue = ""
     
         if len(self.inputs[11].links) == 0:
-            return round(self.inputs[11].floatValue,6)
+            returnValue =  round(self.inputs[11].floatValue,6)
+        else:
+            returnValue =  self.inputs[11].links[0].from_node.process()
             
-        return self.inputs[11].links[0].from_node.process()
+        if self.animType in ['ROTATION','ROTATIONX','ROTATIONY','ROTATIONZ'] and self.angleType == 'DEG':
+            returnValue = returnValue * (3.141592653589793/180)
+            
+        return returnValue
         
     def process(self):
         animType = self.animType.lower()
