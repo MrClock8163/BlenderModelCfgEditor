@@ -5,6 +5,18 @@ import webbrowser
 from .utility_print import ConfigFormatter
 from . import utility_data as Data
 
+# Return bool value from TRUE-FALSE enum
+def EnumBoolGet(value):
+    if value == 'TRUE':
+        return True
+    return False
+   
+# Set enum value from True-False 
+def EnumBoolSet(value):
+    if value == True:
+        return 'TRUE'
+    return 'FALSE'
+
 # Info pop-up that appears at the cursor position
 def ShowInfoBox(message,title = "",icon = 'INFO'):
     def draw(self,context):
@@ -99,7 +111,7 @@ def ExportFile(self,context,export = True):
     
     # Validation
     [isValidData,counts] = ValidateClassStructure(CfgSkelly,CfgMesh)
-    if not isValidData and not context.scene.MCFG_SP_IgnoreErrors:
+    if not isValidData and not EnumBoolGet(context.scene.MCFG_SP_IgnoreErrors):
         verdict = ["Validation failed","Export failed"]
     else:
         verdict = ["Validation successful","Export successful"]
@@ -114,7 +126,7 @@ def ExportFile(self,context,export = True):
     
     bpy.ops.mcfg.reportbox('INVOKE_DEFAULT',report=reportFinal)
     
-    if (not isValidData and not context.scene.MCFG_SP_IgnoreErrors) or not export:
+    if (not isValidData and not EnumBoolGet(context.scene.MCFG_SP_IgnoreErrors)) or not export:
         return
     
     # Export
@@ -130,7 +142,7 @@ def ExportFile(self,context,export = True):
     
     exportFile.close()
     
-    if context.scene.MCFG_SP_OpenFile:
+    if EnumBoolGet(context.scene.MCFG_SP_OpenFile):
         webbrowser.open(context.scene.MCFG_SP_ExportDir + "model.cfg")
     
 # Print inspected data

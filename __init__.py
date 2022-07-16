@@ -271,7 +271,9 @@ class MCFG_AT_Preferences(bpy.types.AddonPreferences):
         box.label(text="Validation settings")
         row = box.row()
         row.prop(self,"warnsAreErr")
-        box.prop(self,"validationOutput",icon='CONSOLE')
+        row = box.row()
+        row.label(text="Output:")
+        row.prop(self,"validationOutput",expand=True)
         
         box = layout.box()
         box.label(text="Preset settings")
@@ -489,15 +491,23 @@ def register():
         default = "",
         subtype = 'DIR_PATH'
     )
-    bpy.types.Scene.MCFG_SP_IgnoreErrors = bpy.props.BoolProperty (
+    bpy.types.Scene.MCFG_SP_IgnoreErrors = bpy.props.EnumProperty (
         name = "Ignore errors",
-        description = "(NOT RECOMMENDED) Export setup regardless of whether or not the validation succeeds",
-        default = False
+        description = "NOT RECOMMENDED to turn on",
+        default = 'FALSE',
+        items = (
+            ('TRUE',"On","Export setup regardless of whether or not the validation succeeds"),
+            ('FALSE',"Off","Only export setup if the validation succeeds")
+        )
     )
-    bpy.types.Scene.MCFG_SP_OpenFile = bpy.props.BoolProperty (
+    bpy.types.Scene.MCFG_SP_OpenFile = bpy.props.EnumProperty (
         name = "Open file",
-        description = "Open the model.cfg file after export in default text editor",
-        default = False
+        description = "",
+        default = 'FALSE',
+        items = (
+            ('TRUE',"On","Open model.cfg file after export in the default text editor"),
+            ('FALSE',"Off","Do nothing after export")
+        )
     )
     bpy.types.Scene.MCFG_SP_PresetName = bpy.props.StringProperty (
         name = "Name",
