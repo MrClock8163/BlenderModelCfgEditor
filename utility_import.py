@@ -1,5 +1,6 @@
 import bpy
 import os
+import re
 from . import utility as Utils
 from . import utility_import_xml as XML
 
@@ -16,27 +17,20 @@ def ParseBool(value):
 
 # Trim leading zeros from numbers in simple string expression
 def TrimZeros(expression):
-    trim = False
-    decimal = False
-    trimmedOp = ""
+
+    numbers = (re.sub("\+|\-|\*|/|^|\(|\)"," ",expression)).split() # filter out operators and get numbers
+    numbers = [num.strip().lstrip("0") for num in numbers] # strip "0"-s from left side
+        
+    operations = re.sub("[0-9]|[.]","_",expression) # filter out numbers and replace with underscores
+    operations = re.split("[_]+",operations) # split at underscores
+    operations = "{}".join(operations) # join to formatter format
     
-    for i in range(len(expression)):
-        char = expression[i]
-        
-        if char == "0" and (expression[i+1] if (i+1 <= len(expression)-1) else "") == ".":
-            decimal = True
-        
-        if char == "0" and not decimal:
-            trim = True
-            
-        if char in "()+-/*^123456789":
-            trim = False
-            decimal = False
-            
-        if not trim:
-            trimmedOp += char
-            
-    return trimmedOp
+    result = operations.format(*numbers) # join operators with numbers
+    
+    if result == "": # failsafe for when the input was "0" and ended up stripped entirely
+        result = "0"
+    
+    return result
 
 # Evaluate string expression
 def StringToFloat(value):
@@ -330,9 +324,9 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                        
                     # handle minValue
                     if hasattr(modelAnim,"minvalue"):
-                        value = modelAnim.minvalue
+                        value = modelAnim.minvalue.strip()
                         
-                        if value.lower().startswith("("):
+                        if value.lower()[0] == "(" and value.lower()[-1] == ")":
                             value = value[1:-1].strip()
                             
                         if type(value) is str and value.lower().startswith("rad"):
@@ -345,9 +339,9 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                     
                     # handle maxValue
                     if hasattr(modelAnim,"maxvalue"):
-                        value = modelAnim.maxvalue
+                        value = modelAnim.maxvalue.strip()
                         
-                        if value.lower().startswith("("):
+                        if value.lower()[0] == "(" and value.lower()[-1] == ")":
                             value = value[1:-1].strip()
                         
                         if type(value) is str and value.lower().startswith("rad"):
@@ -368,9 +362,9 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                         valueName = "hidevalue"
                     
                     if valueName != "":
-                        value = getattr(modelAnim,valueName)
+                        value = getattr(modelAnim,valueName).strip()
                         
-                        if value.lower().startswith("("):
+                        if value.lower()[0] == "(" and value.lower()[-1] == ")":
                             value = value[1:-1].strip()
                         
                         if value.lower().startswith("rad"):
@@ -391,9 +385,9 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                         valueName = "unhidevalue"
                     
                     if valueName != "":
-                        value = getattr(modelAnim,valueName)
+                        value = getattr(modelAnim,valueName).strip()
                         
-                        if value.lower().startswith("("):
+                        if value.lower()[0] == "(" and value.lower()[-1] == ")":
                             value = value[1:-1].strip()
                         
                         if value.lower().startswith("rad"):
