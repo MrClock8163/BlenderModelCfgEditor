@@ -61,7 +61,6 @@ class MCFG_N_Inspect(Node, n_tree.MCFG_N_Base):
         layout.prop(self,"active")
 
     def copy(self, node):
-        print("Copying from node ", node)
         self.inspect_id = self.GenerateInspectID(bpy.context)
         
     # Custom functions

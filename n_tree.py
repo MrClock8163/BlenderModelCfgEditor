@@ -74,10 +74,10 @@ class MCFG_N_Base:
         return ntree.bl_idname == 'MCFG_N_Tree'
 
     def copy(self, node):
-        print("Copying from node ", node)
+        pass
 
     def free(self):
-        print("Removing node ", self, ", Goodbye!")
+        pass
 
 class MCFG_N_Category(NodeCategory):
     # Standard functions
