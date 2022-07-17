@@ -535,7 +535,10 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
             
     def presetsettings(self):
         settings = []
-        if self.axisType != 'AXIS':
+        if self.animType != 'TRANSLATION':
+            settings.append(["animType",self.animType])
+            
+        if self.axisType != 'AXIS' and self.animType != 'HIDE':
             settings.append(["axisType",self.axisType])
         return settings
         
@@ -545,10 +548,11 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
         settings.append(["overrideSource",self.overrideSource])
         settings.append(["overrideSourceAddress",self.overrideSourceAddress])
         settings.append(["overrideSelection",self.overrideSelection])
-        settings.append(["overrideMemory",self.overrideMemory])
-        settings.append(["overrideAxis",self.overrideAxis])
-        settings.append(["overrideBegin",self.overrideBegin])
-        settings.append(["overrideEnd",self.overrideEnd])
+        if self.animType != 'HIDE':
+            settings.append(["overrideMemory",self.overrideMemory])
+            settings.append(["overrideAxis",self.overrideAxis])
+            settings.append(["overrideBegin",self.overrideBegin])
+            settings.append(["overrideEnd",self.overrideEnd])
         settings.append(["overrideMinValue",self.overrideMinValue])
         settings.append(["overrideMaxValue",self.overrideMaxValue])
         settings.append(["overrideTypeMinValue",self.overrideTypeMinValue])
