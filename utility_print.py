@@ -4,6 +4,22 @@ import os
 ####DATA PRINTER FUNCTIONS####
 ##############################
 
+class LogFormatter:
+    
+    @classmethod
+    def Tab(cls,tabs = 0):
+        return ("\t" * tabs)
+        
+    @classmethod
+    def Log(cls,text,tabs = 0):
+        return (cls.Tab(tabs) + "> " + text.strip())
+        
+    @classmethod
+    def LogTitle(cls,text):
+        length = 68 - len(text)
+        start = round(length/2)
+        return (("=" * start) + " " + text.strip() + " " + ("=" * (length - start)))
+
 class ConfigFormatter:
 
     @classmethod
@@ -160,7 +176,6 @@ class ConfigWriter:
         self.classesToPrint = toPrint
         
     def IsValidPath(self):
-        # return True
         return os.path.exists(self.outputDirectory)
         
     def IsValidList(self):
