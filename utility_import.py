@@ -2,6 +2,7 @@ import bpy
 import os
 import re
 from . import utility as Utils
+from .utility_print import LogFormatter as Logger
 from . import utility_import_xml as XML
 
 # Parse string and int values to boolean
@@ -43,6 +44,8 @@ def StringToFloat(value):
     try:
         eval(value)
     except:
+        print(Logger.Log("Could not evaluate expression: '{}'".format(value),6))
+        print(Logger.Log("Default value 0",6))
         returnValue = 0
     else:
         returnValue = eval(value)
@@ -52,16 +55,21 @@ def StringToFloat(value):
 # Create skeleton class and other related nodes
 def ImportSkeletons(CfgSkeletons,createLinks):
     
+    print(Logger.Log("Started CfgSkeletons",2))
+    
     nodeTree = bpy.context.space_data.node_tree
     
     allNodes = []
     
     if type(CfgSkeletons) is str:
+        print(Logger.Log("Finished CfgSkeletons",2))
         return allNodes
     
     # crate nodes
     for className in CfgSkeletons.elements:
         nodes = []
+        
+        print(Logger.Log("Creating skeleton node: {}".format(className),3))
         
         newSkeleton = getattr(CfgSkeletons,className)
         
@@ -98,6 +106,7 @@ def ImportSkeletons(CfgSkeletons,createLinks):
         # handle skeletonBones
         if hasattr(newSkeleton,"skeletonbones"):
             if len(getattr(newSkeleton,"skeletonbones")) != 0:
+                print(Logger.Log("Creating bone list",4))
                 newBoneListNode = nodeTree.nodes.new("MCFG_N_BoneList")
                 boneList = getattr(newSkeleton,"skeletonbones")
                 newBoneListNode.location = [-200 + len(allNodes) * 600, -100]
@@ -122,6 +131,8 @@ def ImportSkeletons(CfgSkeletons,createLinks):
                 for i in range(len(bones)):
                     bone = bones[i]
                     
+                    print(Logger.Log("Creating bone node: {}".format(bone),5))
+                    
                     newBoneNode = nodeTree.nodes.new("MCFG_N_Bone")
                     newBoneNode.boneName = bone
                     newBoneNode.location = [-400 + len(allNodes) * 600, 0 - len(boneNodes) * 100]
@@ -141,10 +152,15 @@ def ImportSkeletons(CfgSkeletons,createLinks):
         nodes.append(boneNodes)
         allNodes.append(nodes)
         
+    print(Logger.Log("Finished CfgSkeletons",2))
+        
     return allNodes
 
 # Create model class and related nodes
 def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims):
+
+    print(Logger.Log("Started CfgModels",2))
+    
     nodeTree = bpy.context.space_data.node_tree
     
     allNodes = []
@@ -157,6 +173,8 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
     # create nodes
     for className in CfgModels.elements:
         nodes = []
+        
+        print(Logger.Log("Creating model node: {}".format(className),3))
         
         newModel = getattr(CfgModels,className)
         
@@ -196,6 +214,8 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
         if hasattr(newModel,"sections"):
             modelSections = getattr(newModel,"sections")
             
+            print(Logger.Log("Creating sections",4))
+        
             if len(modelSections) != 0:
                 newSectionListNode = nodeTree.nodes.new("MCFG_N_SectionList")
                 newSectionListNode.sectionCount = len(modelSections)
@@ -220,6 +240,7 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                 newModelNode.overrideAnimations = True
             
             if len(modelAnims.elements) != 0:
+                print(Logger.Log("Creating animation list",4))
                 newModelAnimListNode = nodeTree.nodes.new("MCFG_N_AnimationList")
                 newModelAnimListNode.animCount = len(modelAnims.elements)
                 newModelAnimListNode.location = [startX + len(allNodes) * 800 - 400,-400]
@@ -231,6 +252,7 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                 
                 for i in range(len(modelAnims.elements)):
                     modelAnim = getattr(modelAnims,modelAnims.elements[i])
+                    print(Logger.Log("Creating animation node: {}".format(modelAnim.name),5))
                     
                     newModelAnimNode = nodeTree.nodes.new("MCFG_N_Animation")
                     newModelAnimNode.location = [startX + len(allNodes) * 800 - 600,-300 - len(animNodes) * 400]
@@ -401,12 +423,19 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
         nodes.append(sectionListNodes)
         
         allNodes.append(nodes)
+        
+    print(Logger.Log("Finished CfgModels",2))
     
     return allNodes
 
 # Import model.cfg file
 def ImportFile(self,context):
+    
+    print(Logger.LogTitle("Started mcfg import"))
+
     # Read settings
+    print(Logger.Log("Read settings",1))
+    
     importOnlySkeletons = context.scene.MCFG_SP_ImportDepth == 'SKELETONS'
     omitAnims = context.scene.MCFG_SP_ImportDepth == 'MODELS'
     createLinks = context.scene.MCFG_SP_ImportLinkDepth
@@ -416,13 +445,17 @@ def ImportFile(self,context):
     exePath = os.path.join(toolsFolder,"CfgConvert\CfgConvert.exe")
     
     if not os.path.isfile(exePath):
-        Utils.ShowInfoBox("CfgConvert.exe does not exists","Error",'ERROR')
+        Utils.ShowInfoBox("CfgConvert.exe does not exist","Error",'ERROR')
+        print(Logger.Log("CfgConvert.exe does not exist in the specified directory",1))
         return
     
     # Convert and get config in class structure
+    print(Logger.Log("Started model.cfg reading",1))
     classTree = XML.ReadConfig(self.filepath,exePath)
+    print(Logger.Log("Finished model.cfg reading",1))
     
     # Create new node tree
+    print(Logger.Log("Created new node tree",1))
     space = context.space_data
     newtree = bpy.data.node_groups.new("Imported", "MCFG_N_Tree")
     newtree.use_fake_user = True
@@ -442,6 +475,8 @@ def ImportFile(self,context):
     frameComment.text = commentText
     
     # Create nodes
+    print(Logger.Log("Started creating nodes",1))
+    
     skeletonNodes = []
     modelNodes = []
     
@@ -451,3 +486,5 @@ def ImportFile(self,context):
     if not importOnlySkeletons and "cfgmodels" in classTree.elements:
         modelNodes = ImportModels(classTree.cfgmodels,classTree.cfgskeletons,skeletonNodes,createLinks,omitAnims)
         
+    print(Logger.Log("Finished creating nodes",1))
+    print(Logger.LogTitle("Finished mcfg import"))

@@ -3,10 +3,12 @@ import subprocess
 import tempfile
 import xml.etree.ElementTree as ET
 
+from .utility_print import LogFormatter as Logger
 from . import utility_data as Data
 
 # Call CfgConvert.exe and produce config in .xml format
 def CfgToXml(filePath,exePath):
+    print(Logger.Log("Parsing .cfg to .xml (CfgConvert.exe)",2))
     destFolder = tempfile.gettempdir()
     destName = "blendermodelcfgeditor_model_cfg_temp.xml"
     destPath = os.path.join(destFolder,destName)
@@ -17,6 +19,7 @@ def CfgToXml(filePath,exePath):
 
 # Parse xml to an element tree
 def XmlToET(xmlPath):
+    print(Logger.Log("Translating .xml to ElementTree",2))
     xmlFile = open(xmlPath,"r")
     xmlstring = xmlFile.read()
     xmlFile.close()
@@ -34,6 +37,9 @@ def ETToClasses(elementClass):
     
     className = elementClass.tag.lower()
     classParent = ""
+    
+    print(Logger.Log("Creating class from ElementTree: {}".format(className),3))
+    
     if len(elementClass.attrib) != 0:
         classParent = elementClass.attrib["base"].lower()
     
@@ -67,7 +73,9 @@ def ReadConfig(filePath,exePath):
     xmlPath = CfgToXml(filePath,exePath)
     xmlTree = XmlToET(xmlPath)
     
+    print(Logger.Log("Translating ElementTree to class structure",2))
     classTree = ETToClasses(xmlTree.getroot())
+    print(Logger.Log("Finished translating ElementTree to class structure",2))
     
     return classTree
 
