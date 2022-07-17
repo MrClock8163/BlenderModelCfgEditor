@@ -1,6 +1,7 @@
 import bpy
 from bpy.types import Node
 from .. import n_tree
+from .. import utility as Utils
 from .. import utility_data as Data
 
 class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
@@ -89,15 +90,6 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
         ),
         update = updateAxisType,
         description = "Options to set how the transformation axis is defined in the model's memory LOD"
-    )
-    angleType: bpy.props.EnumProperty(
-        name = "Angle unit",
-        default = 'DEG',
-        items = (
-            ('DEG',"Degrees","The angles are input in degrees"),
-            ('RAD',"Radians","The angles are input in radians")
-        ),
-        description = "Options to set how to treat the angle values. Since arma expects radians, if the input is in degrees, a necessary transformation is done upon export."
     )
     
     # Side panel properties
@@ -350,8 +342,6 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
         box.prop(self, "animType",text="Type")
         if self.animType != 'HIDE':
             box.prop(self, "axisType",icon='EMPTY_AXIS')
-        if self.animType in ['ROTATION','ROTATIONX','ROTATIONY','ROTATIONZ']:
-            box.prop(self, "angleType",icon='DRIVER_ROTATIONAL_DIFFERENCE')
 
     def draw_buttons_ext(self, context, layout): # Side panel properties
         box = layout.box()
@@ -359,8 +349,6 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
         box.prop(self, "animType",text="Type")
         if self.animType != 'HIDE':
             box.prop(self, "axisType",icon='EMPTY_AXIS')
-        if self.animType in ['ROTATION','ROTATIONX','ROTATIONY','ROTATIONZ']:
-            box.prop(self, "angleType",icon='DRIVER_ROTATIONAL_DIFFERENCE')
         boxBounding = layout.box()
         boxBounding.label(text="Override parent:")
         box = boxBounding.box()
@@ -458,7 +446,7 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
             return '_HIDE_'
     
         if len(self.inputs[8].links) == 0:
-            return round(self.inputs[8].floatValue,6)
+            return Utils.FloatValue(self.inputs[8].floatValue,self.inputs[8].isDeg)
             
         return self.inputs[8].links[0].from_node.process()
         
@@ -467,7 +455,7 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
             return '_HIDE_'
     
         if len(self.inputs[9].links) == 0:
-            return round(self.inputs[9].floatValue,6)
+            return Utils.FloatValue(self.inputs[9].floatValue,self.inputs[9].isDeg)
             
         return self.inputs[9].links[0].from_node.process()
         
@@ -475,33 +463,19 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
         if not self.overrideTypeMinValue:
             return '_HIDE_'
         
-        returnValue = ""
-        
         if len(self.inputs[10].links) == 0:
-            returnValue = round(self.inputs[10].floatValue,6)
-        else:
-            returnValue = self.inputs[10].links[0].from_node.process()
-            
-        if self.animType in ['ROTATION','ROTATIONX','ROTATIONY','ROTATIONZ'] and self.angleType == 'DEG':
-            returnValue = returnValue * (3.141592653589793/180)
-            
-        return returnValue
+            return Utils.FloatValue(self.inputs[10].floatValue,self.inputs[10].isDeg)
+        
+        return self.inputs[10].links[0].from_node.process()
         
     def getMaxTypeValue(self):
         if not self.overrideTypeMaxValue:
             return '_HIDE_'
-        
-        returnValue = ""
     
         if len(self.inputs[11].links) == 0:
-            returnValue =  round(self.inputs[11].floatValue,6)
-        else:
-            returnValue =  self.inputs[11].links[0].from_node.process()
-            
-        if self.animType in ['ROTATION','ROTATIONX','ROTATIONY','ROTATIONZ'] and self.angleType == 'DEG':
-            returnValue = returnValue * (3.141592653589793/180)
-            
-        return returnValue
+            return Utils.FloatValue(self.inputs[11].floatValue,self.inputs[11].isDeg)
+        
+        return self.inputs[11].links[0].from_node.process()
         
     def process(self):
         animType = self.animType.lower()

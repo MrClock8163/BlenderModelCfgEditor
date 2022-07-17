@@ -1,6 +1,6 @@
 import bpy
 import os
-from . import utility
+from . import utility as Utils
 from . import utility_import_xml as XML
 
 # Parse string and int values to boolean
@@ -325,36 +325,30 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                     # handle minValue
                     if hasattr(modelAnim,"minvalue"):
                         value = modelAnim.minvalue
-                        convertRad = False
                         
+                        if value.lower().startswith("("):
+                            value = value[1:-1].strip()
+                            
                         if type(value) is str and value.lower().startswith("rad"):
                             value = value[3:]
-                            convertRad = True
-                            
-                        value = StringToFloat(value)
+                            newModelAnimNode.inputs[8].isDeg = True
                         
-                        if convertRad:
-                            value = value * (3.141592653589793/180)
-                        
-                        newModelAnimNode.inputs[8].floatValue = value
+                        newModelAnimNode.inputs[8].floatValue = StringToFloat(value)
                     else:
                         newModelAnimNode.overrideMinValue = False
                     
                     # handle maxValue
                     if hasattr(modelAnim,"maxvalue"):
                         value = modelAnim.maxvalue
-                        convertRad = False
+                        
+                        if value.lower().startswith("("):
+                            value = value[1:-1].strip()
                         
                         if type(value) is str and value.lower().startswith("rad"):
                             value = value[3:]
-                            convertRad = True
-                            
-                        value = StringToFloat(value)
+                            newModelAnimNode.inputs[9].isDeg = True
                         
-                        if convertRad:
-                            value = value * (3.141592653589793/180)
-                        
-                        newModelAnimNode.inputs[9].floatValue = value
+                        newModelAnimNode.inputs[9].floatValue = StringToFloat(value)
                     else:
                         newModelAnimNode.overrideMaxValue = False
                     
@@ -371,17 +365,13 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                         value = getattr(modelAnim,valueName)
                         
                         if value.lower().startswith("("):
-                            value = value[1:-1]
+                            value = value[1:-1].strip()
                         
                         if value.lower().startswith("rad"):
                             value = value[3:]
-                            newModelAnimNode.angleType = 'DEG'
-                        else:
-                            newModelAnimNode.angleType = 'RAD'
-                            
-                        value = StringToFloat(value)
+                            newModelAnimNode.inputs[10].isDeg = True
                         
-                        newModelAnimNode.inputs[10].floatValue = value
+                        newModelAnimNode.inputs[10].floatValue = StringToFloat(value)
                     else:
                         newModelAnimNode.overrideTypeMinValue = False
                         
@@ -398,17 +388,13 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                         value = getattr(modelAnim,valueName)
                         
                         if value.lower().startswith("("):
-                            value = value[1:-1]
+                            value = value[1:-1].strip()
                         
                         if value.lower().startswith("rad"):
                             value = value[3:]
-                            newModelAnimNode.angleType = 'DEG'
-                        else:
-                            newModelAnimNode.angleType = 'RAD'
-                            
-                        value = StringToFloat(value)
+                            newModelAnimNode.inputs[11].isDeg = True
                         
-                        newModelAnimNode.inputs[11].floatValue = value
+                        newModelAnimNode.inputs[11].floatValue = StringToFloat(value)
                     else:
                         newModelAnimNode.overrideTypeMaxValue = False
                 
@@ -430,7 +416,7 @@ def ImportFile(self,context):
     exePath = os.path.join(toolsFolder,"CfgConvert\CfgConvert.exe")
     
     if not os.path.isfile(exePath):
-        utility.ShowInfoBox("CfgConvert.exe does not exists","Error",'ERROR')
+        Utils.ShowInfoBox("CfgConvert.exe does not exists","Error",'ERROR')
         return
     
     # Convert and get config in class structure
