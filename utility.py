@@ -5,6 +5,23 @@ import webbrowser
 from .utility_print import ConfigFormatter
 from . import utility_data as Data
 
+# Converts Deg units to Rad
+def Rad(value):
+    return value * (3.141592653589793/180)
+
+# Converts Rad units to Deg
+def Deg(value):
+    return value / (3.141592653589793/180)
+
+# Rounds float input to 6 decimals and performs degrees conversion if needed
+def FloatValue(value,isDeg):
+    returnValue = value
+    
+    if isDeg:
+        returnValue = Rad(returnValue)
+    
+    return round(returnValue,6)
+    
 # Return bool value from TRUE-FALSE enum
 def EnumBoolGet(value):
     if value == 'TRUE':
