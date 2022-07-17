@@ -237,8 +237,8 @@ class MCFG_AT_Preferences(bpy.types.AddonPreferences):
         name = "Log",
         description = "Where the validation log should be written in case the validation fails.",
         items = (
-            ('CONSOLE',"System console","Output the log to Blender's system console"),
-            ('FILE',"Log file","Output the log to a .log text file in the export directory")
+            ('CONSOLE',"System console","Output the log to Blender's system console",'CONSOLE',0),
+            ('FILE',"Log file","Output the log to a .log text file in the export directory",'TEXT',1)
         ),
         default = 'CONSOLE'
     )
