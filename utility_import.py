@@ -62,6 +62,9 @@ def ImportSkeletons(CfgSkeletons,createLinks):
     
     allNodes = []
     
+    if type(CfgSkeletons) is str:
+        return allNodes
+    
     # crate nodes
     for className in CfgSkeletons.elements:
         nodes = []
@@ -151,6 +154,9 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
     nodeTree = bpy.context.space_data.node_tree
     
     allNodes = []
+    
+    if type(CfgModels) is str:
+        return allNodes
     
     startX = (len(CfgSkeletonsNodes) * 600) + 200
     
@@ -445,7 +451,9 @@ def ImportFile(self,context):
     skeletonNodes = []
     modelNodes = []
     
-    skeletonNodes = ImportSkeletons(classTree.cfgskeletons,createLinks)
+    if "cfgskeletons" in classTree.elements:
+        skeletonNodes = ImportSkeletons(classTree.cfgskeletons,createLinks)
     
-    if not importOnlySkeletons:
+    if not importOnlySkeletons and "cfgmodels" in classTree.elements:
         modelNodes = ImportModels(classTree.cfgmodels,classTree.cfgskeletons,skeletonNodes,createLinks,omitAnims)
+        
