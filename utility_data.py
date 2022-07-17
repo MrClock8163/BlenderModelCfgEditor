@@ -388,7 +388,7 @@ class Animation(ClassBase):
         if self.typeMinValue != '_HIDE_':
             propName = "offset0"
             
-            if self.animType in ["rotation","rotationX","rotationY","rotationZ"]:
+            if self.animType in ["rotation","rotationx","rotationy","rotationz"]:
                 propName = "angle0"
             elif self.animType == "hide":
                 propName = "hideValue"
@@ -400,7 +400,7 @@ class Animation(ClassBase):
         if self.typeMaxValue != '_HIDE_':
             propName = "offset1"
             
-            if self.animType in ["rotation","rotationX","rotationY","rotationZ"]:
+            if self.animType in ["rotation","rotationx","rotationy","rotationz"]:
                 propName = "angle1"
             elif self.animType == "hide":
                 propName = "unHideValue"
