@@ -70,7 +70,7 @@ class MCFG_N_Model(Node, n_tree.MCFG_N_Base):
     def updateOverrideAnimations(self,context):
         if len(self.inputs) != 5:
             return
-        # self.inputs[3].enabled = self.overrideAnimations
+        
         if len(self.inputs[0].links) == 0 and self.overrideAnimations:
             self.overrideAnimations = False
     
@@ -119,8 +119,6 @@ class MCFG_N_Model(Node, n_tree.MCFG_N_Base):
         
         if len(self.inputs) != 5:
             return
-            
-        # self.inputs[4].enabled = (len(self.inputs[2].links) != 0 or (not self.overrideSkeleton))
         
         if len(self.outputs[0].links) > 0:
             self.exportClass = True
