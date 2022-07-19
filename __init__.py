@@ -26,6 +26,7 @@ if "bpy" in locals():
     importlib.reload(nodes.n_joinList)
     importlib.reload(nodes.n_logicBasic)
     importlib.reload(nodes.n_mathBasic)
+    importlib.reload(nodes.n_mathExpression)
     importlib.reload(nodes.n_model)
     importlib.reload(nodes.n_scripted)
     importlib.reload(nodes.n_section)
@@ -98,6 +99,7 @@ else:
     from . nodes import n_joinList
     from . nodes import n_logicBasic
     from . nodes import n_mathBasic
+    from . nodes import n_mathExpression
     from . nodes import n_model
     from . nodes import n_scripted
     from . nodes import n_section
@@ -368,6 +370,7 @@ node_categories = [
         NodeItem("MCFG_N_CompareFloat"),
         NodeItem("MCFG_N_ValueString"),
         NodeItem("MCFG_N_MathBasic"),
+        NodeItem("MCFG_N_MathExpression"),
         NodeItem("MCFG_N_LogicBasic")
     ]),
     n_tree.MCFG_N_Category('MISCNODES', "Miscellaneous", items=[
@@ -394,6 +397,7 @@ classes_node = (
     nodes.n_joinList.MCFG_N_JoinList,
     nodes.n_logicBasic.MCFG_N_LogicBasic,
     nodes.n_mathBasic.MCFG_N_MathBasic,
+    nodes.n_mathExpression.MCFG_N_MathExpression,
     nodes.n_model.MCFG_N_Model,
     nodes.n_scripted.MCFG_N_Scripted,
     nodes.n_section.MCFG_N_Section,
