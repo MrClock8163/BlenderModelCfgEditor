@@ -15,7 +15,7 @@ class MCFG_N_ValueString(Node, n_tree.MCFG_N_Base):
     doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-String-input"
     
     # Node properties
-    stringProperty: bpy.props.StringProperty(
+    stringValue: bpy.props.StringProperty(
         name = "Value",
         default = ""
     )
@@ -29,11 +29,11 @@ class MCFG_N_ValueString(Node, n_tree.MCFG_N_Base):
         self.outputs.new('MCFG_S_ValueString', "Value")
 
     def draw_buttons(self, context, layout):
-        layout.prop(self, "stringProperty")
+        layout.prop(self, "stringValue")
         
     # Custom functions
     def process(self):
-        return self.stringProperty.strip()
+        return self.stringValue.strip()
         
     def inspect(self):
         print(self.process())
