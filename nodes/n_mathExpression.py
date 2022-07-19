@@ -55,6 +55,8 @@ class MCFG_N_MathExpression(Node, n_tree.MCFG_N_Base):
             pass
         else:
             returnValue = eval(expression)
+            if type(returnValue) not in [int,float]:
+                return 0
     
         return Utils.FloatValue(returnValue,self.isDeg)
         
