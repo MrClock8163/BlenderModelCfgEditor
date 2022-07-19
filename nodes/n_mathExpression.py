@@ -13,7 +13,7 @@ class MCFG_N_MathExpression(Node, n_tree.MCFG_N_Base):
     
     # Custom variables
     node_group = "operator"
-    doc_url = ""
+    doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Simple-expression"
     
     # Node properties
     expression: bpy.props.StringProperty(
