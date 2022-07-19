@@ -45,13 +45,13 @@ class MCFG_N_CompareFloat(Node, n_tree.MCFG_N_Base):
     # Custom functions
     def getValueA(self):
         if len(self.inputs[0].links) == 0:
-            return round(self.inputs[0].floatValue,6)
+            return utility.FloatValue(self.inputs[0].floatValue,self.inputs[0].isDeg)
             
         return self.inputs[0].links[0].from_node.process()
         
     def getValueB(self):
         if len(self.inputs[1].links) == 0:
-            return round(self.inputs[1].floatValue,6)
+            return utility.FloatValue(self.inputs[1].floatValue,self.inputs[1].isDeg)
             
         return self.inputs[1].links[0].from_node.process()
         
