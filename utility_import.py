@@ -505,6 +505,9 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims,
                             else:
                                 newModelAnimNode.inputs[11].floatValue = float(value)
                     else:
+                        if animType == 'HIDE': # failsafe for when unhideValue is omitted from the config entirely
+                            newModelAnimNode.inputs[11].floatValue = -1
+                            
                         newModelAnimNode.overrideTypeMaxValue = False
                 
         nodes.append(sectionListNodes)
