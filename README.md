@@ -20,6 +20,7 @@ Once the setup is completed, the structure can be validated and exported to the 
   - Built-in
   - Custom
 - Output validation
+- Import from model.cfg format
 - Export to model.cfg format
 - Ability to store setup data in editable format in BLEND file
 
