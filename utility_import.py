@@ -499,7 +499,7 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims,
                                 expressionNode.location = [startX + len(allNodes) * 1000 - 800,-300 - (len(animNodes) - 1) * 400 - expressionNodes * 80]
                                 
                                 if createLinks != 'NONE':
-                                    nodeTree.links.new(expressionNode.outputs[0],newModelAnimNode.inputs[1])
+                                    nodeTree.links.new(expressionNode.outputs[0],newModelAnimNode.inputs[11])
                                 
                                 expressionNodes += 1
                             else:
@@ -543,6 +543,9 @@ def ImportFile(self,context):
     # Convert and get config in class structure
     print(Logger.Log("Started model.cfg reading",1))
     classTree = XML.ReadConfig(self.filepath,exePath)
+    if classTree is None:
+        bpy.ops.mcfg.reportbox('INVOKE_DEFAULT',report="The .cfg to .xml conversion failed,Check the log in system console")
+        return
     print(Logger.Log("Finished model.cfg reading",1))
     
     # Create new node tree

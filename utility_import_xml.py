@@ -23,6 +23,8 @@ def XmlToET(xmlPath):
     xmlFile = open(xmlPath,"r")
     xmlstring = xmlFile.read()
     xmlFile.close()
+    
+    os.remove(xmlPath) # delete temporary file
 
     xmlstring = xmlstring.splitlines()
     xmlstring = ["<config>"] + xmlstring[2:len(xmlstring)] + ["</config>"]
@@ -71,6 +73,11 @@ def ETToClasses(elementClass):
 # Read an convert model.cfg to custom class structure
 def ReadConfig(filePath,exePath):
     xmlPath = CfgToXml(filePath,exePath)
+    
+    if not os.path.isfile(xmlPath):
+        print(Logger.Log("CfgConvert.exe failed to convert the config to XML format",2))
+        return None
+        
     xmlTree = XmlToET(xmlPath)
     
     print(Logger.Log("Translating ElementTree to class structure",2))
