@@ -527,6 +527,16 @@ def register():
         ),
         default = 'ALL'
     )
+    bpy.types.Scene.MCFG_SP_ImportExpressions = bpy.props.EnumProperty(
+        name = "Expressions",
+        description = "",
+        items = (
+            ('EVAL',"Evaluate","Evaluate all expressions"),
+            ('PRESERVE',"Preserve","Preserve each floating point number value as simple expression"),
+            ('AUTO',"Auto","Evaluate raw numbers, preserve actual expressions")
+        ),
+        default = 'EVAL'
+    )
     bpy.types.Scene.MCFG_SP_ExportDir = bpy.props.StringProperty (
         name = "Directory",
         description = "Directory to save file to",
@@ -599,6 +609,7 @@ def unregister():
     print("\tproperties")
     del bpy.types.Scene.MCFG_SP_ImportLinkDepth
     del bpy.types.Scene.MCFG_SP_ImportDepth
+    del bpy.types.Scene.MCFG_SP_ImportExpressions
     del bpy.types.Scene.MCFG_SP_ExportDir
     del bpy.types.Scene.MCFG_SP_IgnoreErrors
     del bpy.types.Scene.MCFG_SP_OpenFile

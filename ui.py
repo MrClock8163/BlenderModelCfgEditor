@@ -511,6 +511,8 @@ class MCFG_PT_Import(bpy.types.Panel):
         box.prop(context.scene,"MCFG_SP_ImportLinkDepth",expand=True)
         box.label(text="Data:")
         box.prop(context.scene,"MCFG_SP_ImportDepth",expand=True)
+        box.label(text="Expressions:")
+        box.prop(context.scene,"MCFG_SP_ImportExpressions",expand=True)
         layout.operator('mcfg.import', icon = 'IMPORT')
         
         box.enabled = os.path.isdir(bpy.context.preferences.addons[__package__].preferences.armaToolsFolder)

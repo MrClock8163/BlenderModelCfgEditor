@@ -157,7 +157,7 @@ def ImportSkeletons(CfgSkeletons,createLinks):
     return allNodes
 
 # Create model class and related nodes
-def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims):
+def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims,handleExpressions):
 
     print(Logger.Log("Started CfgModels",2))
     
@@ -180,7 +180,7 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
         
         newModelNode = nodeTree.nodes.new("MCFG_N_Model")
         newModelNode.modelName = newModel.name
-        newModelNode.location = [startX + len(allNodes) * 800,-300]
+        newModelNode.location = [startX + len(allNodes) * 1000,-300]
         
         # create parenting links
         if newModel.parent != "" and createLinks != 'NONE':
@@ -219,7 +219,7 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
             if len(modelSections) != 0:
                 newSectionListNode = nodeTree.nodes.new("MCFG_N_SectionList")
                 newSectionListNode.sectionCount = len(modelSections)
-                newSectionListNode.location = [startX + len(allNodes) * 800 - 200,-400]
+                newSectionListNode.location = [startX + len(allNodes) * 1000 - 200,-400]
                 
                 if createLinks != 'NONE':
                     nodeTree.links.new(newSectionListNode.outputs[0],newModelNode.inputs[3])
@@ -243,7 +243,7 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                 print(Logger.Log("Creating animation list",4))
                 newModelAnimListNode = nodeTree.nodes.new("MCFG_N_AnimationList")
                 newModelAnimListNode.animCount = len(modelAnims.elements)
-                newModelAnimListNode.location = [startX + len(allNodes) * 800 - 400,-400]
+                newModelAnimListNode.location = [startX + len(allNodes) * 1000 - 400,-400]
                 
                 if createLinks != 'NONE':
                     nodeTree.links.new(newModelAnimListNode.outputs[0],newModelNode.inputs[4])
@@ -255,7 +255,7 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                     print(Logger.Log("Creating animation node: {}".format(modelAnim.name),5))
                     
                     newModelAnimNode = nodeTree.nodes.new("MCFG_N_Animation")
-                    newModelAnimNode.location = [startX + len(allNodes) * 800 - 600,-300 - len(animNodes) * 400]
+                    newModelAnimNode.location = [startX + len(allNodes) * 1000 - 600,-300 - len(animNodes) * 400]
                     newModelAnimNode.animName = modelAnim.name
                     
                     # create parenting links
@@ -343,7 +343,9 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                     else:
                         newModelAnimNode.inputs[4].enabled = False
                         newModelAnimNode.inputs[5].enabled = False
-                       
+                    
+                    expressionNodes = 0
+                    
                     # handle minValue
                     if hasattr(modelAnim,"minvalue"):
                         value = modelAnim.minvalue.strip()
@@ -355,7 +357,29 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                             value = value[3:]
                             newModelAnimNode.inputs[8].isDeg = True
                         
-                        newModelAnimNode.inputs[8].floatValue = StringToFloat(value)
+                        if handleExpressions == 'EVAL':
+                            newModelAnimNode.inputs[8].floatValue = StringToFloat(value)
+                            
+                        else:
+                            try:
+                                float(value)
+                                
+                                if handleExpressions == 'PRESERVE': # force exception to run node creation code
+                                    raise Exception
+                                    
+                            except:
+                                expressionNode = nodeTree.nodes.new("MCFG_N_MathExpression")
+                                expressionNode.expression = value
+                                expressionNode.isDeg = newModelAnimNode.inputs[8].isDeg
+                                expressionNode.location = [startX + len(allNodes) * 1000 - 800,-300 - (len(animNodes) - 1) * 400 - expressionNodes * 80]
+                                
+                                if createLinks != 'NONE':
+                                    nodeTree.links.new(expressionNode.outputs[0],newModelAnimNode.inputs[8])
+                                
+                                expressionNodes += 1
+                            else:
+                                newModelAnimNode.inputs[8].floatValue = float(value)
+                        
                     else:
                         newModelAnimNode.overrideMinValue = False
                     
@@ -370,7 +394,28 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                             value = value[3:]
                             newModelAnimNode.inputs[9].isDeg = True
                         
-                        newModelAnimNode.inputs[9].floatValue = StringToFloat(value)
+                        if handleExpressions == 'EVAL':
+                            newModelAnimNode.inputs[9].floatValue = StringToFloat(value)
+                            
+                        else:
+                            try:
+                                float(value)
+                                
+                                if handleExpressions == 'PRESERVE': # force exception to run node creation code
+                                    raise Exception
+                                    
+                            except:
+                                expressionNode = nodeTree.nodes.new("MCFG_N_MathExpression")
+                                expressionNode.expression = value
+                                expressionNode.isDeg = newModelAnimNode.inputs[9].isDeg
+                                expressionNode.location = [startX + len(allNodes) * 1000 - 800,-300 - (len(animNodes) - 1) * 400 - expressionNodes * 80]
+                                
+                                if createLinks != 'NONE':
+                                    nodeTree.links.new(expressionNode.outputs[0],newModelAnimNode.inputs[9])
+                                
+                                expressionNodes += 1
+                            else:
+                                newModelAnimNode.inputs[9].floatValue = float(value)
                     else:
                         newModelAnimNode.overrideMaxValue = False
                     
@@ -393,7 +438,28 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                             value = value[3:]
                             newModelAnimNode.inputs[10].isDeg = True
                         
-                        newModelAnimNode.inputs[10].floatValue = StringToFloat(value)
+                        if handleExpressions == 'EVAL':
+                            newModelAnimNode.inputs[10].floatValue = StringToFloat(value)
+                            
+                        else:
+                            try:
+                                float(value)
+                                
+                                if handleExpressions == 'PRESERVE': # force exception to run node creation code
+                                    raise Exception
+                                    
+                            except:
+                                expressionNode = nodeTree.nodes.new("MCFG_N_MathExpression")
+                                expressionNode.expression = value
+                                expressionNode.isDeg = newModelAnimNode.inputs[10].isDeg
+                                expressionNode.location = [startX + len(allNodes) * 1000 - 800,-300 - (len(animNodes) - 1) * 400 - expressionNodes * 80]
+                                
+                                if createLinks != 'NONE':
+                                    nodeTree.links.new(expressionNode.outputs[0],newModelAnimNode.inputs[10])
+                                
+                                expressionNodes += 1
+                            else:
+                                newModelAnimNode.inputs[10].floatValue = float(value)
                     else:
                         newModelAnimNode.overrideTypeMinValue = False
                         
@@ -416,7 +482,28 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims)
                             value = value[3:]
                             newModelAnimNode.inputs[11].isDeg = True
                         
-                        newModelAnimNode.inputs[11].floatValue = StringToFloat(value)
+                        if handleExpressions == 'EVAL':
+                            newModelAnimNode.inputs[8].floatValue = StringToFloat(value)
+                            
+                        else:
+                            try:
+                                float(value)
+                                
+                                if handleExpressions == 'PRESERVE': # force exception to run node creation code
+                                    raise Exception
+                                    
+                            except:
+                                expressionNode = nodeTree.nodes.new("MCFG_N_MathExpression")
+                                expressionNode.expression = value
+                                expressionNode.isDeg = newModelAnimNode.inputs[11].isDeg
+                                expressionNode.location = [startX + len(allNodes) * 1000 - 800,-300 - (len(animNodes) - 1) * 400 - expressionNodes * 80]
+                                
+                                if createLinks != 'NONE':
+                                    nodeTree.links.new(expressionNode.outputs[0],newModelAnimNode.inputs[1])
+                                
+                                expressionNodes += 1
+                            else:
+                                newModelAnimNode.inputs[11].floatValue = float(value)
                     else:
                         newModelAnimNode.overrideTypeMaxValue = False
                 
@@ -439,6 +526,7 @@ def ImportFile(self,context):
     importOnlySkeletons = context.scene.MCFG_SP_ImportDepth == 'SKELETONS'
     omitAnims = context.scene.MCFG_SP_ImportDepth == 'MODELS'
     createLinks = context.scene.MCFG_SP_ImportLinkDepth
+    handleExpressions = context.scene.MCFG_SP_ImportExpressions
     
     toolsFolder = bpy.context.preferences.addons[__package__].preferences.armaToolsFolder
     
@@ -484,7 +572,7 @@ def ImportFile(self,context):
         skeletonNodes = ImportSkeletons(classTree.cfgskeletons,createLinks)
     
     if not importOnlySkeletons and "cfgmodels" in classTree.elements:
-        modelNodes = ImportModels(classTree.cfgmodels,classTree.cfgskeletons,skeletonNodes,createLinks,omitAnims)
+        modelNodes = ImportModels(classTree.cfgmodels,classTree.cfgskeletons,skeletonNodes,createLinks,omitAnims,handleExpressions)
         
     print(Logger.Log("Finished creating nodes",1))
     print(Logger.LogTitle("Finished mcfg import"))
