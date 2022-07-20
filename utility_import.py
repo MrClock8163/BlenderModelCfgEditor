@@ -483,7 +483,7 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims,
                             newModelAnimNode.inputs[11].isDeg = True
                         
                         if handleExpressions == 'EVAL':
-                            newModelAnimNode.inputs[8].floatValue = StringToFloat(value)
+                            newModelAnimNode.inputs[11].floatValue = StringToFloat(value)
                             
                         else:
                             try:
