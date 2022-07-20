@@ -128,7 +128,7 @@ def ExportFile(self,context,export = True):
     
     # Validation
     [isValidData,counts] = ValidateClassStructure(CfgSkelly,CfgMesh)
-    if not isValidData and not EnumBoolGet(context.scene.MCFG_SP_IgnoreErrors):
+    if not isValidData and not context.scene.MCFG_SP_IgnoreErrors:
         verdict = ["Validation failed","Export failed"]
     else:
         verdict = ["Validation successful","Export successful"]
@@ -143,7 +143,7 @@ def ExportFile(self,context,export = True):
     
     bpy.ops.mcfg.reportbox('INVOKE_DEFAULT',report=reportFinal)
     
-    if (not isValidData and not EnumBoolGet(context.scene.MCFG_SP_IgnoreErrors)) or not export:
+    if (not isValidData and not context.scene.MCFG_SP_IgnoreErrors) or not export:
         return
     
     # Export
@@ -159,7 +159,7 @@ def ExportFile(self,context,export = True):
     
     exportFile.close()
     
-    if EnumBoolGet(context.scene.MCFG_SP_OpenFile):
+    if context.scene.MCFG_SP_OpenFile:
         webbrowser.open(context.scene.MCFG_SP_ExportDir + "model.cfg")
     
 # Print inspected data

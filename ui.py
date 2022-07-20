@@ -548,14 +548,12 @@ class MCFG_PT_Export(bpy.types.Panel):
             row.alert = not os.path.isdir(context.scene.MCFG_SP_ExportDir)
             row.label(text="Directory:")
             row.prop(context.scene,"MCFG_SP_ExportDir",text="")
-            col = box.column(align=True)
-            row = col.row(align=True)
-            row.alert = utility.EnumBoolGet(context.scene.MCFG_SP_IgnoreErrors)
-            row.label(text="Ignore errors:")
-            row.prop(context.scene,"MCFG_SP_IgnoreErrors",expand=True)
-            row = col.row(align=True)
-            row.label(text="Open file:")
-            row.prop(context.scene,"MCFG_SP_OpenFile",expand=True)
+            row = box.row(align=True)
+            col = row.column(align=True)
+            col.alert = context.scene.MCFG_SP_IgnoreErrors
+            col.prop(context.scene,"MCFG_SP_IgnoreErrors",toggle=True)
+            col = row.column(align=True)
+            col.prop(context.scene,"MCFG_SP_OpenFile",toggle=True)
             layout.operator('mcfg.export', icon = 'EXPORT')
 
 class MCFG_PT_Presets(bpy.types.Panel):

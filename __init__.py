@@ -533,23 +533,15 @@ def register():
         default = "",
         subtype = 'DIR_PATH'
     )
-    bpy.types.Scene.MCFG_SP_IgnoreErrors = bpy.props.EnumProperty (
+    bpy.types.Scene.MCFG_SP_IgnoreErrors = bpy.props.BoolProperty (
         name = "Ignore errors",
-        description = "NOT RECOMMENDED to turn on",
-        default = 'FALSE',
-        items = (
-            ('TRUE',"On","Export setup regardless of whether or not the validation succeeds"),
-            ('FALSE',"Off","Only export setup if the validation succeeds")
-        )
+        description = "(NOT RECOMMENDED, use only for debugging) Ignore the result of validation and export the config regardless",
+        default = False
     )
-    bpy.types.Scene.MCFG_SP_OpenFile = bpy.props.EnumProperty (
+    bpy.types.Scene.MCFG_SP_OpenFile = bpy.props.BoolProperty (
         name = "Open file",
-        description = "",
-        default = 'FALSE',
-        items = (
-            ('TRUE',"On","Open model.cfg file after export in the default text editor"),
-            ('FALSE',"Off","Do nothing after export")
-        )
+        description = "Open config in the default program after export",
+        default = False
     )
     bpy.types.Scene.MCFG_SP_PresetName = bpy.props.StringProperty (
         name = "Name",
