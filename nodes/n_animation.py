@@ -62,7 +62,7 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
     animName: bpy.props.StringProperty(
         default="Animation",
         name="Name",
-        description = "Name of the animation\nNaming rules:\n-must be unique\n-must start with letter\n-no speical characters\n-no whitespaces"
+        description = "Name of the animation"
     )
     animType: bpy.props.EnumProperty(
         name = "Animation type",

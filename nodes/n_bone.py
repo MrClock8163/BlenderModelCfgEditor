@@ -19,7 +19,7 @@ class MCFG_N_Bone(Node, n_tree.MCFG_N_Base):
     boneName: bpy.props.StringProperty(
         default="Bone",
         name="Name",
-        description = "Name of the bone\nNaming rules:\n-must be unique\n-must start with letter\n-no speical characters\n-no whitespaces"
+        description = "Name of the bone"
     )
     
     # Standard functions

@@ -20,7 +20,7 @@ class MCFG_N_Model(Node, n_tree.MCFG_N_Base):
     modelName: bpy.props.StringProperty(
         default="Model",
         name="Name",
-        description = "Name of the model class\nNaming rules:\n-must be same as the name of the model P3D file\n-must be unique\n-must start with letter\n-no speical characters\n-no whitespaces"
+        description = "Name of the model class"
     )
     
     # Side panel properties

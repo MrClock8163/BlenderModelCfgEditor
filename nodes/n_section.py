@@ -18,7 +18,7 @@ class MCFG_N_Section(Node, n_tree.MCFG_N_Base):
     sectionName: bpy.props.StringProperty(
         default="Section",
         name="Name",
-        description = "Name of the section\nNaming rules:\n-must be unique\n-must start with letter\n-no speical characters"
+        description = "Name of the section"
     )
     
     # Standard functions
