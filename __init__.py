@@ -171,6 +171,19 @@ def updateCustomSetupPresets(self,context):
 class MCFG_AT_Preferences(bpy.types.AddonPreferences):
     bl_idname = __name__
     
+    # Tab selection
+    tabs: bpy.props.EnumProperty(
+        name = "Tabs",
+        description = "",
+        default = 'GENERAL',
+        items = (
+            ('GENERAL',"General","General and misc settings",'PREFERENCES',0),
+            ('COLOR',"Colors","Color settings",'COLOR',1),
+            ('VALIDATION',"Validation","Validation settings",'CHECKMARK',2),
+            ('PRESETS',"Presets","Setup preset settings",'PRESET',3)
+        )
+    )
+    
     # Arma 3 Tools settings
     armaToolsFolder: bpy.props.StringProperty(
         description = "Install directory of the official Arma 3 Tools",
@@ -267,36 +280,57 @@ class MCFG_AT_Preferences(bpy.types.AddonPreferences):
     def draw(self,context):
         layout = self.layout
         
-        box = layout.box()
-        box.label(text="Arma 3 Tools")
-        box.prop(self,"armaToolsFolder",icon='TOOL_SETTINGS')
+        row = layout.row(align=True)
+        row.prop(self,"tabs",expand=True)
         
         box = layout.box()
-        col = box.column(align=True)
-        col.label(text="Color settings")
-        col.prop(self,"useCustomColors")
-        if self.useCustomColors:
-            row = box.row()
-            row.prop(self,"customColorSkeleton")
-            row.prop(self,"customColorBones")
-            row.prop(self,"customColorModel")
-            row = box.row()
-            row.prop(self,"customColorSection")
-            row.prop(self,"customColorAnimations")
-            row.prop(self,"customColorOperator")
+        
+        if self.tabs == 'GENERAL':
+            row = box.row(align=True)
+            row.label(text="Arma 3 Tools")
+            row.prop(self,"armaToolsFolder",text="")
             
-        box = layout.box()
-        box.label(text="Validation settings")
-        row = box.row()
-        row.prop(self,"warnsAreErr")
-        row = box.row()
-        row.label(text="Output:")
-        row.prop(self,"validationOutput",expand=True)
-        
-        box = layout.box()
-        box.label(text="Preset settings")
-        box.prop(self,"customSetupPresets",icon='PRESET')
-        box.prop(self,"customSetupPresetsReplace")
+        if self.tabs == 'COLOR':
+            box.prop(self,"useCustomColors",toggle=True)
+            
+            if self.useCustomColors:
+                col = box.column(align=True)
+            
+                row = col.row(align=True)
+                row.label(text="Operator and misc")
+                row.prop(self,"customColorOperator",text="")
+                
+                row = col.row(align=True)
+                row.label(text="Skeleton")
+                row.prop(self,"customColorSkeleton",text="")
+                
+                row = col.row(align=True)
+                row.label(text="Bone")
+                row.prop(self,"customColorBones",text="")
+                
+                row = col.row(align=True)
+                row.label(text="Model")
+                row.prop(self,"customColorModel",text="")
+                
+                row = col.row(align=True)
+                row.label(text="Section")
+                row.prop(self,"customColorSection",text="")
+                
+                row = col.row(align=True)
+                row.label(text="Animation")
+                row.prop(self,"customColorAnimations",text="")
+                
+        if self.tabs == 'VALIDATION':
+            box.prop(self,"warnsAreErr")
+            row = box.row(align=True)
+            row.label(text="Output")
+            row.prop(self,"validationOutput",expand=True)
+            
+        if self.tabs == 'PRESETS':
+            box.prop(self,"customSetupPresetsReplace")
+            row = box.row(align=True)
+            row.label(text="Presets folder")
+            row.prop(self,"customSetupPresets",text="")
         
 import nodeitems_utils
 from nodeitems_utils import NodeItem
