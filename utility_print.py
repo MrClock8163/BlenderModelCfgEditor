@@ -11,14 +11,18 @@ class LogFormatter:
         return ("\t" * tabs)
         
     @classmethod
-    def Log(cls,text,tabs = 0):
-        return (cls.Tab(tabs) + "> " + text.strip())
+    def Log(cls,text,tabs = 0,lead = ">"):
+        return (cls.Tab(tabs) + lead + " " + text.strip())
         
     @classmethod
     def LogTitle(cls,text):
         length = 68 - len(text)
         start = round(length/2)
         return (("=" * start) + " " + text.strip() + " " + ("=" * (length - start)))
+        
+    @classmethod
+    def Error(cls,text,tabs=0):
+        return cls.Log("ERROR: {}".format(text),tabs,"x")
 
 class ConfigFormatter:
 
