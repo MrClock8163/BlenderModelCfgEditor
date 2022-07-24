@@ -286,9 +286,9 @@ class MCFG_AT_Preferences(bpy.types.AddonPreferences):
         box = layout.box()
         
         if self.tabs == 'GENERAL':
-            row = box.row(align=True)
-            row.label(text="Arma 3 Tools")
-            row.prop(self,"armaToolsFolder",text="")
+            grid = box.grid_flow(align=True,columns=2,row_major=True,even_columns=True,even_rows=True)
+            grid.label(text="Arma 3 Tools")
+            grid.prop(self,"armaToolsFolder",text="")
             
         if self.tabs == 'COLOR':
             box.prop(self,"useCustomColors",toggle=True)
@@ -315,16 +315,20 @@ class MCFG_AT_Preferences(bpy.types.AddonPreferences):
                 grid.prop(self,"customColorAnimations",text="")
                 
         if self.tabs == 'VALIDATION':
-            box.prop(self,"warnsAreErr")
-            row = box.row(align=True)
-            row.label(text="Output")
+            grid = box.grid_flow(align=True,columns=2,row_major=True,even_columns=True,even_rows=True)
+            grid.label(text="Warnings are errors")
+            grid.prop(self,"warnsAreErr",text="")
+            # row = box.row(align=True)
+            grid.label(text="Output")
+            row = grid.row(align=True)
             row.prop(self,"validationOutput",expand=True)
             
         if self.tabs == 'PRESETS':
-            box.prop(self,"customSetupPresetsReplace")
-            row = box.row(align=True)
-            row.label(text="Presets folder")
-            row.prop(self,"customSetupPresets",text="")
+            grid = box.grid_flow(align=True,columns=2,row_major=True,even_columns=True,even_rows=True)
+            grid.label(text="Replace old")
+            grid.prop(self,"customSetupPresetsReplace",text="")
+            grid.label(text="Presets folder")
+            grid.prop(self,"customSetupPresets",text="")
         
 import nodeitems_utils
 from nodeitems_utils import NodeItem
