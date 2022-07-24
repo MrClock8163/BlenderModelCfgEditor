@@ -9,7 +9,7 @@ class MCFG_N_Tree(NodeTree):
     '''Arma 3 model config editor'''
     
     # Mandatory variables
-    bl_label = "Model config editor"
+    bl_label = "Model Config Editor"
     bl_icon = 'MESH_CUBE'
 
 # Mix-in node base class
