@@ -266,7 +266,7 @@ class MCFG_AT_Preferences(bpy.types.AddonPreferences):
     # Preset settings
     customSetupPresets: bpy.props.StringProperty(
         name="Custom setup presets", 
-        description="Folder that contains the .py files describing custom setup presets", 
+        description="Folder that contains the .json files describing custom setup presets", 
         subtype='DIR_PATH',
         default="",
         update=updateCustomSetupPresets
