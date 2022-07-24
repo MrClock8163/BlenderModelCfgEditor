@@ -294,31 +294,25 @@ class MCFG_AT_Preferences(bpy.types.AddonPreferences):
             box.prop(self,"useCustomColors",toggle=True)
             
             if self.useCustomColors:
-                col = box.column(align=True)
-            
-                row = col.row(align=True)
-                row.label(text="Operator and misc")
-                row.prop(self,"customColorOperator",text="")
+                grid = box.grid_flow(align=True,columns=2,row_major=True,even_columns=True,even_rows=True)
                 
-                row = col.row(align=True)
-                row.label(text="Skeleton")
-                row.prop(self,"customColorSkeleton",text="")
+                grid.label(text="Operator and misc")
+                grid.prop(self,"customColorOperator",text="")
                 
-                row = col.row(align=True)
-                row.label(text="Bone")
-                row.prop(self,"customColorBones",text="")
+                grid.label(text="Skeleton")
+                grid.prop(self,"customColorSkeleton",text="")
                 
-                row = col.row(align=True)
-                row.label(text="Model")
-                row.prop(self,"customColorModel",text="")
+                grid.label(text="Bone")
+                grid.prop(self,"customColorBones",text="")
                 
-                row = col.row(align=True)
-                row.label(text="Section")
-                row.prop(self,"customColorSection",text="")
+                grid.label(text="Model")
+                grid.prop(self,"customColorModel",text="")
                 
-                row = col.row(align=True)
-                row.label(text="Animation")
-                row.prop(self,"customColorAnimations",text="")
+                grid.label(text="Section")
+                grid.prop(self,"customColorSection",text="")
+                
+                grid.label(text="Animation")
+                grid.prop(self,"customColorAnimations",text="")
                 
         if self.tabs == 'VALIDATION':
             box.prop(self,"warnsAreErr")
