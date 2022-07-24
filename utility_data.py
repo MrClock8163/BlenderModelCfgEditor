@@ -266,7 +266,10 @@ class Skeleton(ClassBase):
                 
             checklist = []
             for bone in self.skeletonBones:
-                if bone.name not in checklist and (bone.parent == "" or bone.parent in checklist):
+                if bone.name not in checklist and (bone.parent == "" or bone.parent in checklist or self.skeletonInherit != ""):
+                    if bone.parent != "" and (bone.parent not in checklist):
+                        validator.NewWarn(entryOwner,"parenting cannot be validated for bones parented to inherited bones")
+                        
                     checklist.append(bone.name)
                 
             # validate duplicates
@@ -483,7 +486,10 @@ class Animations(ClassBase):
         # validate parenting order
         checklist = []
         for anim in self.animList:
-            if anim.name not in checklist and (anim.parent == "" or anim.parent in checklist):
+            if anim.name not in checklist and (anim.parent == "" or anim.parent in checklist or self.parent != ""):
+                if anim.parent != "" and (anim.parent not in checklist):
+                    validator.NewWarn(entryOwner,"parenting cannot be validated for animations parented to inherited animations")
+                    
                 checklist.append(anim.name)
             
         # validate duplicates
