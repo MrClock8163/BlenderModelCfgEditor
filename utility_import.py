@@ -21,6 +21,7 @@ def TrimZeros(expression):
 
     numbers = (re.sub("\+|\-|\*|/|^|\(|\)"," ",expression)).split() # filter out operators and get numbers
     numbers = [num.strip().lstrip("0") for num in numbers] # strip "0"-s from left side
+    numbers = [num if num != "" else "0" for num in numbers]
         
     operations = re.sub("[0-9]|[.]","_",expression) # filter out numbers and replace with underscores
     operations = re.split("[_]+",operations) # split at underscores
@@ -34,8 +35,10 @@ def TrimZeros(expression):
     return result
 
 # Evaluate string expression
-def StringToFloat(value):
+def StringToFloat(inputValue):
     returnValue = 0
+    
+    value = inputValue
     
     if type(value) is str:
         value = value.strip()
@@ -44,16 +47,44 @@ def StringToFloat(value):
     try:
         eval(value)
     except:
-        print(Logger.Log("Could not evaluate expression: '{}'".format(value),6))
-        print(Logger.Log("Default value 0",6))
+        print(Logger.Error("Could not evaluate expression: '{}' -> '{}'".format(inputValue,value),6))
         returnValue = 0
     else:
         returnValue = eval(value)
     
     return returnValue
 
+def PredefSkeleton(className,loc):
+    node = None
+    
+    nodeTree = bpy.context.space_data.node_tree
+    
+    if className == "default":
+        node = nodeTree.nodes.new("MCFG_N_SkeletonPresetDefault")
+        node.location = loc
+        node.name = "Skeleton: Default"
+        
+    if className == "ofp2_manskeleton":
+        node = nodeTree.nodes.new("MCFG_N_SkeletonPresetArmaman")
+        node.location = loc
+        node.name = "Skeleton: OFP2_ManSkeleton"
+        
+    if node is not None:
+        print(Logger.Log("Predefined skeleton",4))
+    
+    return node
+
+def ArmaManSections(sections):
+    defaultSections = ["osobnost","head_injury","body_injury","l_leg_injury","l_arm_injury","r_arm_injury","r_leg_injury","injury_body","injury_legs","injury_hands","clan","clan_sign","camo","camob","camo1","camo2","personality","hl","injury_head","insignia","ghillie_hide"]
+    
+    returnValue = [item for item in sections if item not in defaultSections]
+    
+    return returnValue
+    
+    
+
 # Create skeleton class and other related nodes
-def ImportSkeletons(CfgSkeletons,createLinks):
+def ImportSkeletons(CfgSkeletons,createLinks,detectPresets):
     
     print(Logger.Log("Started CfgSkeletons",2))
     
@@ -71,11 +102,23 @@ def ImportSkeletons(CfgSkeletons,createLinks):
         
         print(Logger.Log("Creating skeleton node: {}".format(className),3))
         
+        # preset detection
+        predef = None
+        if detectPresets:
+            predef = PredefSkeleton(className,[0 + len(allNodes) * 600, 0])
+        
+        if predef is not None:
+            nodes.append(predef)
+            allNodes.append(nodes)
+            continue
+            
         newSkeleton = getattr(CfgSkeletons,className)
+        
         
         newSkeletonNode = nodeTree.nodes.new("MCFG_N_Skeleton")
         newSkeletonNode.skeletonName = newSkeleton.name
         newSkeletonNode.location = [0 + len(allNodes) * 600, 0]
+        newSkeletonNode.name = "Skeleton: {}".format(newSkeleton.name)
         
         # create parenting links
         if newSkeleton.parent != "" and createLinks != 'NONE':
@@ -136,13 +179,20 @@ def ImportSkeletons(CfgSkeletons,createLinks):
                     newBoneNode = nodeTree.nodes.new("MCFG_N_Bone")
                     newBoneNode.boneName = bone
                     newBoneNode.location = [-400 + len(allNodes) * 600, 0 - len(boneNodes) * 100]
+                    newBoneNode.name = "Bone: {}".format(bone)
                     
                     if createLinks == 'ALL':
                         nodeTree.links.new(newBoneNode.outputs[0],newBoneListNode.inputs[len(boneNodes)])
                     
                     if boneParents[i] != "" and createLinks != 'NONE':
-                        boneParentIndex = bones.index(boneParents[i])
-                        nodeTree.links.new(boneNodes[boneParentIndex].outputs[0],newBoneNode.inputs[0])
+                        if boneParents[i] in bones:
+                            boneParentIndex = bones.index(boneParents[i])
+                            nodeTree.links.new(boneNodes[boneParentIndex].outputs[0],newBoneNode.inputs[0])
+                        else:
+                            boneParentNode = nodeTree.nodes.new("MCFG_N_Parent")
+                            boneParentNode.location = [-400 + len(allNodes) * 600 - 200, 0 - len(boneNodes) * 100]
+                            boneParentNode.name = boneParents[i]
+                            nodeTree.links.new(boneParentNode.outputs[0],newBoneNode.inputs[0])
                     
                     boneNodes.append(newBoneNode)
         else:
@@ -157,7 +207,7 @@ def ImportSkeletons(CfgSkeletons,createLinks):
     return allNodes
 
 # Create model class and related nodes
-def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims,handleExpressions):
+def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims,handleExpressions,detectPresets):
 
     print(Logger.Log("Started CfgModels",2))
     
@@ -178,9 +228,68 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims,
         
         newModel = getattr(CfgModels,className)
         
+        if type(newModel) is str:
+            continue
+        
+        # preset detection
+        
+        if className == "default" and detectPresets:
+            newModelNode = nodeTree.nodes.new("MCFG_N_ModelPresetDefault")
+            newModelNode.location = [startX + len(allNodes) * 1000,-300]
+            newModelNode.name = "Model: Default"
+            nodes.append(newModelNode)
+            allNodes.append(nodes)
+            print(Logger.Log("Predefined model",4))
+            continue
+            
+        if className == "armaman" and detectPresets:
+            newModelNode = nodeTree.nodes.new("MCFG_N_ModelPresetArmaman")
+            newModelNode.location = [startX + len(allNodes) * 1000,-300]
+            newModelNode.name = "Model: ArmaMan"
+            
+            nodeTree.links.new(allNodes[CfgModels.elements.index(newModel.parent)][0].outputs[0],newModelNode.inputs[0])
+            
+            if "skeletonname" in newModel.elements:
+                modelSkeletonIndex = CfgSkeletons.elements.index(newModel.skeletonname)
+                nodeTree.links.new(CfgSkeletonsNodes[modelSkeletonIndex][0].outputs[0],newModelNode.inputs[0])
+                if newModel.skeletonname != "ofp2_manskeleton":
+                    print(Logger.Log("Not using standard arma character skeleton",5))
+                    
+            if "sections" in newModel.elements:
+                sections = ArmaManSections(newModel.sections)
+                
+                if len(sections) != 0:
+                    sectionListNode = nodeTree.nodes.new("MCFG_N_SectionList")
+                    sectionListNode.sectionCount = len(sections)
+                    sectionListNode.location = [startX + len(allNodes) * 1000 - 200,-400]
+                    
+                    for i in range(len(sections)):
+                        sectionListNode.inputs[i].stringValue = sections[i]
+                        
+                    nodeTree.links.new(sectionListNode.outputs[0],newModelNode.inputs[1])
+            
+            nodes.append(newModelNode)
+            allNodes.append(nodes)
+            print(Logger.Log("Predefined model",4))
+            continue
+        
+        if len(newModel.elements) == 0 and newModel.parent != "" and detectPresets:
+            newModelNode = nodeTree.nodes.new("MCFG_N_ModelPresetCopy")
+            newModelNode.location = [startX + len(allNodes) * 1000,-300]
+            newModelNode.modelName = className
+            newModelNode.name = "Model: {}".format(className)
+            
+            nodeTree.links.new(allNodes[CfgModels.elements.index(newModel.parent)][0].outputs[0],newModelNode.inputs[0])
+        
+            nodes.append(newModelNode)
+            allNodes.append(nodes)
+            print(Logger.Log("Predefined model",4))
+            continue
+        
         newModelNode = nodeTree.nodes.new("MCFG_N_Model")
         newModelNode.modelName = newModel.name
         newModelNode.location = [startX + len(allNodes) * 1000,-300]
+        newModelNode.name = "Model: {}".format(newModel.name)
         
         # create parenting links
         if newModel.parent != "" and createLinks != 'NONE':
@@ -202,8 +311,11 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims,
         if hasattr(newModel,"skeletonname"):
             modelSkeletonName = getattr(newModel,"skeletonname")
             if modelSkeletonName != "" and createLinks != 'NONE':
-                modelSkeletonIndex = CfgSkeletons.elements.index(modelSkeletonName)
-                nodeTree.links.new(CfgSkeletonsNodes[modelSkeletonIndex][0].outputs[0],newModelNode.inputs[2])
+                if modelSkeletonName in CfgSkeletons.elements:
+                    modelSkeletonIndex = CfgSkeletons.elements.index(modelSkeletonName)
+                    nodeTree.links.new(CfgSkeletonsNodes[modelSkeletonIndex][0].outputs[0],newModelNode.inputs[2])
+                else:
+                    print(Logger.Error("Skeleton does not exist",5))
             
         else:
             newModelNode.overrideSkeleton = False
@@ -233,7 +345,7 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims,
             newModelNode.overrideSections = False
 
         # handle animations
-        if hasattr(newModel,"animations") and getattr(newModel,"animations") != "" and not omitAnims: # potential problem
+        if hasattr(newModel,"animations") and (type(getattr(newModel,"animations")) is not str) and not omitAnims: # potential problem
             modelAnims = getattr(newModel,"animations")
             
             if modelAnims.parent != "":
@@ -257,11 +369,21 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims,
                     newModelAnimNode = nodeTree.nodes.new("MCFG_N_Animation")
                     newModelAnimNode.location = [startX + len(allNodes) * 1000 - 600,-300 - len(animNodes) * 400]
                     newModelAnimNode.animName = modelAnim.name
+                    newModelAnimNode.name = "Animation: {}".format(modelAnim.name)
                     
                     # create parenting links
                     if modelAnim.parent != "" and createLinks != 'NONE':
-                        animParentIndex = modelAnims.elements.index(modelAnim.parent)
-                        nodeTree.links.new(animNodes[animParentIndex].outputs[0],newModelAnimNode.inputs[0])
+                        if modelAnim.parent in modelAnims.elements and modelAnims.elements.index(modelAnim.parent) < len(animNodes):
+                            animParentIndex = modelAnims.elements.index(modelAnim.parent)
+                            nodeTree.links.new(animNodes[animParentIndex].outputs[0],newModelAnimNode.inputs[0])
+                        elif modelAnims.parent != "":
+                            animParentNode = nodeTree.nodes.new("MCFG_N_Parent")
+                            animParentNode.location = [startX + len(allNodes) * 1000 - 600 - 200,-300 - len(animNodes) * 400]
+                            animParentNode.name = modelAnim.parent
+                            nodeTree.links.new(animParentNode.outputs[0],newModelAnimNode.inputs[0])
+                        else:
+                            
+                            print(Logger.Error("Parent class does not exist and is not inherited",6))
                     
                     if createLinks == 'ALL':
                         nodeTree.links.new(newModelAnimNode.outputs[0],newModelAnimListNode.inputs[i])
@@ -275,12 +397,16 @@ def ImportModels(CfgModels,CfgSkeletons,CfgSkeletonsNodes,createLinks,omitAnims,
                         animType = 'TRANSLATION'
                         parent = modelAnim.parent
                         
-                        while parent != "":
-                            parentClass = getattr(modelAnims,parent)
-                            if hasattr(parentClass,"type"):
-                                animType = getattr(parentClass,"type").upper()
-                                break
-                            parent = parentClass.parent
+                        if parent in modelAnims.elements:
+                            for i in range(len(modelAnims.elements)):
+                                if parent not in modelAnims.elements:
+                                    continue
+                                    
+                                parentClass = getattr(modelAnims,parent)
+                                if hasattr(parentClass,"type"):
+                                    animType = getattr(parentClass,"type").upper()
+                                    break
+                                parent = parentClass.parent
                     
                     newModelAnimNode.animType = animType
                     
@@ -530,6 +656,8 @@ def ImportFile(self,context):
     omitAnims = context.scene.MCFG_SP_ImportDepth == 'MODELS'
     createLinks = context.scene.MCFG_SP_ImportLinkDepth
     handleExpressions = context.scene.MCFG_SP_ImportExpressions
+    detectPresetsSkeleton = context.scene.MCFG_SP_ImportPredefSkeleton
+    detectPresetsModel = context.scene.MCFG_SP_ImportPredefModel
     
     toolsFolder = bpy.context.preferences.addons[__package__].preferences.armaToolsFolder
     
@@ -575,10 +703,10 @@ def ImportFile(self,context):
     modelNodes = []
     
     if "cfgskeletons" in classTree.elements:
-        skeletonNodes = ImportSkeletons(classTree.cfgskeletons,createLinks)
+        skeletonNodes = ImportSkeletons(classTree.cfgskeletons,createLinks,detectPresetsSkeleton)
     
     if not importOnlySkeletons and "cfgmodels" in classTree.elements:
-        modelNodes = ImportModels(classTree.cfgmodels,classTree.cfgskeletons,skeletonNodes,createLinks,omitAnims,handleExpressions)
+        modelNodes = ImportModels(classTree.cfgmodels,classTree.cfgskeletons if "cfgskeletons" in classTree.elements else "",skeletonNodes,createLinks,omitAnims,handleExpressions,detectPresetsModel)
         
     print(Logger.Log("Finished creating nodes",1))
     print(Logger.LogTitle("Finished mcfg import"))

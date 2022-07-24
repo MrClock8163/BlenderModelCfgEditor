@@ -573,6 +573,16 @@ def register():
         ),
         default = 'EVAL'
     )
+    bpy.types.Scene.MCFG_SP_ImportPredefSkeleton = bpy.props.BoolProperty(
+        name = "Skeletons",
+        description = "Try to identify preset skeletons",
+        default = True
+    )
+    bpy.types.Scene.MCFG_SP_ImportPredefModel = bpy.props.BoolProperty(
+        name = "Models",
+        description = "Try to identify preset models",
+        default = True
+    )
     bpy.types.Scene.MCFG_SP_ExportDir = bpy.props.StringProperty (
         name = "Directory",
         description = "Directory to save file to",
@@ -646,6 +656,8 @@ def unregister():
     del bpy.types.Scene.MCFG_SP_ImportLinkDepth
     del bpy.types.Scene.MCFG_SP_ImportDepth
     del bpy.types.Scene.MCFG_SP_ImportExpressions
+    del bpy.types.Scene.MCFG_SP_ImportPredefSkeleton
+    del bpy.types.Scene.MCFG_SP_ImportPredefModel
     del bpy.types.Scene.MCFG_SP_ExportDir
     del bpy.types.Scene.MCFG_SP_IgnoreErrors
     del bpy.types.Scene.MCFG_SP_OpenFile
