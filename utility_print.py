@@ -15,8 +15,8 @@ class LogFormatter:
         return (cls.Tab(tabs) + lead + " " + text.strip())
         
     @classmethod
-    def LogTitle(cls,text):
-        length = 68 - len(text)
+    def LogTitle(cls,text,width = 68):
+        length = width - len(text)
         start = round(length/2)
         return (("=" * start) + " " + text.strip() + " " + ("=" * (length - start)))
         
