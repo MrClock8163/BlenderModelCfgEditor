@@ -31,6 +31,7 @@ if "bpy" in locals():
     importlib.reload(nodes.n_scripted)
     importlib.reload(nodes.n_section)
     importlib.reload(nodes.n_sectionList)
+    importlib.reload(nodes.n_parent)
     importlib.reload(nodes.n_skeleton)
     importlib.reload(nodes.n_valueFloat)
     importlib.reload(nodes.n_valueString)
@@ -104,6 +105,7 @@ else:
     from . nodes import n_scripted
     from . nodes import n_section
     from . nodes import n_sectionList
+    from . nodes import n_parent
     from . nodes import n_skeleton
     from . nodes import n_valueFloat
     from . nodes import n_valueString
@@ -402,12 +404,13 @@ node_categories = [
         NodeItem("MCFG_N_CompareFloat"),
         NodeItem("MCFG_N_ValueString"),
         NodeItem("MCFG_N_MathBasic"),
-        NodeItem("MCFG_N_MathExpression"),
         NodeItem("MCFG_N_LogicBasic")
     ]),
     n_tree.MCFG_N_Category('MISCNODES', "Miscellaneous", items=[
         NodeItem("MCFG_N_Inspect"),
         NodeItem("MCFG_N_Scripted"),
+        NodeItem("MCFG_N_MathExpression"),
+        NodeItem("MCFG_N_Parent"),
         NodeItem("MCFG_N_Demostrative")
     ]),
     n_tree.MCFG_N_Category('LAYOUTNODES', "Layout", items=[
@@ -434,6 +437,7 @@ classes_node = (
     nodes.n_scripted.MCFG_N_Scripted,
     nodes.n_section.MCFG_N_Section,
     nodes.n_sectionList.MCFG_N_SectionList,
+    nodes.n_parent.MCFG_N_Parent,
     nodes.n_skeleton.MCFG_N_Skeleton,
     nodes.n_valueFloat.MCFG_N_ValueFloat,
     nodes.n_valueString.MCFG_N_ValueString
