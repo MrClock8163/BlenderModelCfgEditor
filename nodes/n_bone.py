@@ -16,10 +16,14 @@ class MCFG_N_Bone(Node, n_tree.MCFG_N_Base):
     doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Bone-item"
     
     # Node properties
+    def updateBoneName(self,context):
+        self.name = "Bone: {}".format(self.boneName)
+        
     boneName: bpy.props.StringProperty(
         default="Bone",
         name="Name",
-        description = "Name of the bone"
+        description = "Name of the bone",
+        update = updateBoneName
     )
     
     # Standard functions

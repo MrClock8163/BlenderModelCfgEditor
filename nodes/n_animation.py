@@ -58,11 +58,15 @@ class MCFG_N_Animation(Node, n_tree.MCFG_N_Base):
             elif self.animType in ['ROTATION','ROTATIONX','ROTATIONY','ROTATIONZ']:
                 self.inputs[10].name = "Starting angle"
                 self.inputs[11].name = "Target angle"
-  
+    
+    def updateAnimName(self,context):
+        self.name = "Animation: {}".format(self.animName)
+    
     animName: bpy.props.StringProperty(
         default="Animation",
         name="Name",
-        description = "Name of the animation"
+        description = "Name of the animation",
+        update = updateAnimName
     )
     animType: bpy.props.EnumProperty(
         name = "Animation type",

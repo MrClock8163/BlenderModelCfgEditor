@@ -15,10 +15,14 @@ class MCFG_N_Section(Node, n_tree.MCFG_N_Base):
     doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Section-item"
     
     # Node properties
+    def updateSectionName(self,context):
+        self.name = "Section: {}".format(self.sectionName)
+    
     sectionName: bpy.props.StringProperty(
         default="Section",
         name="Name",
-        description = "Name of the section"
+        description = "Name of the section",
+        update = updateSectionName
     )
     
     # Standard functions

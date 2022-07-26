@@ -17,10 +17,14 @@ class MCFG_N_Skeleton(Node, n_tree.MCFG_N_Base):
     doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Skeleton-class"
     
     # Node properties
+    def updateSkeletonName(self,context):
+        self.name = "Skeleton: {}".format(self.skeletonName)
+    
     skeletonName: bpy.props.StringProperty(
         default="Skeleton",
         name="Name",
-        description = "Name of the skeleton class"
+        description = "Name of the skeleton class",
+        update = updateSkeletonName
     )
     
     # Side panel properties

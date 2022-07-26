@@ -17,10 +17,14 @@ class MCFG_N_ModelPresetCopy(Node, n_tree.MCFG_N_Base):
     doc_url = "https://github.com/MrClock8163/BlenderModelCfgEditor/wiki/Node:-Model-class:-copy"
     
     # Node properties
+    def updateModelName(self,context):
+        self.name = "Model: {}".format(self.modelName)
+        
     modelName: bpy.props.StringProperty(
         default="Model",
         name="Name",
-        description = "Name of the model class"
+        description = "Name of the model class",
+        update = updateModelName
     )
     
     # Side panel properties
