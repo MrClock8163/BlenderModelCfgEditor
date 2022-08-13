@@ -499,6 +499,7 @@ classes_misc = (
     ui.MCFG_GT_NodeSetupPresetItem,
     ui.MCFG_UL_ModelSelectionList,
     ui.MCFG_UL_NodeSetupPresetList,
+    ui.MCFG_OT_NewConfig,
     ui.MCFG_OT_BonesFromModel,
     ui.MCFG_OT_SectionsFromModel,
     ui.MCFG_OT_ReportBox,
@@ -626,6 +627,7 @@ def register():
     # Menus
     bpy.types.NODE_MT_editor_menus.append(ui.draw_header)
     bpy.types.TEXT_MT_templates.append(ui.draw_menu)
+    # bpy.types.NODE_HT_header.draw = ui.draw_header_override
     
     print("Register done")
 
@@ -675,6 +677,7 @@ def unregister():
     print("\tmenus")
     bpy.types.NODE_MT_editor_menus.remove(ui.draw_header)
     bpy.types.TEXT_MT_templates.remove(ui.draw_menu)
+    # bpy.types.NODE_HT_header.draw = ui.orig_node_header
     
     print("Unregister done")
 

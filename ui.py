@@ -122,6 +122,28 @@ class MCFG_UL_NodeSetupPresetList(bpy.types.UIList):
             layout.alignment = 'CENTER'
             layout.label(text=item.name,icon=icon)
 
+class MCFG_OT_NewConfig(bpy.types.Operator):
+    # Description string
+    '''Create new model config node tree'''
+    
+    # Mandatory variables
+    bl_label = "New Config"
+    bl_idname = "mcfg.newconfig"
+    
+    # Standard functions
+    @classmethod
+    def poll(cls, context):
+        return context.space_data.type == 'NODE_EDITOR' and context.space_data.tree_type == 'MCFG_N_Tree'
+        
+    def execute(self,context):
+        
+        editorSpace = context.space_data
+        newTree = bpy.data.node_groups.new("Model Config",'MCFG_N_Tree')
+        newTree.use_fake_user = True
+        editorSpace.node_tree = newTree
+        
+        return {'FINISHED'}
+
 class MCFG_OT_BonesFromModel(bpy.types.Operator):
     # Description string
     '''Create bones from model selections'''
@@ -654,3 +676,19 @@ def draw_menu(self,context):
     layout.label(text="Arma 3 model config editor")
     layout.menu("MCFG_MT_TemplatesNodeScript")
     layout.menu("MCFG_MT_TemplatesSetupPresets")
+    
+# Original node editor header draw function
+orig_node_header = bpy.types.NODE_HT_header.draw
+
+def draw_header_override(self,context): # THIS STILL NEEDS TO BE LOOKED INTO REGARDING ADDON CONFLICTS
+    from bl_ui.space_node import NODE_MT_editor_menus
+    
+    if context.space_data.type != 'NODE_EDITOR' or context.space_data.tree_type != 'MCFG_N_Tree':
+        orig_node_header(self,context)
+        return
+    
+    self.layout.template_header()
+    NODE_MT_editor_menus.draw_collapsible(context,self.layout)
+    self.layout.separator_spacer()
+    self.layout.template_ID(context.space_data,"node_tree",new="mcfg.newconfig",open="mcfg.import")
+    self.layout.separator_spacer()
