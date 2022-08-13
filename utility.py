@@ -51,12 +51,19 @@ def ProcessNodeTree(context):
     for node in nodeTree.nodes:
         if node.process_type == "skeleton" and node.exportClass:
             newSkeleton = node.process()
-            
             CfgSkelly.AddSkeleton(newSkeleton)
         
         if node.process_type == "model" and node.exportClass:
             newModel = node.process()
             CfgMesh.AddModel(newModel)
+            
+        if node.process_type == "scripted" and node.outputData != 'UNIV':
+            newData = node.process()
+            
+            if node.outputData == 'SKELETON' and type(newData) is Data.Skeleton:
+                CfgSkelly.AddSkeleton(newData)
+            elif node.outputData == 'MODEL' and type(newData) is Data.Model:
+                CfgMesh.AddModel(newData)
 
     return [CfgSkelly,CfgMesh]
 

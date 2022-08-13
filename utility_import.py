@@ -679,7 +679,7 @@ def ImportFile(self,context):
     # Create new node tree
     print(Logger.Log("Created new node tree",1))
     space = context.space_data
-    newtree = bpy.data.node_groups.new("Imported", "MCFG_N_Tree")
+    newtree = bpy.data.node_groups.new("Imported Model Config", "MCFG_N_Tree")
     newtree.use_fake_user = True
     space.node_tree = newtree
     

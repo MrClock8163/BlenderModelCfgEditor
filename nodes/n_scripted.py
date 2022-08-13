@@ -27,8 +27,19 @@ class MCFG_N_Scripted(Node, n_tree.MCFG_N_Base):
             for i in range(0,countDifference):
                 self.inputs.new('MCFG_S_Universal',"Input")
                 self.inputs[len(self.inputs)-1].hide_value = True
-                
+    
     script: bpy.props.PointerProperty(type=bpy.types.Text)
+    
+    outputData: bpy.props.EnumProperty(
+        name = "Output type",
+        description = "The script returns a skeleton or model class",
+        default = 'UNIV',
+        items = (
+            ('UNIV',"","Universal data to be linked to other nodes (string, float, bone, animation, etc.)",'LINKED',0),
+            ('SKELETON',"","Skeleton class",'ARMATURE_DATA',1),
+            ('MODEL',"","Model class",'OBJECT_DATA',2)
+        )
+    )
     
     inputCount: bpy.props.IntProperty(
         name = "Inputs",
@@ -48,7 +59,12 @@ class MCFG_N_Scripted(Node, n_tree.MCFG_N_Base):
         self.outputs.new('MCFG_S_Universal', "Output")
 
     def draw_buttons(self, context, layout):
+        row = layout.row(align=True)
+        # row.label(text="Script:")
         layout.prop(self, "script",text="Script")
+        row = layout.row(align=True)
+        row.label(text="Data:")
+        row.prop(self, "outputData",expand=True,text="")
         layout.prop(self, "inputCount")
         
     # Custom functions
