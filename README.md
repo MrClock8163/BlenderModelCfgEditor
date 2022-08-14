@@ -32,16 +32,16 @@ Once the setup is completed, the structure can be validated and exported to the 
 
 ## Disclaimer and documentation
 ### Disclaimer
-While this project seeks to eliminate the need for manual (as in typing it by hand) creation of model.cfg files, knowledge of their structure, capabilities and limitaions is still necessary to utilize this addon. Some basic (although granted, not at all thorough) information about them can be found on the [Arma 3 Community Wiki](https://community.bistudio.com/wiki/Model_Config). It is also worth nothing that the main purpose of this addon is to speed up the creation of relatively simple configurations, complex configs will still take a long time (so do not expect this addon to be the Messiah, the solver of all problems).
+While this project seeks to eliminate the need for manual (as in typing it by hand) creation of model.cfg files, knowledge of their structure, capabilities and limitaions is still necessary to utilize this addon. Some basic (although granted, not at all thorough) information about them can be found on the [Arma 3 Community Wiki](https://community.bistudio.com/wiki/Model_Config). It is also worth noting that the main purpose of this addon is to speed up the creation of relatively simple configurations, complex configs will still take a long time (so do not expect this addon to be the Messiah, the solver of all problems).
 
 The concept of this project was mostly inspired by the [Rigging nodes](https://gitlab.com/AquaticNightmare/rigging_nodes/-/releases) addon by AquaticNightmare but no actual code was taken from the project.
 
-The programming of this addon is most likely not the best, or most efficient, but it functions, and it is not performance heavy as code only really runs during validation and export. Part of the reason for this is that there is very little documentation for custom node editors in Blender, so most of the development consists of trial-error. Please keep this in mind.
+The programming of the addon is most likely not the best, or most efficient, but it functions, and it is not performance heavy as code only really runs during validation and export. Part of the reason for this is that there is very little documentation for custom node editors in Blender, so most of the development consists of trial-error. Please keep this in mind.
 
 The addon is most useful in Blender based workflows, and used in conjunction with Alwarren's [Arma Toolbox](https://github.com/AlwarrenSidh/ArmAToolbox) specifically, thus allowing to have the entire process from modelling to importing be done entirely in Blender.
 
 ### Documentation
-The documentation of this addon is still underway, it will be available in the [wiki](https://github.com/MrClock8163/BlenderModelCfgEditor/wiki) section of the GitHub repository.
+The documentation of this addon is available in the [wiki](https://github.com/MrClock8163/BlenderModelCfgEditor/wiki) section of the GitHub repository. It will be kept up-to-date as features are added or changed.
 
 ## Requirements
 This Blender addon requires v2.83.0 of Blender or higher, as previous versions do not support custom node editor workspaces.

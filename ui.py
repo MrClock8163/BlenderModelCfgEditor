@@ -678,7 +678,7 @@ def draw_menu(self,context):
     layout.menu("MCFG_MT_TemplatesSetupPresets")
     
 # Original node editor header draw function
-orig_node_header = bpy.types.NODE_HT_header.draw
+# orig_node_header = bpy.types.NODE_HT_header.draw
 
 def draw_header_override(self,context): # THIS STILL NEEDS TO BE LOOKED INTO REGARDING ADDON CONFLICTS
     from bl_ui.space_node import NODE_MT_editor_menus
