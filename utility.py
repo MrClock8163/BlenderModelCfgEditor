@@ -154,12 +154,13 @@ def ExportFile(self,context,export = True):
         return
     
     # Export
-    if not os.path.exists(context.scene.MCFG_SP_ExportDir) and export:
+    exportFolder = AbsPath(context.scene.MCFG_SP_ExportDir)
+    if not os.path.exists(exportFolder) and export:
         ShowInfoBox("No valid file location was specified","Error",'ERROR')
         self.report({'ERROR'},"No valid output location was given for model.cfg export")
         return
         
-    exportFile = open(context.scene.MCFG_SP_ExportDir + "model.cfg","w")
+    exportFile = open(os.path.join(exportFolder,"model.cfg"),"w")
     
     print(CfgSkelly.Print(),file=exportFile)
     print(CfgMesh.Print(),file=exportFile)
@@ -230,3 +231,10 @@ def CreateSectionNodes(self,context):
     
     for i in range(len(newSections)):
         newNode.inputs[i].stringValue = newSections[i]
+
+# Resolve relative file paths
+def AbsPath(path):
+    if not path.startswith("//"):
+        return path
+    
+    return os.path.abspath(bpy.path.abspath(path))
