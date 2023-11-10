@@ -15,8 +15,8 @@ class MCFG_S_ValueFloat(NodeSocket):
     floatValue: bpy.props.FloatProperty(
         name = "Value",
         default = 0.0,
-        min = -1000,
-        max = 1000,
+        min = -10000,
+        max = 10000,
         soft_max = 100,
         soft_min = -100
     )

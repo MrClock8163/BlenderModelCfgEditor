@@ -19,8 +19,8 @@ class MCFG_N_ValueFloat(Node, n_tree.MCFG_N_Base):
     floatValue: bpy.props.FloatProperty(
         name = "Value",
         default = 0.0,
-        min = -1000,
-        max = 1000,
+        min = -10000,
+        max = 10000,
         soft_max = 50,
         soft_min = -50
     )
